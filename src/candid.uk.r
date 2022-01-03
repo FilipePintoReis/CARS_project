@@ -1,6 +1,6 @@
-ValidBloodGroups = list('O', 'A', 'B', 'AB')
-ValidTiers = list('A', 'B')
-ValidRRIs = list('R1', 'R2', 'R3', 'R4')
+ValidBloodGroups = c('O', 'A', 'B', 'AB')
+ValidTiers = c('A', 'B')
+ValidRRIs = c('R1', 'R2', 'R3', 'R4')
 
 # Tests if element is a valid Blood Group character
 BloodGroupChecker <- function(InputString){

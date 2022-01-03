@@ -1,4 +1,4 @@
-ValidBloodGroups = list('O', 'A', 'B', 'AB')
+ValidBloodGroups = c('O', 'A', 'B', 'AB')
 
 # Tests if element is a valid Blood Group character
 BloodGroupChecker <- function(InputString){
@@ -40,13 +40,6 @@ CandidCheck <- function(CSVFile){
   }
   
   for (i in 1:nrow(CSVFile)){
-    ## This doesn't work because if you input an invalid number of columns within the internal lines, 
-    ## the dataframe will eat it up anyways. I have no clue on how to check for this.
-    # if (length(CandidColumns) != length(CSVFile[i,])){
-    #   print(paste('Incorrect number of arguments in line', i))
-    #   print(paste('Expected', length(CandidColumns)))
-    #   break
-    # }
     if (!BloodGroupChecker(CSVFile$bg[i])){
       print(paste('Invalid blood group in line', i))
       print(paste('Supported groups are', paste(ValidBloodGroups, collapse = ", ")))

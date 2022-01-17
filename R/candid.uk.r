@@ -1,48 +1,48 @@
-FileValidation.ValidBloodGroups = c('O', 'A', 'B', 'AB')
-FileValidation.ValidTiers = c('A', 'B')
-FileValidation.ValidRRIs = c('R1', 'R2', 'R3', 'R4')
+valid_blood_groups = c('O', 'A', 'B', 'AB')
+valid_tiers = c('A', 'B')
+valid_rris = c('R1', 'R2', 'R3', 'R4')
 
 # Tests if element is a valid Blood Group character
-FileValidation.BloodGroupChecker <- function(InputString){
-  if (InputString %in% ValidBloodGroups){
+blood_group_checker <- function(input_string){
+  if (input_string %in% valid_blood_groups){
     return(TRUE)
   }
   return(FALSE)
 }
 
 # Tests if element is a valid Tier character
-FileValidation.TierChecker <- function(InputString){
-  if (InputString %in% ValidTiers){
+tier_checker <- function(input_string){
+  if (input_string %in% valid_tiers){
     return(TRUE)
   }
   return(FALSE)
 }
 
 # Validates that the age of a person is not negative.
-FileValidation.AgeChecker <- function(InputNumber){
-  if (InputNumber < 0){
+age_checker <- function(input_number){
+  if (input_number < 0){
     return(FALSE)
   }
   return(TRUE)
 }
 
 # Validates that the RRI is within the correct range of values .
-FileValidation.RRIChecker <- function(InputString){
-  if (InputString %in% ValidRRIs){
+rri_checker <- function(input_string){
+  if (input_string %in% valid_rris){
     return(TRUE)
   }
   return(FALSE)
 }
 
-FileValidation.IdUniqueness <- function(IdSet, NewId){
+id_uniqueness <- function(id_set, new_id){
 
 }
 
 # Validates the CandidUK file.
 # Makes sure the header matches the header that a candid file should have.
 # For each line, call blood group and age checks.
-FileValidation.CandidUKCheck <- function(CSVFile){
-  CandidUKColumns <- list('ID',
+candid_uk_check <- function(csv_file){
+  candid_uk_columns <- list('ID',
                         'bg',
                         'A1',
                         'A2',
@@ -58,46 +58,46 @@ FileValidation.CandidUKCheck <- function(CSVFile){
                         'RRI'
                         )
 
-  for (i in 1:length(CandidUKColumns)){
-    if (!CandidUKColumns[i] %in% colnames(CSVFile)){
-      print(paste('Column', CandidUKColumns[i], 'is not present in the file.'))
+  for (i in 1:length(candid_uk_columns)){
+    if (!candid_uk_columns[i] %in% colnames(csv_file)){
+      print(paste('Column', candid_uk_columns[i], 'is not present in the file.'))
       return(FALSE)
     }
   }
 
-  if (length(CandidUKColumns) != length(colnames(CSVFile))){
+  if (length(candid_uk_columns) != length(colnames(csv_file))){
     print('There are unexpected columns in the file. Expected:')
-    print(paste(CandidUKColumns, collapse = ", "))
+    print(paste(candid_uk_columns, collapse = ", "))
     return(FALSE)
   }
 
-  for (i in 1:nrow(CSVFile)){
-    if (!BloodGroupChecker(CSVFile$bg[i])){
+  for (i in 1:nrow(csv_file)){
+    if (!blood_group_checker(csv_file$bg[i])){
       print(paste('Invalid blood group in line', i))
-      print(paste('Supported groups are', paste(ValidBloodGroups, collapse = ", ")))
+      print(paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
       break
     }
 
-    if (!TierChecker(CSVFile$Tier[i])){
+    if (!tier_checker(csv_file$Tier[i])){
       print(paste('Invalid tier in line', i))
-      print(paste('Supported tiers are', paste(ValidTiers, collapse = ", ")))
+      print(paste('Supported tiers are', paste(valid_tiers, collapse = ", ")))
       break
     }
 
-    if (!AgeChecker(CSVFile$age[i])){
+    if (!age_checker(csv_file$age[i])){
       print(paste('Negative age in line', i))
       break
     }
 
-    if (!RRIChecker(CSVFile$RRI[i])){
+    if (!rri_checker(csv_file$RRI[i])){
       print(paste('Invalid RRI in line', i))
-      print(paste('Supported RRIs are', paste(ValidRRIs, collapse = ", ")))
+      print(paste('Supported RRIs are', paste(valid_rris, collapse = ", ")))
       break
     }
   }
 }
 
-FileValidation <- function(FileName, FileType){
-  file <- read.csv(FileName, sep = ";")
-  CandidUKCheck(file)
+file_validation <- function(file_name, file_type){
+  file <- read.csv(file_name, sep = ";")
+  candid_uk_check(file)
 }

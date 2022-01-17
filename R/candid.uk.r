@@ -42,21 +42,23 @@ id_uniqueness <- function(id_set, new_id){
 # Makes sure the header matches the header that a candid file should have.
 # For each line, call blood group and age checks.
 candid_uk_check <- function(csv_file){
-  candid_uk_columns <- list('ID',
-                        'bg',
-                        'A1',
-                        'A2',
-                        'B1',
-                        'B2',
-                        'DR1',
-                        'DR2',
-                        'age',
-                        'dialysis',
-                        'cPRA',
-                        'Tier',
-                        'MS',
-                        'RRI'
-                        )
+  candid_uk_columns <- c(
+    'ID',
+    'bg',
+    'A1',
+    'A2',
+    'B1',
+    'B2',
+    'DR1',
+    'DR2',
+    'age',
+    'dialysis',
+    'cPRA',
+    'Tier',
+    'MS',
+    'RRI',
+    'urgent'
+    )
 
   for (i in 1:length(candid_uk_columns)){
     if (!candid_uk_columns[i] %in% colnames(csv_file)){
@@ -97,7 +99,7 @@ candid_uk_check <- function(csv_file){
   }
 }
 
-file_validation <- function(file_name, file_type){
+validate_candid_uk <- function(file_name, file_type){
   file <- read.csv(file_name, sep = ";")
   candid_uk_check(file)
 }

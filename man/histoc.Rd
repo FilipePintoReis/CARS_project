@@ -9,6 +9,6 @@ The histoc package provides functions for compatibility between organ donors and
 }
 \section{histoc functions}{
 
-The histoc functions: abo, mmHLA, xmatch, hiper, sp
+The histoc functions: abo, cp, hiper, lima1, mmHLA, pt1, pts_HLA, pts_PRA, pts_age, sp, txscore, xmatch
 }
 

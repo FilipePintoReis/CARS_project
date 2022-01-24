@@ -46,8 +46,8 @@ pts_PRA <- function(cPRA = 0
   if(!is.numeric(pts.50) | pts.50 < 0 | pts.50 > 100){
     stop("attributed points for a PRA >= 50% is not valid!\n")}
 
-  pts<-if_else(cPRA >= 80, pts.80,
-               if_else(cPRA >= 50, pts.50, 0))
+  pts<-dplyr::if_else(cPRA >= 80, pts.80,
+                      dplyr::if_else(cPRA >= 50, pts.50, 0))
 
   return(pts)
 
@@ -92,10 +92,10 @@ pts_HLA <- function(itemA = 12
              'mmDR' = mm.DR,
              'mmHLA' = mm.A + mm.B + mm.DR)
 
-  pts<-if_else(mm[["mmHLA"]] == 0, itemA,
-               if_else(mm[["mmB"]]+mm[["mmDR"]] == 0, itemB,
-                       if_else(mm[["mmB"]]+mm[["mmDR"]] == 1, itemC,
-                               if_else(mm[["mmB"]] == 1 & mm[["mmDR"]] == 1, itemD,
+  pts<-dplyr::if_else(mm[["mmHLA"]] == 0, itemA,
+                      dplyr::if_else(mm[["mmB"]]+mm[["mmDR"]] == 0, itemB,
+                                     dplyr::if_else(mm[["mmB"]]+mm[["mmDR"]] == 1, itemC,
+                                                    dplyr::if_else(mm[["mmB"]] == 1 & mm[["mmDR"]] == 1, itemD,
                                        itemE))))
   return(pts)
 }

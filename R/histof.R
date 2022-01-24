@@ -10,19 +10,21 @@
 #' @export
 abo <- function(cABO = 'A', dABO = 'A', iso = TRUE){
 
-  if(iso == TRUE){
-    value <- cABO == dABO
-  } else {
-    value <- ifelse(dABO == 'O', TRUE,
-                    ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
-                           ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
-                                  ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
-                                  )
-                           )
-                    )
-  }
+  if(blood_group_checker(cABO) & blood_group_checker(dABO)){
 
-  return(value)
+    if(iso == TRUE){
+      value <- cABO == dABO
+      } else {
+        value <- ifelse(dABO == 'O', TRUE,
+                        ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
+                               ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
+                                      ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
+                                      )
+                               )
+        )
+        }
+    return(value)
+    } else { stop('blood group is not valid!') }
 }
 
 #' number of HLA mismatchs
@@ -57,20 +59,20 @@ mmHLA <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
   if(!is.character(cDR)){stop("candidate's HLA-DR typing is not valid!\n")}
 
   # compute missmatches
-  mmA<-if_else((dA[1] %in% cA & dA[2] %in% cA) | (dA[1] %in% cA & (is.na(dA[2]) | dA[2] == "")), 0,
-               if_else(dA[1] %in% cA | dA[2] %in% cA, 1,
-                       if_else(!dA[1] %in% cA & (is.na(dA[2]) | dA[2] == ""), 1,
-                               if_else(dA[1] == dA[2], 1,2))))
+  mmA<-dplyr::if_else((dA[1] %in% cA & dA[2] %in% cA) | (dA[1] %in% cA & (is.na(dA[2]) | dA[2] == "")), 0,
+                      dplyr::if_else(dA[1] %in% cA | dA[2] %in% cA, 1,
+                                     dplyr::if_else(!dA[1] %in% cA & (is.na(dA[2]) | dA[2] == ""), 1,
+                                                    dplyr::if_else(dA[1] == dA[2], 1,2))))
 
-  mmB<-if_else((dB[1] %in% cB & dB[2] %in% cB) | (dB[1] %in% cB & (is.na(dB[2]) | dB[2] == "")), 0,
-               if_else(dB[1] %in% cB | dB[2] %in% cB, 1,
-                       if_else(!dB[1] %in% cB & (is.na(dB[2]) | dB[2] == ""), 1,
-                               if_else(dB[1] == dB[2], 1,2))))
+  mmB<-dplyr::if_else((dB[1] %in% cB & dB[2] %in% cB) | (dB[1] %in% cB & (is.na(dB[2]) | dB[2] == "")), 0,
+                      dplyr::if_else(dB[1] %in% cB | dB[2] %in% cB, 1,
+                                     dplyr::if_else(!dB[1] %in% cB & (is.na(dB[2]) | dB[2] == ""), 1,
+                                                    dplyr::if_else(dB[1] == dB[2], 1,2))))
 
-  mmDR<-if_else((dDR[1] %in% cDR & dDR[2] %in% cDR) | (dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == "")), 0,
-                if_else(dDR[1] %in% cDR | dDR[2] %in% cDR, 1,
-                        if_else(!dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == ""), 1,
-                                if_else(dDR[1] == dDR[2],1,2))))
+  mmDR<-dplyr::if_else((dDR[1] %in% cDR & dDR[2] %in% cDR) | (dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == "")), 0,
+                       dplyr::if_else(dDR[1] %in% cDR | dDR[2] %in% cDR, 1,
+                                      dplyr::if_else(!dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == ""), 1,
+                                                     dplyr::if_else(dDR[1] == dDR[2],1,2))))
 
   # resume results
   mmHLA = mmA + mmB + mmDR
@@ -113,7 +115,9 @@ xmatch <- function(dA = c('1','2'),
   df.abs %>%
     dplyr::mutate(res = abs %in% dhla) %>%
     dplyr::group_by(ID) %>%
-    dplyr::summarise(xm = ifelse(sum(res)>0, "POS","NEG"))
+    dplyr::summarise(xm = ifelse(sum(res)>0, "POS","NEG")) %>%
+    dplyr::ungroup()
+
 }
 
 #' Hiperimunized classification

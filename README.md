@@ -1,1 +1,2 @@
-# KARS_project
+# histoc
+A package with histocompatibility functions on kidney transplantation

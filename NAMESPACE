@@ -2,6 +2,9 @@
 
 export(abo)
 export(cp)
+export(et1)
+export(et_dial)
+export(et_mmHLA)
 export(hiper)
 export(lima1)
 export(mmHLA)

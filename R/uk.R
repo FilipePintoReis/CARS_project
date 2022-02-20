@@ -3,7 +3,7 @@
 #' @description computes Risk Index Combination for each pair donor-recipient
 #' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
 #' @param data A data file with candidates information for UK transplant
-#' @param DiRj A numeric value (0-1000) for teh combination of indexes
+#' @param DiRj A numeric value (0-1000) for the combination of indexes
 #' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
 #' @examples
 #' ric(DRI = 'D1', data =ex.candidates.uk,
@@ -61,7 +61,7 @@ ric<-function(DRI = 'D1',
                                                           RRI == 'R3' ~ D4R3,
                                                           RRI == 'R4' ~ D4R4))
   }
-  data
+  return(data)
 }
 
 
@@ -72,9 +72,9 @@ ric<-function(DRI = 'D1',
 #' @param cage A numeric value with candidate's age.
 #' @return A numeric value.
 #' @examples
-#' age.diff(age = 60, cage = 50)
+#' age_diff(age = 60, cage = 50)
 #' @export
-age.diff<-function(dage = 60,
+age_diff<-function(dage = 60,
                    cage = 50){
   # verify ages
   if(!is.numeric(dage) | dage < 18 | dage > 99) {stop("donor's age is not valid!\n")}
@@ -97,9 +97,9 @@ age.diff<-function(dage = 60,
 #' @param pts A negative value with penalization for B candidates
 #' @return A numeric value.
 #' @examples
-#' b.blood(dABO = "B", cABO = "O", tier = "B", pts = -1000)
+#' b_blood(dABO = "B", cABO = "O", tier = "B", pts = -1000)
 #' @export
-b.blood<-function(dABO = "B",
+b_blood<-function(dABO = "B",
                   cABO = "O",
                   tier = "B",
                   pts = -1000){
@@ -124,9 +124,9 @@ b.blood<-function(dABO = "B",
 #' @param tier A character value for UK transplant candidate's TIER classification (options A and B)
 #' @return A logical value T/F
 #' @examples
-#' abo.uk(dABO = "A", cABO = "A", tier = "B")
+#' abo_uk(dABO = "A", cABO = "A", tier = "B")
 #' @export
-abo.uk<-function(dABO = "A", cABO = "A", tier = "B"){
+abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 
   res = NULL
   # verify function parameters
@@ -211,9 +211,11 @@ uk1<-function(DRI = 'D1',
               df.abs = ex.abs,
               n = 2
               ){
-  data<-data %>%
-    left_join(xmatch.v2(dA = dA, dB = dB, dDR = dDR,
-                        df.abs = df.abs))
+
+  data<-merge(data,
+        xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        all.x=TRUE)
+
   data<-ric(DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
              D2R1 = D2R1, D2R2 = D2R2, D2R3 = D2R3, D2R4 = D2R4,
              D3R1 = D3R1, D3R2 = D3R2, D3R3 = D3R3, D3R4 = D3R4,
@@ -222,7 +224,7 @@ uk1<-function(DRI = 'D1',
 
   data<-data %>% rowwise() %>%
     mutate(donor_age = dage,
-           compBlood = abo.uk(dABO = dABO, cABO = bg, tier = Tier),
+           compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier),
            mmA = mmHLA(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
            mmB = mmHLA(dA = dA, dB = dB, dDR = dDR,
@@ -243,8 +245,8 @@ uk1<-function(DRI = 'D1',
                                  mmA + mmB + mmDR < 4 ~ mm23,
                                  TRUE ~ mm46),
            matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score
-           pts.age = age.diff(dage = dage, cage = age),
-           pts.abo = b.blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
+           pts.age = age_diff(dage = dage, cage = age),
+           pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
            pointsUK = round(ifelse(Tier == "A",
                                    9999,
                                    ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo),1)
@@ -260,6 +262,6 @@ uk1<-function(DRI = 'D1',
            age, donor_age, dialysis, cPRA, Tier,
            pointsUK)
 
-  data
+  return(data)
 
 }

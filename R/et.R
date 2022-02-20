@@ -1,3 +1,73 @@
+#' Mismatch Probability (MMP) from ETKAS
+#'
+#' @description Mismatch Probability (MMP) is a calculation of the probability of receiving a kidney offer with
+#' 0 and 1 broad HLA-A, -B or split DR mismatches based on 1000 kidneys offered,
+#' taking into account AB0 blood group rules and PRA screening. Patients receive
+#' between 0-100 MMPs
+#' @source \url{https://www.eurotransplant.org/wp-content/uploads/2020/01/H4-Kidney.pdf}
+#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates.
+#' @param hlaA A data frame with HLA-A allele frequencies
+#' @param hlaB A data frame with HLA-A allele frequencies
+#' @param hlaDR A data frame with HLA-A allele frequencies
+#' @param abo_freq A data frame with ABO blood group frequencies
+#' @examples
+#' et_mm(data = candidates,
+#' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
+#' abo_freq = ABOpt)
+#' @export
+et_mmp<-function(data = candidates,
+                 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
+                 abo_freq = ABOpt){
+
+  # compute the sum of squared frequencies for each loci with PT frequencies
+  SallA <-sum((hlaA %>% drop_na() %>% .$freq)^2)
+  SallB <-sum((hlaB %>% drop_na() %>% .$freq)^2)
+  SallDR <-sum((hlaDR %>% drop_na() %>% .$freq)^2)
+
+  data<-data %>% left_join(hlaA %>% select(A,freq), by = c("A1" = "A"))
+  data<- data %>% rename(a1=freq)
+  data<-data %>% left_join(hlaA %>% select(A,freq), by = c("A2" = "A"))
+  data<- data %>% rename(a2=freq)
+  data<-data %>% left_join(hlaB %>% select(B,freq), by = c("B1" = "B"))
+  data<- data %>% rename(b1=freq)
+  data<-data %>% left_join(hlaB %>% select(B,freq), by = c("B2" = "B"))
+  data<- data %>% rename(b2=freq)
+  data<-data %>% left_join(hlaDR %>% select(DR,freq), by = c("DR1" = "DR"))
+  data<- data %>% rename(dr1=freq)
+  data<-data %>% left_join(hlaDR %>% select(DR,freq), by = c("DR2" = "DR"))
+  data<- data %>% rename(dr2=freq)
+  data<-data %>% left_join(abo_freq, by = c("bg" = "abo"))
+  data<- data %>% rename(abo=freq)
+
+  # compute MMP2 and add it to the data file
+  data$MMP2 <- with(data,
+                    (((2*(a1+a2)*(1 - a1 - a2)) - a1^2 - a2^2 + SallA) /
+                       ((a1+a2)^2))
+                    + (((2*(b1+b2)*(1 - b1 - b2)) - b1^2 - b2^2 + SallB) /
+                         ((b1+b2)^2))
+                    + (((2*(dr1+dr2)*(1 - dr1 - dr2) ) - dr1^2 - dr2^2 + SallDR) /
+                         ((dr1+dr2)^2))
+  )
+
+  # compute MMP0 and add it to the data file
+  data$MMP0 <- with(data,
+                    (a1+a2)^2 * (b1+b2)^2 * (dr1+dr2)^2)
+
+  # compute MMP1 and add it to the data file
+  data$MMP1 <- with(data,
+                    MMP0 * MMP2)
+
+  # compute MMP and add it to the data file
+  data$MMP<-with(data,
+                 100 * (1-(abo * (1-cPRA/100) * (MMP0 + MMP1)))^1000
+  )
+
+  return(data)
+
+
+}
+
+
 #' ET points for mmHLA
 #'
 #' @description Punctuation given for HLA mismatches within ET Kidney allocation system
@@ -92,7 +162,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
 #' @param dage A numeric value with donor's age.
-#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates with color priority classification.
+#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates.
 #' @param month A numeric value with the punctuation for each month (between 0 and 10)
 #' @param mm0 A numeric value with points for 0 HLA mm on ETKAS points table
 #' @param mm1 A numeric value with points for 1 HLA mm on ETKAS points table

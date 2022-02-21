@@ -30,7 +30,7 @@ ric(
 
 \item{data}{A data file with candidates information for UK transplant}
 
-\item{DiRj}{A numeric value (0-1000) for teh combination of indexes}
+\item{DiRj}{A numeric value (0-1000) for the combination of indexes}
 }
 \value{
 A tibble with a new column 'ric' that gives the  Risk Index Combination.

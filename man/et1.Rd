@@ -37,7 +37,7 @@ et1(
 
 \item{dage}{A numeric value with donor's age.}
 
-\item{data}{A data frame containing demographics and medical information for a group of waitlisted transplant candidates with color priority classification.}
+\item{data}{A data frame containing demographics and medical information for a group of waitlisted transplant candidates.}
 
 \item{month}{A numeric value with the punctuation for each month (between 0 and 10)}
 

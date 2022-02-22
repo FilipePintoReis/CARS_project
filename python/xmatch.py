@@ -9,7 +9,7 @@ def xmatch(dA, dB, dDR, inFileName, outFileName) -> list:
 
     df["res"] = df.apply(func = lambda x: x["abs"] in dHLA, axis = 1)
 
-    df.groupby("id")
+    # df = df.groupby("id")
 
     df.to_csv(outFileName, index = False)
 

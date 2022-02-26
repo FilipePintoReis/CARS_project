@@ -1,20 +1,6 @@
 library(reticulate)
 
-start <- Sys.time()
-
-source_python("python/mmHLA.py")
-py$mmHLA(c(1,2), c(1,2), c(1,2), c(1,2), c(1,2), c(1,3))
-
-end <- Sys.time()
-
-res = end - start
-
-print(res)
-
-
-
-
-start <- Sys.time()
+source_python("inst/python/mmHLA.py")
 
 #' number of HLA mismatchs
 #'
@@ -71,10 +57,16 @@ mmHLA <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
   return(mm)
 }
 
+# R Test
+start <- Sys.time()
 mmHLA(c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','3'))
-
 end <- Sys.time()
-
 res = end - start
+print(res)
 
+# Python Test
+start <- Sys.time()
+py$mmHLA(c(1,2), c(1,2), c(1,2), c(1,2), c(1,2), c(1,3))
+end <- Sys.time()
+res = end - start
 print(res)

@@ -63,10 +63,7 @@ lima1 <- function(iso = TRUE
     merge(cp(data = data, ...),
           xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
           all.x=TRUE) %>%
-    # cp(data = data) %>%
-    # left_join(
-    #   xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
-    # ) %>%
+          
     rowwise() %>%
     mutate(donor_age = dage,
            SP = sp(cage = age, dage = dage),

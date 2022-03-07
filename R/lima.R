@@ -61,23 +61,23 @@ lima1 <- function(iso = TRUE
   n <- max(1, n)
 
     merge(cp(data = data, ...),
-          xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+          xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
           all.x=TRUE) %>%
-          
+
     rowwise() %>%
     mutate(donor_age = dage,
            SP = sp(cage = age, dage = dage),
            HI = hiper(cPRA = cPRA),
            compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
-           mmA = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
-           mmB = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
-           mmDR = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                         cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
            mmHLA = mmA + mmB + mmDR) %>%
     ungroup() %>%
-    # only candidates ABO and HLA compatibles and those in the same group age with the donor are selectec
+    # only candidates ABO and HLA compatibles and those in the same group age with the donor are selected
     filter(compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP <3) %>%
     # order by Lima's algorithm
     arrange(desc(SP), cp, mmHLA, desc(dialysis)) %>%
@@ -89,3 +89,79 @@ lima1 <- function(iso = TRUE
            age, donor_age, dialysis, cPRA, HI,
            cp, SP)
 }
+
+
+#' Candidates' ordering according to Lima's algorithm
+#'
+#' @description Ordering of waitlisted candidates for a given donor and according to to Lima's algorithm.
+#' @param iso A logical value for isogroupal compatibility.
+#' @param dABO A character value with ABO blood group.
+#' @param dA donor's HLA-A typing.
+#' @param dB donor's HLA-B typing.
+#' @param dDR donor's HLA-DR typing.
+#' @param dage A numeric value with donor's age.
+#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates with color priority classification.
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param n A positive integer to slice the first candidates.
+#' @return An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA'.
+#' @examples
+#' lima1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"), dage = 65,  data = cp(candidates),  df.abs = abs, n = dim(data)[1])
+#' @export
+lima2 <- function(iso = TRUE
+                  , dABO = "O"
+                  , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                  , dage = 60
+                  , df.abs = cabs
+                  , data = candidates
+                  , n = 2
+                  , ...){
+  n <- max(1, n)
+
+  # data_table <- data.frame(data)
+  # data_table <- merge(cp(data_table = data_table, ...),
+  #         xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+  #         all.x=TRUE)
+
+  data_table <- merge(cp(data = data, ...),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        all.x=TRUE)
+
+  data.table::setDT(data_table)
+  print(data_table)
+
+
+  data_table[, `:=`(
+    donor_age = dage,
+    SP = sp(cage = age, dage = dage),
+    HI = hiper(cPRA = cPRA),
+    compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
+    )]
+  # data_table[, donor_age := dage]
+  # data_table[, SP := sp(cage = age, dage = dage)]
+  # data_table[, HI := hiper(cPRA = cPRA)]
+  # data_table[, compBlood := abo(iso = iso, dABO = dABO, cABO = bg)]
+
+  # elements = data_table[, .(cA, cB, cDR)]
+
+  # print(elements)
+
+  #data_table[, HI := hiper(cPRA = cPRA)]
+  #data_table[, HI := hiper(cPRA = cPRA)]
+  #data_table[, HI := hiper(cPRA = cPRA)]
+  #data_table[, HI := hiper(cPRA = cPRA)]
+
+
+  # mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
+  # mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
+  # mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                 # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
+  #mmHLA = mmA + mmB + mmDR
+
+
+
+  print(data_table)
+
+}
+

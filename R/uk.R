@@ -72,7 +72,7 @@ ric<-function(DRI = 'D1',
 #' @param cage A numeric value with candidate's age.
 #' @return A numeric value.
 #' @examples
-#' age_diff(age = 60, cage = 50)
+#' age_diff(dage = 60, cage = 50)
 #' @export
 age_diff<-function(dage = 60,
                    cage = 50){

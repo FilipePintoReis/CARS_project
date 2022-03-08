@@ -12,7 +12,7 @@ print(res)
 
 # Python Test
 start <- Sys.time()
-py$xmatch(c(1,2), c(1,2), c(1,2), paste("data", "csv", "cabs.csv", sep = .Platform$file.sep), "None")
+py$xmatch(c(1,2), c(1,2), c(1,2), paste("inst", "extdata", "csv", "cabs.csv", sep = .Platform$file.sep), "None")
 end <- Sys.time()
 res = end - start
 print("Results for Python")

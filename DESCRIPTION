@@ -14,10 +14,10 @@ Suggests:
     testthat (>= 3.0.0)
 Imports: 
     dplyr,
-    magrittr, 
-    reticulate
+    magrittr
 Depends: 
     R (>= 4.0.0),
-    data.table
+    data.table,
+    reticulate
 LazyData: true
 Config/testthat/edition: 3

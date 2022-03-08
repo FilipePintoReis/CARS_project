@@ -1,8 +1,3 @@
-library(reticulate)
-
-source_python("inst/python/mmHLA.py")
-
-
 # R Test
 start <- Sys.time()
 mmHLA(c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','3'))

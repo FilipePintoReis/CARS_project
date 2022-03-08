@@ -13,13 +13,11 @@ RoxygenNote: 7.1.2
 Suggests:
     testthat (>= 3.0.0)
 Imports: 
-    data.table,
     dplyr,
     magrittr, 
     reticulate
 Depends: 
     R (>= 4.0.0),
-    data.table,
-    reticulate
+    data.table
 LazyData: true
 Config/testthat/edition: 3

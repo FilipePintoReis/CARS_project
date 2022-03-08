@@ -189,7 +189,7 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
               df.abs = abs,n = 2
               ){
   data<-cdata %>%
-    left_join(xmatch.v2(df.abs = df.abs,
+    left_join(xmatch_r.v2(df.abs = df.abs,
                         dA = dA, # donor's HLA-A typing
                         dB = dB, # donor's HLA-B typing
                         dDR = dDR))
@@ -197,7 +197,7 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
   n <- max(1, n)
 
   merge(data,
-        xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
         all.x=TRUE) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(donor_age = dage,

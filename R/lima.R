@@ -61,7 +61,7 @@ lima1 <- function(iso = TRUE
   n <- max(1, n)
 
     merge(cp(data = data, ...),
-          xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+          xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
           all.x=TRUE) %>%
           
     rowwise() %>%

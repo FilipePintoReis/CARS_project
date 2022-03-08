@@ -72,7 +72,7 @@ ric<-function(DRI = 'D1',
 #' @param cage A numeric value with candidate's age.
 #' @return A numeric value.
 #' @examples
-#' age_diff(age = 60, cage = 50)
+#' age_diff(dage = 60, cage = 50)
 #' @export
 age_diff<-function(dage = 60,
                    cage = 50){
@@ -213,7 +213,7 @@ uk1<-function(DRI = 'D1',
               ){
 
   data<-merge(data,
-        xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
         all.x=TRUE)
 
   data<-ric(DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,

@@ -1,6 +1,6 @@
 # R Test
 start <- Sys.time()
-mmHLA(c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','3'))
+mmHLA_r(c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','2'), c('1','3'))
 end <- Sys.time()
 res = end - start
 print("Results for R")

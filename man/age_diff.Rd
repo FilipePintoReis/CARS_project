@@ -18,5 +18,5 @@ A numeric value.
 computes punctuation according to donor-recipient age difference
 }
 \examples{
-age_diff(age = 60, cage = 50)
+age_diff(dage = 60, cage = 50)
 }

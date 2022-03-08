@@ -117,7 +117,7 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
     stop("points for 6 mmHLA is not valid!\n")}
 
   # apply mmHLA function
-  mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
+  mm<-mmHLA_r(dA = dA, dB = dB, dDR = dDR,
             cA = cA, cB = cB, cDR = cDR)
 
   pts<-dplyr::if_else(sum(mm[4]) == 0, mm0,
@@ -214,11 +214,11 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
                                 mm4 = mm4,
                                 mm5 = mm5,
                                 mm6 = mm6),
-           mmA = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
-           mmB = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmB"],
-           mmDR = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                         cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
            mmHLA = mmA + mmB + mmDR,
            mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),

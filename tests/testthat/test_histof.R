@@ -10,25 +10,25 @@ test_that("compatibility ABO", {
 })
 
 test_that("computes HLA mismatchs", {
-  expect_equal(mmHLA(dA = c('01','02'),
+  expect_equal(mmHLA_r(dA = c('01','02'),
                      dB = c('05','07'),
                      dDR = c('01','04'),
                      cA = c('01','02'),
                      cB = c('03','15'),
                      cDR = c('04','07'))[['mmA']], 0)
-  expect_equal(mmHLA(dA = c('01','02'),
+  expect_equal(mmHLA_r(dA = c('01','02'),
                      dB = c('05','07'),
                      dDR = c('01','04'),
                      cA = c('01','02'),
                      cB = c('03','15'),
                      cDR = c('04','07'))[['mmB']], 2)
-  expect_equal(mmHLA(dA = c('01','02'),
+  expect_equal(mmHLA_r(dA = c('01','02'),
                      dB = c('05','07'),
                      dDR = c('01','04'),
                      cA = c('01','02'),
                      cB = c('03','15'),
                      cDR = c('04','07'))[['mmDR']], 1)
-  expect_equal(mmHLA(dA = c('01','02'),
+  expect_equal(mmHLA_r(dA = c('01','02'),
                      dB = c('05','07'),
                      dDR = c('01','04'),
                      cA = c('01','02'),

@@ -7,8 +7,8 @@
 #' @source \url{https://www.eurotransplant.org/wp-content/uploads/2020/01/H4-Kidney.pdf}
 #' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates.
 #' @param hlaA A data frame with HLA-A allele frequencies
-#' @param hlaB A data frame with HLA-A allele frequencies
-#' @param hlaDR A data frame with HLA-A allele frequencies
+#' @param hlaB A data frame with HLA-B allele frequencies
+#' @param hlaDR A data frame with HLA-DR allele frequencies
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @examples
 #' et_mm(data = candidates,
@@ -117,7 +117,7 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
     stop("points for 6 mmHLA is not valid!\n")}
 
   # apply mmHLA function
-  mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
+  mm<-mmHLA_r(dA = dA, dB = dB, dDR = dDR,
             cA = cA, cB = cB, cDR = cDR)
 
   pts<-dplyr::if_else(sum(mm[4]) == 0, mm0,
@@ -189,7 +189,7 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
               df.abs = abs,n = 2
               ){
   data<-cdata %>%
-    left_join(xmatch.v2(df.abs = df.abs,
+    left_join(xmatch_r.v2(df.abs = df.abs,
                         dA = dA, # donor's HLA-A typing
                         dB = dB, # donor's HLA-B typing
                         dDR = dDR))
@@ -197,7 +197,7 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
   n <- max(1, n)
 
   merge(data,
-        xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
         all.x=TRUE) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(donor_age = dage,
@@ -214,11 +214,11 @@ et1<-function(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = 
                                 mm4 = mm4,
                                 mm5 = mm5,
                                 mm6 = mm6),
-           mmA = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
-           mmB = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmB"],
-           mmDR = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                         cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
            mmHLA = mmA + mmB + mmDR,
            mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),

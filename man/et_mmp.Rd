@@ -20,9 +20,9 @@ et_mmp(
 
 \item{hlaA}{A data frame with HLA-A allele frequencies}
 
-\item{hlaB}{A data frame with HLA-A allele frequencies}
+\item{hlaB}{A data frame with HLA-B allele frequencies}
 
-\item{hlaDR}{A data frame with HLA-A allele frequencies}
+\item{hlaDR}{A data frame with HLA-DR allele frequencies}
 
 \item{abo_freq}{A data frame with ABO blood group frequencies}
 }

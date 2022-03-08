@@ -138,18 +138,18 @@ pt1 <- function(iso = TRUE
   n <- max(1, n)
 
   merge(data,
-        xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
         all.x=TRUE) %>%
     rowwise() %>%
     mutate(donor_age = dage,
            SP = sp(cage = age, dage = dage),
            HI = hiper(cPRA = cPRA),
            compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
-           mmA = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
-           mmB = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
-           mmDR = mmHLA(dA = dA, dB = dB, dDR = dDR,
+           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                         cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
            mmHLA = mmA + mmB + mmDR,
            ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR, ...),

@@ -1,4 +1,4 @@
 library(testthat)
-library(KarsBackend)
+library(histoc)
 
-test_check("KarsBackend")
+test_check("histoc")

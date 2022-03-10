@@ -24,5 +24,5 @@ A data frame with a new column 'cp' (color priority)
 Classification of candidates according to waiting list time on dialysis' quartiles and two cPRA cutoff values.
 }
 \examples{
-cp(data = candidates, q2 = 100, q3 = 60, cPRA1 = 50, cPRA2 = 85)
+cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)
 }

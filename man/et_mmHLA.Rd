@@ -52,4 +52,7 @@ Punctuation given for HLA mismatches within ET Kidney allocation system
 }
 \examples{
 et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
+cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
+mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
+mm4 = 133.33, mm5 = 66.67, mm6 = 0)
 }

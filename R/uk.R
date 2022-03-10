@@ -6,11 +6,11 @@
 #' @param DiRj A numeric value (0-1000) for the combination of indexes
 #' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
 #' @examples
-#' ric(DRI = 'D1', data =ex.candidates.uk,
-# D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
-# D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
-# D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-# D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
+#' ric(DRI = 'D1', data =candidates.uk,
+#' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
+#' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
+#' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
+#' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
 #' @export
 ric<-function(DRI = 'D1',
               data =ex.candidates.uk,
@@ -182,23 +182,23 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param n A positive integer to slice the first candidates.
 #' @examples
 #' uk1(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-# dABO = "O", dage = 65, data =ex.candidates.uk,
-# D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
-# D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
-# D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-# D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000,
-# ptsDial = 1,
-# a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
-# m = 40, nn = 4.5, o = 4.7,
-# mm1 = -100, mm23 = -150, mm46 = -250,
-# pts = -1000,
-# df.abs = ex.abs, n = 2)
+#' dABO = "O", dage = 65, data = candidates.uk,
+#' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
+#' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
+#' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
+#' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000,
+#' ptsDial = 1,
+#' a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
+#' m = 40, nn = 4.5, o = 4.7,
+#' mm1 = -100, mm23 = -150, mm46 = -250,
+#' pts = -1000,
+#' df.abs = cabs, n = 2)
 #' @export
 uk1<-function(DRI = 'D1',
               dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
               dABO = "O",
               dage = 65,
-              data =ex.candidates.uk,
+              data = candidates.uk,
               D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
               D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
               D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
@@ -208,59 +208,61 @@ uk1<-function(DRI = 'D1',
               m = 40, nn = 4.5, o = 4.7,
               mm1 = -100, mm23 = -150, mm46 = -250,
               pts = -1000,
-              df.abs = ex.abs,
+              df.abs = cabs,
               n = 2
               ){
 
-  data<-merge(data,
-        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
-        all.x=TRUE)
+  data <- merge(data,
+                xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+                all.x=TRUE)
 
-  data<-ric(DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
+  data <- ric(DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
              D2R1 = D2R1, D2R2 = D2R2, D2R3 = D2R3, D2R4 = D2R4,
              D3R1 = D3R1, D3R2 = D3R2, D3R3 = D3R3, D3R4 = D3R4,
              D4R1 = D4R1, D4R2 = D4R2, D4R3 = D4R3, D4R4 = D4R4,
              data = data)
 
-  data<-data %>% rowwise() %>%
-    mutate(donor_age = dage,
-           compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier),
-           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                       cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
-           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                       cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmB"],
-           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
-           mmHLA = mmA + mmB + mmDR,
-           level = case_when(mmA + mmB + mmDR == 0 ~ 1,
-                             (mmDR == 0 & mmB <=1) | (mmDR == 1 & mmB == 0) ~ 2,
-                             (mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1) ~ 3,
-                             TRUE ~ 4),
-           pts.hla.age = case_when(level == 1 ~ b1*cos(age/18)+a1,
-                                   level == 2 ~ b2*cos(age/18)+a2,
-                                   TRUE ~ b3*sin(age/50)
-           ),
-           total.HLA = case_when(mmA + mmB + mmDR == 0 ~ 0,
-                                 mmA + mmB + mmDR == 1 ~ mm1,
-                                 mmA + mmB + mmDR < 4 ~ mm23,
-                                 TRUE ~ mm46),
-           matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score
-           pts.age = age_diff(dage = dage, cage = age),
-           pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
-           pointsUK = round(ifelse(Tier == "A",
-                                   9999,
-                                   ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo),1)
-    ) %>%
-    ungroup() %>%
-    filter(compBlood == TRUE & (xm == FALSE | is.na(xm))) %>%
-    arrange(Tier, desc(pointsUK), desc(matchability), desc(dialysis)) %>%
-    slice(1:n) %>%
-    select(ID, bg,
-           A1, A2, B1, B2, DR1, DR2,
-           matchability,
-           mmA, mmB, mmDR, mmHLA,
-           age, donor_age, dialysis, cPRA, Tier,
-           pointsUK)
+  data <- data %>%
+    #as.data.frame() %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(donor_age = dage,
+                  compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier),
+                  mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
+                  mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmB"],
+                  mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                 cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
+                  mmHLA = mmA + mmB + mmDR,
+                  level = dplyr::case_when(mmA + mmB + mmDR == 0 ~ 1,
+                                    (mmDR == 0 & mmB <=1) | (mmDR == 1 & mmB == 0) ~ 2,
+                                    (mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1) ~ 3,
+                                    TRUE ~ 4),
+                  pts.hla.age = dplyr::case_when(level == 1 ~ b1*cos(age/18)+a1,
+                                          level == 2 ~ b2*cos(age/18)+a2,
+                                          TRUE ~ b3*sin(age/50)
+                                          ),
+                  total.HLA = dplyr::case_when(mmA + mmB + mmDR == 0 ~ 0,
+                                        mmA + mmB + mmDR == 1 ~ mm1,
+                                        mmA + mmB + mmDR < 4 ~ mm23,
+                                        TRUE ~ mm46),
+                  matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score
+                  pts.age = age_diff(dage = dage, cage = age),
+                  pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
+                  pointsUK = round(ifelse(Tier == "A",
+                                          9999,
+                                          ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo),1)
+                  ) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm))) %>%
+    dplyr::arrange(Tier, desc(pointsUK), desc(matchability), desc(dialysis)) %>%
+    dplyr::slice(1:n) %>%
+    dplyr::select(ID, bg,
+                  A1, A2, B1, B2, DR1, DR2,
+                  matchability,
+                  mmA, mmB, mmDR, mmHLA,
+                  age, donor_age, dialysis, cPRA, Tier,
+                  pointsUK)
 
   return(data)
 

@@ -20,7 +20,11 @@ et1(
   mm4 = 133.33,
   mm5 = 66.67,
   mm6 = 0,
-  df.abs = abs,
+  df.abs = cabs,
+  hlaA = hlaApt,
+  hlaB = hlaBpt,
+  hlaDR = hlaDRpt,
+  abo_freq = ABOpt,
   n = 2
 )
 }
@@ -66,5 +70,11 @@ An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA
 Ordering of waitlisted candidates for a given donor and according to ETKAS algorithm.
 }
 \examples{
-et1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+et1(iso = TRUE, dABO = "A",
+dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+dage = 65,
+data = candidates, month = 2.78,
+mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
+mm4 = 133.33, mm5 = 66.67, mm6 = 0,
+df.abs = cabs, n = 2)
 }

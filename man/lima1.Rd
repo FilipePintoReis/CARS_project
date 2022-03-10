@@ -13,8 +13,7 @@ lima1(
   dage = 60,
   df.abs = cabs,
   data = candidates,
-  n = 2,
-  ...
+  n = 2
 )
 }
 \arguments{
@@ -43,5 +42,8 @@ An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA
 Ordering of waitlisted candidates for a given donor and according to to Lima's algorithm.
 }
 \examples{
-lima1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"), dage = 65,  data = cp(candidates),  df.abs = abs, n = dim(data)[1])
+lima1(iso = TRUE, dABO = "O",
+dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+dage = 60, df.abs = cabs,
+data = candidates, n = 2)
 }

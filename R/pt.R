@@ -63,9 +63,8 @@ pts_PRA <- function(cPRA = 0
 #' @param itemE  Points for remaing possibilities
 #' @return A numerical value for pre-defined points
 #' @examples
-#' pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1,
-# dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
-# cA = c('1','2'), cB = c('3','15'), cDR = c('4','7'))
+#' pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1
+#' , mm.A = 0, mm.B = 0, mm.DR = 0)
 #' @export
 pts_HLA <- function(itemA = 12
                     , itemB = 8
@@ -119,8 +118,10 @@ pts_HLA <- function(itemA = 12
 #' @param n A positive integer to slice the first candidates.
 #' @return An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' pt1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-# dage = 65,  data = cp(candidates),  df.abs = abs, n = 2)
+#' pt1(iso = TRUE, dABO = "A",
+#' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+#' dage = 65,  data = candidates,
+#' df.abs = cabs, n = 2)
 #' @export
 pt1 <- function(iso = TRUE
                 , dABO = "O"
@@ -132,44 +133,46 @@ pt1 <- function(iso = TRUE
                 , pts.50 = 4
                 , pts.dial = 0.1
                 , pts.age = 4
-                , n = 2
-                , ...){
+                , n = 2){
 
   n <- max(1, n)
 
-  merge(data,
-        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
-        all.x=TRUE) %>%
-    rowwise() %>%
-    mutate(donor_age = dage,
-           SP = sp(cage = age, dage = dage),
-           HI = hiper(cPRA = cPRA),
-           compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
-           mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                       cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
-           mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                       cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
-           mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
-           mmHLA = mmA + mmB + mmDR,
-           ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR, ...),
-           ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50),
-           ptsage = pts_age(dage = dage, cage = age, pts = pts.age),
-           ptsdial = pts.dial * dialysis,
-           ptsPT = ptsHLA + ptsPRA + ptsage + ptsdial
-           ) %>%
-    ungroup() %>%
+  data <- merge(data,
+                xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+                all.x=TRUE)
+  data <- data %>%
+    #as.data.frame() %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(donor_age = dage,
+                  SP = sp(cage = age, dage = dage),
+                  HI = hiper(cPRA = cPRA),
+                  compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
+                  mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
+                  mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
+                  mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                 cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
+                  mmHLA = mmA + mmB + mmDR,
+                  ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
+                  ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50),
+                  ptsage = pts_age(dage = dage, cage = age, pts = pts.age),
+                  ptsdial = pts.dial * dialysis,
+                  ptsPT = ptsHLA + ptsPRA + ptsage + ptsdial) %>%
+    dplyr::ungroup() %>%
     # only candidates ABO and HLA compatibles and those in the same group age with the donor are selectec
-    filter(compBlood == TRUE & (xm == FALSE | is.na(xm))) %>%
+    dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm))) %>%
     # order by Lima's algorithm
-    arrange(HI, desc(ptsPT)) %>%
+    dplyr::arrange(HI, desc(ptsPT)) %>%
     # keep only the first n
-    slice(1:n) %>%
-    select(ID, bg,
+    dplyr::slice(1:n) %>%
+    dplyr::select(ID, bg,
            A1, A2, B1, B2, DR1, DR2,
            mmA, mmB, mmDR, mmHLA,
            age, donor_age, dialysis, cPRA, HI,
            ptsPT, SP,
            ptsHLA, ptsPRA, ptsage, ptsdial)
+
+  return(data)
 
 }

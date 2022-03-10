@@ -170,7 +170,10 @@ sp <- function(dage, cage){
 #' @param mmHLA_DR A numeric value (0, 1, 2) with the number of HLA-DR mismatchs
 #' @return 5 year probability for combined outcome of mortality or graft failure
 #' @examples
-#' txscore(ageR = 20, race = "White", causeESRD = "Other", timeD = 12, diabetesR = F, coronary = F, albumin = 1.5, hemoglobin = 10, ageD = 30, diabetesD = "Absence", ECD = F, mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
+#' txscore(ageR = 20, race = "White", causeESRD = "Other",
+#' timeD = 12, diabetesR = FALSE, coronary = FALSE,
+#' albumin = 1.5, hemoglobin = 10, ageD = 30, diabetesD = "Absence",
+#' ECD = FALSE, mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
 #' @source \url{https://balima.shinyapps.io/scoreTx/}
 #' @export
 txscore <- function(ageR = 20
@@ -178,13 +181,13 @@ txscore <- function(ageR = 20
                     #, insurance = 0
                     , causeESRD = "Other"
                     , timeD = 12 #
-                    , diabetesR = F
-                    , coronary = F
+                    , diabetesR = FALSE
+                    , coronary = FALSE
                     , albumin = 1.5
                     , hemoglobin = 10
                     , ageD = 30
                     , diabetesD = "Absence"
-                    , ECD = F
+                    , ECD = FALSE
                     #, mmHLA = "0"
                     , mmHLA_A = 0
                     , mmHLA_B = 0
@@ -223,14 +226,14 @@ txscore <- function(ageR = 20
   timeD <- ifelse(timeD < 12, 0,
                   ifelse(timeD < 36, -0.2618,
                          ifelse(timeD < 61, -0.3747, -0.1432)))
-  diabetesR <- ifelse(diabetesR == T, 0.3021, 0)
-  coronary <- ifelse(coronary == T, 0.2617, 0)
+  diabetesR <- ifelse(diabetesR == TRUE, 0.3021, 0)
+  coronary <- ifelse(coronary == TRUE, 0.2617, 0)
   albumin <- (albumin - 4)*(-0.2644)
   hemoglobin <- (hemoglobin - 12.3)*(-0.0451)
   ageD <- (ageD - 39)*0.0059
   diabetesD <- ifelse(diabetesD == "Absence", 0,
                       ifelse(diabetesD == "Presence", 0.4596, -0.3308))
-  ECD <- ifelse(ECD == T, 0.2082, 0)
+  ECD <- ifelse(ECD == TRUE, 0.2082, 0)
   mmHLA <- ifelse(mmHLA == "0" , 0,
                   ifelse(mmHLA == "1-3", 0.3241, 0.3115))
 

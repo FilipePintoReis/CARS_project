@@ -11,7 +11,7 @@ uk1(
   dDR = c("1", "4"),
   dABO = "O",
   dage = 65,
-  data = ex.candidates.uk,
+  data = candidates.uk,
   D1R1 = 1000,
   D1R2 = 700,
   D1R3 = 350,
@@ -41,7 +41,7 @@ uk1(
   mm23 = -150,
   mm46 = -250,
   pts = -1000,
-  df.abs = ex.abs,
+  df.abs = cabs,
   n = 2
 )
 }
@@ -97,4 +97,15 @@ Ordering of waitlisted candidates for a given donor and according to UK transpla
 }
 \examples{
 uk1(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+dABO = "O", dage = 65, data = candidates.uk,
+D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
+D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
+D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
+D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000,
+ptsDial = 1,
+a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
+m = 40, nn = 4.5, o = 4.7,
+mm1 = -100, mm23 = -150, mm46 = -250,
+pts = -1000,
+df.abs = cabs, n = 2)
 }

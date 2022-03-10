@@ -33,7 +33,7 @@ taking into account AB0 blood group rules and PRA screening. Patients receive
 between 0-100 MMPs
 }
 \examples{
-et_mm(data = candidates,
+et_mmp(data = candidates,
 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 abo_freq = ABOpt)
 }

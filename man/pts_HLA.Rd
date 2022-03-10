@@ -33,5 +33,6 @@ A numerical value for pre-defined points
 Punctuation given according to HLA mismatchs (mm) for item A) to E) from PT's algorithm
 }
 \examples{
-pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1,
+pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1
+, mm.A = 0, mm.B = 0, mm.DR = 0)
 }

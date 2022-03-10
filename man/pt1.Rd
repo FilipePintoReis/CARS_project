@@ -17,8 +17,7 @@ pt1(
   pts.50 = 4,
   pts.dial = 0.1,
   pts.age = 4,
-  n = 2,
-  ...
+  n = 2
 )
 }
 \arguments{
@@ -53,5 +52,8 @@ An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA
 Ordering of waitlisted candidates for a given donor and according to PT's algorithm.
 }
 \examples{
-pt1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+pt1(iso = TRUE, dABO = "A",
+dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+dage = 65,  data = candidates,
+df.abs = cabs, n = 2)
 }

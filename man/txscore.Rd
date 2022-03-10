@@ -12,13 +12,13 @@ txscore(
   race = "White",
   causeESRD = "Other",
   timeD = 12,
-  diabetesR = F,
-  coronary = F,
+  diabetesR = FALSE,
+  coronary = FALSE,
   albumin = 1.5,
   hemoglobin = 10,
   ageD = 30,
   diabetesD = "Absence",
-  ECD = F,
+  ECD = FALSE,
   mmHLA_A = 0,
   mmHLA_B = 0,
   mmHLA_DR = 0
@@ -60,5 +60,8 @@ txscore(
 Returns the estimated 5-year event (mortality or graft failure combined outcome) probability as described by Molnar, el al (2017).
 }
 \examples{
-txscore(ageR = 20, race = "White", causeESRD = "Other", timeD = 12, diabetesR = F, coronary = F, albumin = 1.5, hemoglobin = 10, ageD = 30, diabetesD = "Absence", ECD = F, mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
+txscore(ageR = 20, race = "White", causeESRD = "Other",
+timeD = 12, diabetesR = FALSE, coronary = FALSE,
+albumin = 1.5, hemoglobin = 10, ageD = 30, diabetesD = "Absence",
+ECD = FALSE, mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
 }

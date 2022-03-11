@@ -7,12 +7,15 @@
 et_dial(dial = 0, month = 2.78)
 }
 \arguments{
-\item{dial}{A numeric value with candidate's time on dialysis, in months (between 0 and 500)}
+\item{dial}{A numeric value with candidate's time on dialysis, in months
+(between 0 and 500)}
 
-\item{month}{A numeric value with the punctuation for each month (between 0 and 10)}
+\item{month}{A numeric value with the punctuation for each month
+(between 0 and 10)}
 }
 \description{
-Punctuation given for each month on dialysis, within ET Kidney allocation system
+Punctuation given for each month on dialysis, within ET
+Kidney allocation system
 }
 \examples{
 et_dial(dial = 100, month = 2.78)

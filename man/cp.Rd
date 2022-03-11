@@ -15,13 +15,15 @@ cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)
 
 \item{cPRA1}{A numerical value (0-100) for the lower cPRA cutoff.}
 
-\item{cPRA2}{A numerical value (0-100) for the higher cPRA cutoff. cPRA2 must be greater than cPRA1.}
+\item{cPRA2}{A numerical value (0-100) for the higher cPRA cutoff. cPRA2
+must be greater than cPRA1.}
 }
 \value{
 A data frame with a new column 'cp' (color priority)
 }
 \description{
-Classification of candidates according to waiting list time on dialysis' quartiles and two cPRA cutoff values.
+Classification of candidates according to waiting list
+time on dialysis' quartiles and two cPRA cutoff values.
 }
 \examples{
 cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)

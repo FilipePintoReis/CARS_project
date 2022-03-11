@@ -41,7 +41,8 @@ abo <- function(cABO = 'A', dABO = 'A', iso = TRUE){
 #' mmDR number of HLA-DR mismatchs between \code{dA}DRand \code{cDR};
 #' and mmHLA as the sum of mmA + mmB + mmDR
 #' @examples
-#' mmHLA_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), cA = c('1','2'), cB = c('03','15'), cDR = c('04','07'))
+#' mmHLA_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
+#' cA = c('1','2'), cB = c('03','15'), cDR = c('04','07'))
 #' @export
 mmHLA_r <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
                   cA = c('1','2'), cB = c('3','15'), cDR = c('4','7')){
@@ -122,7 +123,8 @@ xmatch_r <- function(dA = c('1','2'),
 
 #' Hiperimunized classification
 #'
-#' @description returns candidates' hiperimunized classification according to a cutoff value
+#' @description returns candidates' hiperimunized classification according to a
+#' cutoff value
 #' @param cPRA candidate's cPRA value
 #' @param cutoff A value to compare candidate's cPRA
 #' @return A logical value T/F when cPRA >= cutoff
@@ -137,10 +139,13 @@ hiper <- function(cPRA, cutoff = 85){
 
 #' Senior Program classification
 #'
-#' @description Returns 1 when candidates' belongs to Senior Program. Prioritization for older patients for older donors, followed for young patients for younger donors, and for last the remaining patients.
+#' @description Returns 1 when candidates' belongs to Senior Program.
+#' Prioritization for older patients for older donors, followed for young patients
+#' for younger donors, and for last the remaining patients.
 #' @param dage A numeric value with donor's age
 #' @param cage A numeric value with candidate's age
-#' @return The value 1 for a candidates older than 65 with also a donor older than 65
+#' @return The value 1 for a candidates older than 65 with also a donor
+#' older than 65
 #' @examples
 #' sp(dage = 66, cage = 70)
 #' @export
@@ -153,17 +158,22 @@ sp <- function(dage, cage){
 
 #' TRANSPLANTSCORE (Tx Score)
 #'
-#' @description Returns the estimated 5-year event (mortality or graft failure combined outcome) probability as described by Molnar, el al (2017).
+#' @description Returns the estimated 5-year event (mortality or graft failure
+#' combined outcome) probability as described by Molnar, el al (2017).
 #' @param ageR A numeric value with recipient's age
-#' @param race A character value with recipient's race from the options: 'White', 'Black', 'Hispanic', 'Other'
-#' @param causeESRD A numeric value with recipient's cause of End-Stage Renal Disease, with options: 'Other', 'Diabetes', 'Hypertension', 'Glomerulonephritis', 'Cystic disease'
+#' @param race A character value with recipient's race from the options:
+#' 'White', 'Black', 'Hispanic', 'Other'
+#' @param causeESRD A numeric value with recipient's cause of End-Stage Renal
+#' Disease, with options: 'Other', 'Diabetes', 'Hypertension',
+#' 'Glomerulonephritis', 'Cystic disease'
 #' @param timeD A numeric value with recipient's time on dialysis (months)
 #' @param diabetesR A logical value with recipient's diabetic status
 #' @param coronary A logical value with recipient's coronary artery disease status
 #' @param albumin A numeric value with recipient's albumin (g/dL)
 #' @param hemoglobin A numeric value with recipient's hemoglobin (g/dL)
 #' @param ageD A numeric value with donor's age
-#' @param diabetesD A logical value with donor's diabetic status, with options: 'Absence', 'Presence', 'Unknown'
+#' @param diabetesD A logical value with donor's diabetic status, with options:
+#' 'Absence', 'Presence', 'Unknown'
 #' @param ECD A logical value regarding Extended Criteria Donor
 #' @param mmHLA_A A numeric value (0, 1, 2) with the number of HLA-A mismatchs
 #' @param mmHLA_B A numeric value (0, 1, 2) with the number of HLA-B mismatchs

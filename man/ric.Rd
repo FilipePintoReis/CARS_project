@@ -6,7 +6,7 @@
 \usage{
 ric(
   DRI = "D1",
-  data = ex.candidates.uk,
+  data = candidates.uk,
   D1R1 = 1000,
   D1R2 = 700,
   D1R3 = 350,
@@ -30,7 +30,37 @@ ric(
 
 \item{data}{A data file with candidates information for UK transplant}
 
-\item{DiRj}{A numeric value (0-1000) for the combination of indexes}
+\item{D1R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D1R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D1R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D1R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D2R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D2R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D2R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D2R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D3R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D3R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D3R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D3R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D4R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D4R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D4R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+
+\item{D4R4}{A numeric value (0-1000) for the combination of indexes DiRj}
 }
 \value{
 A tibble with a new column 'ric' that gives the  Risk Index Combination.

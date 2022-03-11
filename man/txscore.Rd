@@ -27,9 +27,12 @@ txscore(
 \arguments{
 \item{ageR}{A numeric value with recipient's age}
 
-\item{race}{A character value with recipient's race from the options: 'White', 'Black', 'Hispanic', 'Other'}
+\item{race}{A character value with recipient's race from the options:
+'White', 'Black', 'Hispanic', 'Other'}
 
-\item{causeESRD}{A numeric value with recipient's cause of End-Stage Renal Disease, with options: 'Other', 'Diabetes', 'Hypertension', 'Glomerulonephritis', 'Cystic disease'}
+\item{causeESRD}{A numeric value with recipient's cause of End-Stage Renal
+Disease, with options: 'Other', 'Diabetes', 'Hypertension',
+'Glomerulonephritis', 'Cystic disease'}
 
 \item{timeD}{A numeric value with recipient's time on dialysis (months)}
 
@@ -43,7 +46,8 @@ txscore(
 
 \item{ageD}{A numeric value with donor's age}
 
-\item{diabetesD}{A logical value with donor's diabetic status, with options: 'Absence', 'Presence', 'Unknown'}
+\item{diabetesD}{A logical value with donor's diabetic status, with options:
+'Absence', 'Presence', 'Unknown'}
 
 \item{ECD}{A logical value regarding Extended Criteria Donor}
 
@@ -57,7 +61,8 @@ txscore(
 5 year probability for combined outcome of mortality or graft failure
 }
 \description{
-Returns the estimated 5-year event (mortality or graft failure combined outcome) probability as described by Molnar, el al (2017).
+Returns the estimated 5-year event (mortality or graft failure
+combined outcome) probability as described by Molnar, el al (2017).
 }
 \examples{
 txscore(ageR = 20, race = "White", causeESRD = "Other",

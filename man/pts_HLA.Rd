@@ -25,6 +25,12 @@ pts_HLA(
 \item{itemD}{Points with 1 mm for HLA-B and 1 mm for DR}
 
 \item{itemE}{Points for remaing possibilities}
+
+\item{mm.A}{Number of HLA-A mismatchs(0 to 2)}
+
+\item{mm.B}{Number of HLA-B mismatchs(0 to 2)}
+
+\item{mm.DR}{Number of HLA-DR mismatchs(0 to 2)}
 }
 \value{
 A numerical value for pre-defined points

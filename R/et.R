@@ -1,11 +1,13 @@
 #' Mismatch Probability (MMP) from ETKAS
 #'
-#' @description Mismatch Probability (MMP) is a calculation of the probability of receiving a kidney offer with
+#' @description Mismatch Probability (MMP) is a calculation of the probability of
+#' receiving a kidney offer with
 #' 0 and 1 broad HLA-A, -B or split DR mismatches based on 1000 kidneys offered,
 #' taking into account AB0 blood group rules and PRA screening. Patients receive
 #' between 0-100 MMPs
 #' @source \url{https://www.eurotransplant.org/wp-content/uploads/2020/01/H4-Kidney.pdf}
-#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates.
+#' @param data A data frame containing demographics and medical information for a
+#' group of waitlisted transplant candidates.
 #' @param hlaA A data frame with HLA-A allele frequencies
 #' @param hlaB A data frame with HLA-B allele frequencies
 #' @param hlaDR A data frame with HLA-DR allele frequencies
@@ -69,7 +71,8 @@ et_mmp<-function(data = candidates,
 
 #' ET points for mmHLA
 #'
-#' @description Punctuation given for HLA mismatches within ET Kidney allocation system
+#' @description Punctuation given for HLA mismatches within ET Kidney allocation
+#' system
 #' @param dA donor's HLA-A typing
 #' @param dB donor's HLA-B typing
 #' @param dDR donor's HLA-DR typing
@@ -131,9 +134,12 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 
 #' ET points for time on dialysis (in months)
 #'
-#' @description Punctuation given for each month on dialysis, within ET Kidney allocation system
-#' @param dial A numeric value with candidate's time on dialysis, in months (between 0 and 500)
-#' @param month A numeric value with the punctuation for each month (between 0 and 10)
+#' @description Punctuation given for each month on dialysis, within ET
+#' Kidney allocation system
+#' @param dial A numeric value with candidate's time on dialysis, in months
+#' (between 0 and 500)
+#' @param month A numeric value with the punctuation for each month
+#' (between 0 and 10)
 #' @examples
 #' et_dial(dial = 100, month = 2.78)
 #' @export
@@ -154,15 +160,18 @@ et_dial<-function(dial = 0, month = 2.78){
 
 #' resume function for ET algorithm punctuation
 #'
-#' @description Ordering of waitlisted candidates for a given donor and according to ETKAS algorithm.
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to ETKAS algorithm.
 #' @param iso A logical value for isogroupal compatibility.
 #' @param dABO A character value with ABO blood group.
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
 #' @param dage A numeric value with donor's age.
-#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates.
-#' @param month A numeric value with the punctuation for each month (between 0 and 10)
+#' @param data A data frame containing demographics and medical information for
+#' a group of waitlisted transplant candidates.
+#' @param month A numeric value with the punctuation for each month
+#' (between 0 and 10)
 #' @param mm0 A numeric value with points for 0 HLA mm on ETKAS points table
 #' @param mm1 A numeric value with points for 1 HLA mm on ETKAS points table
 #' @param mm2 A numeric value with points for 2 HLA mm on ETKAS points table
@@ -170,9 +179,14 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
+#' @param hlaA A data frame with HLA-A allele frequencies
+#' @param hlaB A data frame with HLA-B allele frequencies
+#' @param hlaDR A data frame with HLA-DR allele frequencies
+#' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
-#' @return An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA'.
+#' @return An ordered data frame with a column 'cp' (color priority), 'sp',
+#' 'hi' and 'mmHLA'.
 #' @examples
 #' et1(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),

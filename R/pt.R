@@ -56,11 +56,14 @@ pts_PRA <- function(cPRA = 0
 #' Points for HLA mismatches
 #'
 #' @description Punctuation given according to HLA mismatchs (mm) for item A) to E) from PT's algorithm
-#' @param itemA  Points for HLA fullmatch (no mm for HLA-A, B and DR)
-#' @param itemB  Points without mm for HLA-B and DR
-#' @param itemC  Points with 1 mm for HLA-B and DR
-#' @param itemD  Points with 1 mm for HLA-B and 1 mm for DR
-#' @param itemE  Points for remaing possibilities
+#' @param itemA Points for HLA fullmatch (no mm for HLA-A, B and DR)
+#' @param itemB Points without mm for HLA-B and DR
+#' @param itemC Points with 1 mm for HLA-B and DR
+#' @param itemD Points with 1 mm for HLA-B and 1 mm for DR
+#' @param itemE Points for remaing possibilities
+#' @param mm.A Number of HLA-A mismatchs(0 to 2)
+#' @param mm.B Number of HLA-B mismatchs(0 to 2)
+#' @param mm.DR Number of HLA-DR mismatchs(0 to 2)
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1
@@ -102,28 +105,31 @@ pts_HLA <- function(itemA = 12
 
 #' Matching punctuation' according to 2007 PT's algorithm
 #'
-#' @description Ordering of waitlisted candidates for a given donor and according to PT's algorithm.
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to PT's algorithm.
 #' @param iso A logical value for isogroupal compatibility.
 #' @param dABO A character value with ABO blood group.
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
 #' @param dage A numeric value with donor's age.
-#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant candidates with color priority classification.
+#' @param data A data frame containing demographics and medical information for
+#' a group of waitlisted transplant candidates with color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param pts.80 A numerical value for the points to a cPRA >= 80
 #' @param pts.50 A numerical value for the points to a cPRA >= 50
-#' @param pts.dial
+#' @param pts.dial punctuaction for each month on dialysis
 #' @param pts.age A numerical value for the points to age difference
 #' @param n A positive integer to slice the first candidates.
-#' @return An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA'.
+#' @return An ordered data frame with a column 'cp' (color priority),
+#' 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' pt1(iso = TRUE, dABO = "A",
+#' pt1_v0(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' dage = 65,  data = candidates,
 #' df.abs = cabs, n = 2)
 #' @export
-pt1 <- function(iso = TRUE
+pt1_v0 <- function(iso = TRUE
                 , dABO = "O"
                 , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
                 , dage = 65

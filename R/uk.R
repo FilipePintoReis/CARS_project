@@ -3,7 +3,22 @@
 #' @description computes Risk Index Combination for each pair donor-recipient
 #' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
 #' @param data A data file with candidates information for UK transplant
-#' @param DiRj A numeric value (0-1000) for the combination of indexes
+#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
 #' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
 #' @examples
 #' ric(DRI = 'D1', data =candidates.uk,
@@ -13,7 +28,7 @@
 #' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
 #' @export
 ric<-function(DRI = 'D1',
-              data =ex.candidates.uk,
+              data =candidates.uk,
               D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
               D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
               D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
@@ -118,10 +133,12 @@ b_blood<-function(dABO = "B",
 
 #' test for ABO compatibility on UK transplant
 #'
-#' @description ABO compatibility test between donor and candidate according to TIER classification
+#' @description ABO compatibility test between donor and candidate according to
+#' TIER classification
 #' @param cABO A character from 'A', 'B', 'AB', 'O', for candidate ABO group
 #' @param dABO A character from 'A', 'B', 'AB', 'O', for donor ABO group
-#' @param tier A character value for UK transplant candidate's TIER classification (options A and B)
+#' @param tier A character value for UK transplant candidate's TIER classification
+#' (options A and B)
 #' @return A logical value T/F
 #' @examples
 #' abo_uk(dABO = "A", cABO = "A", tier = "B")
@@ -156,21 +173,44 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 
 #' resume function for UK algorithm punctuation
 #'
-#' @description Ordering of waitlisted candidates for a given donor and according to UK transplant algorithm.
+#' @description Ordering of waitlisted candidates for a given donor and according
+#' to UK transplant algorithm.
 #' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
 #' @param dABO A character value with ABO blood group.
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
 #' @param dage A numeric value with donor's age.
-#' @param data A data frame containing demographics and medical information for a group of waitlisted transplant for UK transplant.
-#' @param DiRj A numeric value (0-1000) for teh combination of indexes
-#' @param ptsDial A numeric value for the points corresponding to each month on dialysis
-#' @param a1 A numeric value for HLA match and age combined formula: b1*cos(age/18)+a1
-#' @param a2 A numeric value for HLA match and age combined formula: b2*cos(age/18)+a2
-#' @param b1 A numeric value for HLA match and age combined formula: b1*cos(age/18)+a1
-#' @param b2 A numeric value for HLA match and age combined formula: b2*cos(age/18)+a2
-#' @param b3 A numeric value for HLA match and age combined formula: b3*sin(age/50)
+#' @param data A data frame containing demographics and medical information for
+#' a group of waitlisted transplant for UK transplant.
+#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param ptsDial A numeric value for the points corresponding to each month
+#' on dialysis
+#' @param a1 A numeric value for HLA match and age combined formula:
+#' b1*cos(age/18)+a1
+#' @param a2 A numeric value for HLA match and age combined formula:
+#' b2*cos(age/18)+a2
+#' @param b1 A numeric value for HLA match and age combined formula:
+#' b1*cos(age/18)+a1
+#' @param b2 A numeric value for HLA match and age combined formula:
+#' b2*cos(age/18)+a2
+#' @param b3 A numeric value for HLA match and age combined formula:
+#' b3*sin(age/50)
 #' @param m A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param nn A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param o A numeric value for matchability formula: m * (1+(MS/nn)^o)
@@ -181,7 +221,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
 #' @examples
-#' uk1(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+#' uk1_v0(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' dABO = "O", dage = 65, data = candidates.uk,
 #' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
 #' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
@@ -194,7 +234,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' pts = -1000,
 #' df.abs = cabs, n = 2)
 #' @export
-uk1<-function(DRI = 'D1',
+uk1_v0<-function(DRI = 'D1',
               dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
               dABO = "O",
               dage = 65,

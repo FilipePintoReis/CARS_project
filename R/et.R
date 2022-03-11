@@ -188,7 +188,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @return An ordered data frame with a column 'cp' (color priority), 'sp',
 #' 'hi' and 'mmHLA'.
 #' @examples
-#' et1(iso = TRUE, dABO = "A",
+#' et1_v0(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' dage = 65,
 #' data = candidates, month = 2.78,
@@ -196,7 +196,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' mm4 = 133.33, mm5 = 66.67, mm6 = 0,
 #' df.abs = cabs, n = 2)
 #' @export
-et1<-function(iso = TRUE, dABO = "A",
+et1_v0<-function(iso = TRUE, dABO = "A",
               dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
               dage = 65,
               data = candidates, month = 2.78,

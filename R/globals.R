@@ -1,0 +1,14 @@
+utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
+                         "valid_tiers","valid_rris",
+                         "candidates","urgent","cPRA","dialysis",
+                         "cabs","hlaApt","hlaBpt","hlaDRpt",
+                         "ABOpt","ID","bg","A1",
+                         "A2","B1","B2","DR1","DR2",
+                         "age","dialysis","MMP","SP",
+                         "AM","mmA","mmB","mmDR",
+                         "pointsHLA","pointsDial","compBlood","xm",
+                         "pointsET","donor_age","HI","mm000","pointsETx"
+                         ,"A","freq","B","DR","desc",
+                         "ptsHLA","ptsPRA","ptsage","ptsdial","ptsPT","",
+                         "candidates.uk","Tier","MS","pts.hla.age","matchability","pts.age",
+                         "total.HLA","pts.abo","pts.abo","pointsUK",".","res","read.csv"))

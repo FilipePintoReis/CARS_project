@@ -16,10 +16,10 @@ Imports:
     dplyr,
     magrittr,
     tidyr,
-    utils,
-    data.table
+    utils
 Depends: 
     R (>= 4.0.0),
-    reticulate
+    reticulate,
+    data.table
 LazyData: true
 Config/testthat/edition: 3

@@ -117,51 +117,65 @@ lima2 <- function(iso = TRUE
                   , ...){
   n <- max(1, n)
 
-  # data_table <- data.frame(data)
-  # data_table <- merge(cp(data_table = data_table, ...),
-  #         xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
-  #         all.x=TRUE)
-
   data_table <- merge(cp(data = data, ...),
         xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
         all.x=TRUE)
 
   data.table::setDT(data_table)
-  print(data_table)
-
 
   data_table[, `:=`(
     donor_age = dage,
     SP = sp(cage = age, dage = dage),
     HI = hiper(cPRA = cPRA),
-    compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
+    compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
+    row_n = 1:nrow(data_table)
     )]
-  # data_table[, donor_age := dage]
-  # data_table[, SP := sp(cage = age, dage = dage)]
-  # data_table[, HI := hiper(cPRA = cPRA)]
-  # data_table[, compBlood := abo(iso = iso, dABO = dABO, cABO = bg)]
 
-  # elements = data_table[, .(cA, cB, cDR)]
+  elements = data_table[, .(A1, A2, B1, B2, DR1, DR2)]
+  
+  l <- list()
 
-  # print(elements)
+  for (i in 1:nrow(elements)){
+    res <- mmHLA_r(dA = dA, 
+                   dB = dB, 
+                   dDR = dDR, 
+                   cA = c(elements$A1[i], elements$A2[i]), 
+                   cB = c(elements$B1[i], elements$B2[i]), 
+                   cDR = c(elements$DR1[i], elements$DR2[i])
+                   )
 
-  #data_table[, HI := hiper(cPRA = cPRA)]
-  #data_table[, HI := hiper(cPRA = cPRA)]
-  #data_table[, HI := hiper(cPRA = cPRA)]
-  #data_table[, HI := hiper(cPRA = cPRA)]
+     l = append(l, res)
+  }
 
+  data_table[, `:=`(
+    mmA = l[1 + (row_n - 1) * 4][["mmA"]],
+    mmB = l[2 + (row_n - 1) * 4][["mmB"]],
+    mmDR = l[3 + (row_n - 1) * 4][["mmDR"]],
+    mmHLA = l[4 + (row_n - 1) * 4][["mmHLA"]]
+  )]
 
-  # mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
-  # mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
-  # mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                 # cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
-  #mmHLA = mmA + mmB + mmDR
+  data_table = data_table[compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP < 3]
+  data_table = data_table[order(-SP, cp, mmHLA, -dialysis)]
+  data_table = data_table[1:n]
 
-
-
-  print(data_table)
-
+  return(data_table[, .(ID, 
+                        bg,
+                        A1, 
+                        A2, 
+                        B1, 
+                        B2, 
+                        DR1, 
+                        DR2,
+                        mmA, 
+                        mmB, 
+                        mmDR, 
+                        mmHLA,
+                        age, 
+                        donor_age, 
+                        dialysis,
+                        cPRA, 
+                        HI,
+                        cp,
+                        SP)]
+          )
 }
-

@@ -72,38 +72,38 @@ lima1_v0 <- function(iso = TRUE
   data <- cp(data = data) %>%
     as.data.frame()
 
-    data <- merge(data,
-                  xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
-                  all.x=TRUE)
+  data <- merge(data,
+                xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+                all.x=TRUE)
 
-    data <- data %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(donor_age = dage,
-                    SP = sp(cage = age, dage = dage),
-                    HI = hiper(cPRA = cPRA),
-                    compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
-                    mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                  cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
-                    mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                  cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
-                    mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                   cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
-                    mmHLA = mmA + mmB + mmDR
-                    ) %>%
-      dplyr::ungroup() %>%
-    # only candidates ABO and HLA compatibles and those in the same group age with the donor are selectec
-      dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm)) & SP <3) %>%
-    # order by Lima's algorithm
-      dplyr::arrange(desc(SP), cp, #mmHLA,
-                     desc(dialysis)) %>%
-    # keep only the first n
-      dplyr::slice(1:n) %>%
-      dplyr::select(ID, bg,
-                    A1, A2, B1, B2, DR1, DR2,
-                    mmA, mmB, mmDR, mmHLA,
-                    age, donor_age, dialysis, cPRA, HI,
-                    cp, SP)
-    return(data)
+  data <- data %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(donor_age = dage,
+                  SP = sp(cage = age, dage = dage),
+                  HI = hiper(cPRA = cPRA),
+                  compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
+                  mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmA"]],
+                  mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmB"]],
+                  mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+                                  cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))[["mmDR"]],
+                  mmHLA = mmA + mmB + mmDR
+                  ) %>%
+    dplyr::ungroup() %>%
+  # only candidates ABO and HLA compatibles and those in the same group age with the donor are selectec
+    dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm)) & SP <3) %>%
+  # order by Lima's algorithm
+    dplyr::arrange(desc(SP), cp, #mmHLA,
+                    desc(dialysis)) %>%
+  # keep only the first n
+    dplyr::slice(1:n) %>%
+    dplyr::select(ID, bg,
+                  A1, A2, B1, B2, DR1, DR2,
+                  mmA, mmB, mmDR, mmHLA,
+                  age, donor_age, dialysis, cPRA, HI,
+                  cp, SP)
+  return(data)
 }
 
 #' Candidates' ordering according to Lima's algorithm 'USING {data.table}'
@@ -166,4 +166,97 @@ lima1_v2 <- function(iso = TRUE
          A1, A2, B1, B2, DR1, DR2,
          age, donor_age, dialysis, cPRA, HI,
          cp, SP)][order(-SP, cp, -dialysis)][1:n]
+}
+
+
+#' Candidates' ordering according to Lima's algorithm
+#'
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to to Lima's algorithm.
+#' @param iso A logical value for isogroupal compatibility.
+#' @param dABO A character value with ABO blood group.
+#' @param dA donor's HLA-A typing.
+#' @param dB donor's HLA-B typing.
+#' @param dDR donor's HLA-DR typing.
+#' @param dage A numeric value with donor's age.
+#' @param data A data frame containing demographics and medical information
+#' for a group of waitlisted transplant candidates with
+#' color priority classification.
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param n A positive integer to slice the first candidates.
+#' @return An ordered data frame with a column 'cp' (color priority),
+#' 'sp', 'hi' and 'mmHLA'.
+#' @examples
+#' lima1_v1(iso = TRUE, dABO = "O",
+#' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+#' dage = 60, df.abs = cabs,
+#' data = candidates, n = 2)
+#' @export
+lima1_v1 <- function(iso = TRUE
+                  , dABO = "O"
+                  , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                  , dage = 60
+                  , df.abs = cabs
+                  , data = candidates
+                  , n = 2){
+  n <- max(1, n)
+
+  data_table <- merge(cp(data = data),
+        xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
+        all.x=TRUE)
+
+  data.table::setDT(data_table, key = 'ID')
+
+  data_table[, `:=`(
+    donor_age = dage,
+    SP = sp(cage = age, dage = dage),
+    HI = hiper(cPRA = cPRA),
+    compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
+    ), by = 'ID']
+
+  elements = data_table[, .(A1, A2, B1, B2, DR1, DR2)]
+
+  l <- list()
+
+  for (i in 1:nrow(elements)){
+    res <- mmHLA_r(dA = dA,
+                   dB = dB,
+                   dDR = dDR,
+                   cA = c(elements$A1[i], elements$A2[i]),
+                   cB = c(elements$B1[i], elements$B2[i]),
+                   cDR = c(elements$DR1[i], elements$DR2[i])
+                   )
+
+     l = append(l, res)
+  }
+
+  data_table[, `:=`(
+    mmA = l[1 + (rowid('ID') - 1) * 4][["mmA"]],
+    mmB = l[2 + (rowid('ID') - 1) * 4][["mmB"]],
+    mmDR = l[3 + (rowid('ID') - 1) * 4][["mmDR"]],
+    mmHLA = l[4 + (rowid('ID') - 1) * 4][["mmHLA"]]
+  )]
+
+  data_table = data_table[compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP < 3][order(-SP, cp, mmHLA, -dialysis)][1:n]
+
+  return(data_table[, .(ID,
+                        bg,
+                        A1,
+                        A2,
+                        B1,
+                        B2,
+                        DR1,
+                        DR2,
+                        mmA,
+                        mmB,
+                        mmDR,
+                        mmHLA,
+                        age,
+                        donor_age,
+                        dialysis,
+                        cPRA,
+                        HI,
+                        cp,
+                        SP)]
+          )
 }

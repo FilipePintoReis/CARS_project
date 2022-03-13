@@ -11,13 +11,15 @@ abo_uk(dABO = "A", cABO = "A", tier = "B")
 
 \item{cABO}{A character from 'A', 'B', 'AB', 'O', for candidate ABO group}
 
-\item{tier}{A character value for UK transplant candidate's TIER classification (options A and B)}
+\item{tier}{A character value for UK transplant candidate's TIER classification
+(options A and B)}
 }
 \value{
 A logical value T/F
 }
 \description{
-ABO compatibility test between donor and candidate according to TIER classification
+ABO compatibility test between donor and candidate according to
+TIER classification
 }
 \examples{
 abo_uk(dABO = "A", cABO = "A", tier = "B")

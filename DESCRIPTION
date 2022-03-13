@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-9090-4457")),
     person("Filipe", "Reis", "filipepintodosreis_a_gmail.com", role= "aut"))
 Description: This package contains functions to use on organ transplantation. Histocompatibility analysis are possible with information from donors and candidates.
-License: `use_mit_license()`
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
@@ -14,10 +14,12 @@ Suggests:
     testthat (>= 3.0.0)
 Imports: 
     dplyr,
-    magrittr
+    magrittr,
+    tidyr,
+    utils,
+    reticulate,
+    data.table
 Depends: 
-    R (>= 4.0.0),
-    data.table,
-    reticulate
+    R (>= 4.0.0)
 LazyData: true
 Config/testthat/edition: 3

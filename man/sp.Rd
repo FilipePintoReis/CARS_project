@@ -12,10 +12,13 @@ sp(dage, cage)
 \item{cage}{A numeric value with candidate's age}
 }
 \value{
-The value 1 for a candidates older than 65 with also a donor older than 65
+The value 1 for a candidates older than 65 with also a donor
+older than 65
 }
 \description{
-Returns 1 when candidates' belongs to Senior Program. Prioritization for older patients for older donors, followed for young patients for younger donors, and for last the remaining patients.
+Returns 1 when candidates' belongs to Senior Program.
+Prioritization for older patients for older donors, followed for young patients
+for younger donors, and for last the remaining patients.
 }
 \examples{
 sp(dage = 66, cage = 70)

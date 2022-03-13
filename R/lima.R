@@ -105,9 +105,9 @@ lima1 <- function(iso = TRUE
 #' @param n A positive integer to slice the first candidates.
 #' @return An ordered data frame with a column 'cp' (color priority), 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' lima1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"), dage = 65,  data = cp(candidates),  df.abs = abs, n = dim(data)[1])
+#' lima1_v1(iso = TRUE, dABO = "A", dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"), dage = 65,  data = cp(candidates),  df.abs = abs, n = dim(data)[1])
 #' @export
-lima2 <- function(iso = TRUE
+lima1_v1 <- function(iso = TRUE
                   , dABO = "O"
                   , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
                   , dage = 60
@@ -127,20 +127,19 @@ lima2 <- function(iso = TRUE
     donor_age = dage,
     SP = sp(cage = age, dage = dage),
     HI = hiper(cPRA = cPRA),
-    compBlood = abo(iso = iso, dABO = dABO, cABO = bg),
-    row_n = 1:nrow(data_table)
-    )]
+    compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
+    ), by = 'ID']
 
   elements = data_table[, .(A1, A2, B1, B2, DR1, DR2)]
-  
+
   l <- list()
 
   for (i in 1:nrow(elements)){
-    res <- mmHLA_r(dA = dA, 
-                   dB = dB, 
-                   dDR = dDR, 
-                   cA = c(elements$A1[i], elements$A2[i]), 
-                   cB = c(elements$B1[i], elements$B2[i]), 
+    res <- mmHLA_r(dA = dA,
+                   dB = dB,
+                   dDR = dDR,
+                   cA = c(elements$A1[i], elements$A2[i]),
+                   cB = c(elements$B1[i], elements$B2[i]),
                    cDR = c(elements$DR1[i], elements$DR2[i])
                    )
 
@@ -148,32 +147,30 @@ lima2 <- function(iso = TRUE
   }
 
   data_table[, `:=`(
-    mmA = l[1 + (row_n - 1) * 4][["mmA"]],
-    mmB = l[2 + (row_n - 1) * 4][["mmB"]],
-    mmDR = l[3 + (row_n - 1) * 4][["mmDR"]],
-    mmHLA = l[4 + (row_n - 1) * 4][["mmHLA"]]
+    mmA = l[1 + (rowid('ID') - 1) * 4][["mmA"]],
+    mmB = l[2 + (rowid('ID') - 1) * 4][["mmB"]],
+    mmDR = l[3 + (rowid('ID') - 1) * 4][["mmDR"]],
+    mmHLA = l[4 + (rowid('ID') - 1) * 4][["mmHLA"]]
   )]
 
-  data_table = data_table[compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP < 3]
-  data_table = data_table[order(-SP, cp, mmHLA, -dialysis)]
-  data_table = data_table[1:n]
+  data_table = data_table[compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP < 3][order(-SP, cp, mmHLA, -dialysis)][1:n]
 
-  return(data_table[, .(ID, 
+  return(data_table[, .(ID,
                         bg,
-                        A1, 
-                        A2, 
-                        B1, 
-                        B2, 
-                        DR1, 
+                        A1,
+                        A2,
+                        B1,
+                        B2,
+                        DR1,
                         DR2,
-                        mmA, 
-                        mmB, 
-                        mmDR, 
+                        mmA,
+                        mmB,
+                        mmDR,
                         mmHLA,
-                        age, 
-                        donor_age, 
+                        age,
+                        donor_age,
                         dialysis,
-                        cPRA, 
+                        cPRA,
                         HI,
                         cp,
                         SP)]

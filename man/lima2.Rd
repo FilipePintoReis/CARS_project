@@ -13,7 +13,8 @@ lima2(
   dage = 60,
   df.abs = cabs,
   data = candidates,
-  n = 2
+  n = 2,
+  ...
 )
 }
 \arguments{

@@ -212,7 +212,9 @@ lima1_v1 <- function(iso = TRUE
     SP = sp(cage = age, dage = dage),
     HI = hiper(cPRA = cPRA),
     compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
-    ), by = 'ID']
+    ), by = 'ID'][, row_n := 1:nrow(data_table)]
+
+    
 
   elements = data_table[, .(A1, A2, B1, B2, DR1, DR2)]
 
@@ -227,14 +229,14 @@ lima1_v1 <- function(iso = TRUE
                    cDR = c(elements$DR1[i], elements$DR2[i])
                    )
 
-     l = append(l, res)
+    l = append(l, res)
   }
 
   data_table[, `:=`(
-    mmA = l[1 + (rowid('ID') - 1) * 4][["mmA"]],
-    mmB = l[2 + (rowid('ID') - 1) * 4][["mmB"]],
-    mmDR = l[3 + (rowid('ID') - 1) * 4][["mmDR"]],
-    mmHLA = l[4 + (rowid('ID') - 1) * 4][["mmHLA"]]
+    mmA = unlist(l[(1 + (row_n - 1) * 4)]),
+    mmB = unlist(l[2 + (row_n - 1) * 4]),
+    mmDR = unlist(l[3 + (row_n - 1) * 4]),
+    mmHLA = unlist(l[4 + (row_n - 1) * 4])
   )]
 
   data_table = data_table[compBlood == TRUE & (xm == FALSE | is.na(xm)) & SP < 3][order(-SP, cp, mmHLA, -dialysis)][1:n]

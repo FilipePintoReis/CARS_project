@@ -12,4 +12,5 @@ utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
                          "ptsHLA","ptsPRA","ptsage","ptsdial","ptsPT","",
                          "candidates.uk","Tier","MS","pts.hla.age","matchability","pts.age",
                          "total.HLA","pts.abo","pts.abo","pointsUK",".",":=",
+                         "row_n",
                          "res","read.csv"))

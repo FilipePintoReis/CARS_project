@@ -196,7 +196,7 @@ lima1_v1 <- function(iso = TRUE
 
 }
 
-#' Candidates' ordering according to Lima's algorithm 'USING {data.table}'
+#' Candidates' ordering according to Lima's algorithm 'USING data.table'
 #'
 #' @description Ordering of waitlisted candidates for a given donor and
 #' according to to Lima's algorithm.
@@ -238,6 +238,7 @@ lima1_v2 <- function(iso = TRUE
   data.table::setDT(xm, key = 'ID')
 
   data <- merge(data, xm,
+                by = 'ID',
                 all.x=TRUE)
 
   data[, `:=`(

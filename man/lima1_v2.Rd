@@ -2,7 +2,7 @@
 % Please edit documentation in R/lima.R
 \name{lima1_v2}
 \alias{lima1_v2}
-\title{Candidates' ordering according to Lima's algorithm 'USING {data.table}'}
+\title{Candidates' ordering according to Lima's algorithm 'USING data.table'}
 \usage{
 lima1_v2(
   iso = TRUE,

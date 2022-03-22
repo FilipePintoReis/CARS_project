@@ -269,25 +269,30 @@ lima1_v2 <- function(iso = TRUE
     mmHLA = unlist(l[4 + (row_n - 1) * 4])
   )]
 
-  data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)) & SP < 3,][
-    order(-SP, cp, mmHLA, -dialysis)][
-      1:n][!is.na(ID),][, .(ID,
-                            bg,
-                            A1,
-                            A2,
-                            B1,
-                            B2,
-                            DR1,
-                            DR2,
-                            mmA,
-                            mmB,
-                            mmDR,
-                            mmHLA,
-                            age,
-                            donor_age,
-                            dialysis,
-                            cPRA,
-                            HI,
-                            cp,
-                            SP)]
+  return(
+    data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)) & SP < 3,]
+    [order(-SP, cp, mmHLA, -dialysis)]
+    [1:n]
+    [!is.na(ID),]
+    [, .(ID,
+         bg,
+         A1,
+         A2,
+         B1,
+         B2,
+         DR1,
+         DR2,
+         mmA,
+         mmB,
+         mmDR,
+         mmHLA,
+         age,
+         donor_age,
+         dialysis,
+         cPRA,
+         HI,
+         cp,
+         SP)
+    ]
+  )
 }

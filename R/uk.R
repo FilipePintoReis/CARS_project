@@ -79,77 +79,6 @@ ric<-function(DRI = 'D1',
   return(data)
 }
 
-#' donor-recipient Risk Index Combination
-#'
-#' @description computes Risk Index Combination for each pair donor-recipient
-#' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
-#' @param data A data table with candidates information for UK transplant
-#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
-#' @examples
-#' ric_v1(DRI = 'D1', data =candidates.uk,
-#' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
-#' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
-#' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-#' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
-#' @export
-ric_v1<-function(DRI = 'D1',
-              data =candidates.uk,
-              D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
-              D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
-              D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-              D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000
-) {
-
-  # verify function parameters
-  if(!DRI %in% c('D1','D2','D3','D4')){stop("DRI is not a valid option! Select of 'D1','D2','D3','D4' \n")
-  } else if (D1R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D1R2 < 0 | D1R2 > 1000){stop("D1R2 is not between 0 and 1000!\n")
-  } else if (D1R3 < 0 | D1R3 > 1000){stop("D1R3 is not between 0 and 1000!\n")
-  } else if (D1R4 < 0 | D1R4 > 1000){stop("D1R4 is not between 0 and 1000!\n")
-  } else if (D2R1 < 0 | D2R1 > 1000){stop("D2R1 is not between 0 and 1000!\n")
-  } else if (D2R2 < 0 | D2R2 > 1000){stop("D2R2 is not between 0 and 1000!\n")
-  } else if (D2R3 < 0 | D2R3 > 1000){stop("D2R3 is not between 0 and 1000!\n")
-  } else if (D2R4 < 0 | D2R4 > 1000){stop("D2R4 is not between 0 and 1000!\n")
-  } else if (D3R1 < 0 | D3R1 > 1000){stop("D3R1 is not between 0 and 1000!\n")
-  } else if (D3R2 < 0 | D3R2 > 1000){stop("D3R2 is not between 0 and 1000!\n")
-  } else if (D3R3 < 0 | D3R3 > 1000){stop("D3R3 is not between 0 and 1000!\n")
-  } else if (D3R4 < 0 | D3R4 > 1000){stop("D3R4 is not between 0 and 1000!\n")
-  } else if (D4R1 < 0 | D4R1 > 1000){stop("D4R1 is not between 0 and 1000!\n")
-  } else if (D4R2 < 0 | D4R2 > 1000){stop("D4R2 is not between 0 and 1000!\n")
-  } else if (D4R3 < 0 | D4R3 > 1000){stop("D4R3 is not between 0 and 1000!\n")
-  } else if (D4R4 < 0 | D4R4 > 1000){stop("D4R4 is not between 0 and 1000!\n")
-  }
-
-  data[, `:=`(
-      ric = switch(DRI,
-        'D1' = switch(RRI, 'R1' = D1R1, 'R2' = D1R2, 'R3' = D1R3, 'R4' = D1R4)
-        'D2' = switch(RRI, 'R1' = D2R1, 'R2' = D2R2, 'R3' = D2R3, 'R4' = D2R4)
-        'D3' = switch(RRI, 'R1' = D3R1, 'R2' = D3R2, 'R3' = D3R3, 'R4' = D3R4)
-        'D4' = switch(RRI, 'R1' = D4R1, 'R2' = D4R2, 'R3' = D4R3, 'R4' = D4R4)
-        )
-      ), by = 'ID'
-  ]
-
-  return(data)
-}
-
-
 #' Donor recipient age difference
 #'
 #' @description computes punctuation according to donor-recipient age difference
@@ -348,7 +277,7 @@ uk1_v0<-function(DRI = 'D1',
                                     (mmDR == 0 & mmB <=1) | (mmDR == 1 & mmB == 0) ~ 2,
                                     (mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1) ~ 3,
                                     TRUE ~ 4),
-                  pts.hla.age = dplyr::case_when(level == 1 ~ b1*cos(age/18)+a1,
+                  pts.hla.age = dplyr::case_when(level == 1 ~ b1*cos(age/18)+a1, 
                                           level == 2 ~ b2*cos(age/18)+a2,
                                           TRUE ~ b3*sin(age/50)
                                           ),
@@ -356,8 +285,8 @@ uk1_v0<-function(DRI = 'D1',
                                         mmA + mmB + mmDR == 1 ~ mm1,
                                         mmA + mmB + mmDR < 4 ~ mm23,
                                         TRUE ~ mm46),
-                  matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score
-                  pts.age = age_diff(dage = dage, cage = age),
+                  matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score # Isto pode ser feito antes do for loop de candidato vs dador
+                  pts.age = age_diff(dage = dage, cage = age), 
                   pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
                   pointsUK = round(ifelse(Tier == "A",
                                           9999,
@@ -378,7 +307,15 @@ uk1_v0<-function(DRI = 'D1',
 
 }
 
-
+`?` <- function(x, y)
+    eval(
+      sapply(
+        strsplit(
+          deparse(substitute(y)), 
+          ":"
+      ), 
+      function(e) parse(text = e)
+    )[[2 - as.logical(x)]])
 
 #' resume function for UK algorithm punctuation
 #'
@@ -474,25 +411,24 @@ uk1_v1<-function(DRI = 'D1',
   data <- merge(data, xm,
                 by = 'ID',
                 all.x=TRUE)
-
-  data <- ric_v1(
+  
+  data <- ric(
     DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
     D2R1 = D2R1, D2R2 = D2R2, D2R3 = D2R3, D2R4 = D2R4,
     D3R1 = D3R1, D3R2 = D3R2, D3R3 = D3R3, D3R4 = D3R4,
     D4R1 = D4R1, D4R2 = D4R2, D4R3 = D4R3, D4R4 = D4R4,
     data = data
   )
-
+  
   data[, `:=`(
       donor_age = dage,
       compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier)
     ), 
     by = 'ID'
-  ]
-  [, row_n := 1:nrow(data)]
+  ][, row_n := 1:nrow(data)]
 
   l <- list()
-
+  
   for (i in 1:nrow(data)){
     res <- mmHLA(dA = dA,
                  dB = dB,
@@ -513,23 +449,54 @@ uk1_v1<-function(DRI = 'D1',
   )]
 
   data[, `:=`(
-      level = switch(
-        mmA + mmB + mmDR, 
-        0 = 1,
-        switch((mmDR == 0 & mmB <= 1) | (mmDR == 1 & mmB == 0)
-          TRUE = 2,
-          switch((mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1)
-            TRUE = 3,
-            4
-      ))),
-
-      # TODO
-
-
-    ), 
+    level = ifelse(mmA + mmB + mmDR == 0, 1, 
+              ifelse((mmDR == 0 & mmB <= 1) | (mmDR == 1 & mmB == 0), 2, 
+                ifelse((mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1), 3, 4)))
+    ),
     by = 'ID'
   ]
 
-  return(data)
+  data[, `:=`(
+    pts.hla.age = ifelse(level == 1, b1 * cos(age / 18) + a1, 
+                    ifelse(level == 2, b2 * cos(age / 18) + a2,  b3 * sin(age / 50))),
+    total.HLA = ifelse(mmA + mmB + mmDR == 0, 0,
+                  ifelse(mmA + mmB + mmDR == 1, mm1,
+                    ifelse(mmA + mmB + mmDR < 4, mm23, mm46))),
+    # compute matchability points from Match Score
+    matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
+    pts.age = age_diff(dage = dage, cage = age), 
+    pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
+    ),
+    by = 'ID'
+  ]
 
+  data[, `:=`(
+    pointsUK = round(
+        ifelse(Tier == "A", 9999, ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo)
+        , 1)
+    ),
+    by = 'ID'
+  ]
+
+  return(data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][
+    order(Tier, -pointsUK, -matchability, -dialysis)][
+      1:n][!is.na(ID),][, .(ID, 
+                            bg,
+                            A1, 
+                            A2, 
+                            B1, 
+                            B2, 
+                            DR1, 
+                            DR2,
+                            matchability,
+                            mmA, 
+                            mmB, 
+                            mmDR, 
+                            mmHLA,
+                            age, 
+                            donor_age, 
+                            dialysis, 
+                            cPRA, 
+                            Tier,
+                            pointsUK)])
 }

@@ -210,7 +210,7 @@ et1_v0<-function(iso = TRUE, dABO = "A",
 
   n <- max(1, n)
 
-  data <- et_mmp(data = data,
+  data <- et_mmp(data = data, # Isto pode ser feito antes do for loop de candidato vs dador
                  hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
                  abo_freq = abo_freq) %>%
     dplyr::select(ID, bg, A1, A2, B1, B2, DR1, DR2,
@@ -229,7 +229,7 @@ et1_v0<-function(iso = TRUE, dABO = "A",
                                    abo(iso = FALSE, dABO = dABO, cABO = bg),
                                    abo(iso = iso, dABO = dABO, cABO = bg)
                                    ),
-                  pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR,
+                  pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR, # Pode-se chamar o mmHLA apenas uma vez aqui.
                                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2),
                                        mm0 = mm0,
                                        mm1 = mm1,
@@ -246,7 +246,7 @@ et1_v0<-function(iso = TRUE, dABO = "A",
                                  cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
                   mmHLA = mmA + mmB + mmDR,
                   mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),
-                  pointsDial = et_dial(month = month, dial = dialysis),
+                  pointsDial = et_dial(month = month, dial = dialysis), # Isto pode ser feito antes do for loop de candidato vs dador
                   pointsETx = round(pointsHLA + pointsDial + MMP)) %>%
     dplyr::ungroup() %>%
     dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm))) %>%

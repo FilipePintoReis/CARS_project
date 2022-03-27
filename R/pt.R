@@ -223,7 +223,7 @@ pt1_v1 <- function(iso = TRUE
 
   n <- max(1, n)
 
-  data <- cp(data = data) %>%
+  data <- cp(data = data) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
   xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
@@ -265,9 +265,9 @@ pt1_v1 <- function(iso = TRUE
 
   data[, `:=`(
       ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
-      ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50),
+      ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
       ptsage = pts_age(dage = dage, cage = age, pts = pts.age),
-      ptsdial = pts.dial * dialysis
+      ptsdial = pts.dial * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
       ), by = 'ID']
 
     data[, `:=`(

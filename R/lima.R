@@ -229,7 +229,7 @@ lima1_v2 <- function(iso = TRUE
 
   n <- max(1, n)
 
-  data <- cp(data = data) %>%
+  data <- cp(data = data) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
   xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
@@ -244,7 +244,7 @@ lima1_v2 <- function(iso = TRUE
   data[, `:=`(
     donor_age = dage,
     SP = sp(cage = age, dage = dage),
-    HI = hiper(cPRA = cPRA),
+    HI = hiper(cPRA = cPRA), # Isto pode ser feito antes do for loop de candidato vs dador
     compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
     ), by = 'ID'][, row_n := 1:nrow(data)]
 

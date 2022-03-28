@@ -74,8 +74,8 @@ a group of waitlisted transplant candidates.}
 \item{n}{A positive integer to slice the first candidates.}
 }
 \value{
-An ordered data frame with a column 'cp' (color priority), 'sp',
-'hi' and 'mmHLA'.
+An ordered data frame with columns cPRA, HI, pointsET, SP, AM
+and 'mmHLA'.
 }
 \description{
 Ordering of waitlisted candidates for a given donor and

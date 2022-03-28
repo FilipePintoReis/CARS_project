@@ -50,7 +50,7 @@ et_mmp_v0<-function(data = candidates,
                     + (((2*(dr1+dr2)*(1 - dr1 - dr2) ) - dr1^2 - dr2^2 + SallDR) /
                          ((dr1+dr2)^2))
   )
-  
+
   # compute MMP0 and add it to the data file
   data$MMP0 <- with(data,
                     (a1+a2)^2 * (b1+b2)^2 * (dr1+dr2)^2)
@@ -95,14 +95,14 @@ et_mmp_v1<-function(data = candidates,
   SallB <-sum((hlaB %>% tidyr::drop_na() %>% .$freq) ^ 2)
   SallDR <-sum((hlaDR %>% tidyr::drop_na() %>% .$freq) ^ 2)
 
-  data1 <- data
-  hlaA1 <- hlaA
+  # data1 <- data
+  # hlaA1 <- hlaA
   data.table::setDT(data, key = 'ID')
   data.table::setDT(hlaA)
   data.table::setDT(hlaB)
   data.table::setDT(hlaDR)
   data.table::setDT(abo_freq)
-  
+
   data = hlaA[, .(A, freq)][data, on = .(A = A1)]
   setnames(data, "freq", "A1_freq")
   data = hlaA[, .(A, freq)][data, on = .(A = A2)]
@@ -141,7 +141,7 @@ et_mmp_v1<-function(data = candidates,
 
   data[, `:=`(
     MMP = 100 * ( 1 - (abo * (1 - cPRA / 100) * (MMP0 + MMP1))) ^ 1000
-    ), 
+    ),
     by = 'ID'
   ]
 
@@ -265,8 +265,8 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
-#' @return An ordered data frame with a column 'cp' (color priority), 'sp',
-#' 'hi' and 'mmHLA'.
+#' @return An ordered data frame with columns cPRA, HI, pointsET, SP, AM
+#' and 'mmHLA'.
 #' @examples
 #' et1_v0(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
@@ -274,7 +274,10 @@ et_dial<-function(dial = 0, month = 2.78){
 #' data = candidates, month = 2.78,
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
 #' mm4 = 133.33, mm5 = 66.67, mm6 = 0,
-#' df.abs = cabs, n = 2)
+#' df.abs = cabs,
+#' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
+#' abo_freq = ABOpt,
+#' n = 2)
 #' @export
 et1_v0<-function(iso = TRUE, dABO = "A",
               dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
@@ -371,8 +374,8 @@ et1_v0<-function(iso = TRUE, dABO = "A",
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
-#' @return An ordered data frame with a column 'cp' (color priority), 'sp',
-#' 'hi' and 'mmHLA'.
+#' @return An ordered data frame with columns cPRA, HI, pointsET, SP, AM
+#' and 'mmHLA'.
 #' @examples
 #' et1_v1(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
@@ -411,13 +414,13 @@ et1_v1<-function(iso = TRUE, dABO = "A",
   data[, `:=`(
       donor_age = dage,
       SP = ifelse(sp(dage = dage, cage = age) == 1, 1, 0)
-      ), 
+      ),
     by = 'ID'
   ][, row_n := 1:nrow(data)]
-      
+
   data[, `:=`(
       AM = ifelse(SP == 0 & cPRA >= 85, 1, 0)
-      ), 
+      ),
       by = 'ID'
   ]
 
@@ -435,12 +438,12 @@ et1_v1<-function(iso = TRUE, dABO = "A",
                                       mm4 = mm4,
                                       mm5 = mm5,
                                       mm6 = mm6)
-    ), 
+    ),
     by = 'ID'
   ]
 
   l <- list()
-  
+
   for (i in 1:nrow(data)){
     res <- mmHLA(dA = dA,
                  dB = dB,
@@ -463,44 +466,44 @@ et1_v1<-function(iso = TRUE, dABO = "A",
   data[, `:=`(
     mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),
     pointsDial = et_dial(month = month, dial = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
-    ), 
+    ),
     by = 'ID'
   ]
 
   data[, `:=`(
     pointsETx = round(pointsHLA + pointsDial + MMP)
-    ), 
+    ),
     by = 'ID'
   ]
 
   data = data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
     pointsET = ifelse(SP == 1, dialysis, pointsETx),
     HI = hiper(cPRA = cPRA, cutoff = 85)
-    ), 
+    ),
     by = 'ID'
   ]
 
-  
+
 
   return(data[order(-SP, -AM, -mm000, -pointsET)][
-      1:n][!is.na(ID),][, .(ID, 
+      1:n][!is.na(ID),][, .(ID,
                             bg,
-                            A1, 
-                            A2, 
-                            B1, 
-                            B2, 
-                            DR1, 
+                            A1,
+                            A2,
+                            B1,
+                            B2,
+                            DR1,
                             DR2,
-                            mmA, 
-                            mmB, 
-                            mmDR, 
+                            mmA,
+                            mmB,
+                            mmDR,
                             mmHLA,
-                            age, 
-                            donor_age, 
-                            dialysis, 
-                            cPRA, 
+                            age,
+                            donor_age,
+                            dialysis,
+                            cPRA,
                             HI,
-                            pointsET, 
-                            SP, 
+                            pointsET,
+                            SP,
                             AM)])
 }

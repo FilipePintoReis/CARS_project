@@ -103,33 +103,36 @@ et_mmp_v1<-function(data = candidates,
   data.table::setDT(hlaDR)
   data.table::setDT(abo_freq)
   
-
   data = hlaA[, .(A, freq)][data, on = .(A = A1)]
-  setnames(data, "freq", "a1")
+  setnames(data, "freq", "A1_freq")
   data = hlaA[, .(A, freq)][data, on = .(A = A2)]
-  setnames(data, "freq", "a2")
+  setnames(data, "freq", "A2_freq")
+  setnames(data, "i.A", "A1")
+  setnames(data, "A", "A2")
 
   data = hlaB[, .(B, freq)][data, on = .(B = B1)]
-  setnames(data, "freq", "b1")
+  setnames(data, "freq", "B1_freq")
   data = hlaB[, .(B, freq)][data, on = .(B = B2)]
-  setnames(data, "freq", "b2")
+  setnames(data, "freq", "B2_freq")
+  setnames(data, "i.B", "B1")
+  setnames(data, "B", "B2")
 
   data = hlaDR[, .(DR, freq)][data, on = .(DR = DR1)]
-  setnames(data, "freq", "dr1")
+  setnames(data, "freq", "DR1_freq")
   data = hlaDR[, .(DR, freq)][data, on = .(DR = DR2)]
-  setnames(data, "freq", "dr2")
+  setnames(data, "freq", "DR2_freq")
+  setnames(data, "i.DR", "DR1")
+  setnames(data, "DR", "DR2")
 
   data = abo_freq[data, on = .(abo = bg)]
-  data = data[, abo := NULL]
+  setnames(data, "abo", "bg")
   setnames(data, "freq", "abo")
 
-  # print(data[order(ID)])
-
   data[, `:=`(
-    MMP0 = (a1 + a2) ^ 2 * (b1 + b2) ^ 2 * (dr1 + dr2) ^ 2,
-    MMP2 = (((2 * (a1 + a2) * (1 - a1 - a2)) - a1 ^ 2 - a2 ^ 2 + SallA) / ((a1 + a2) ^ 2))
-         + (((2 * (b1 + b2) * (1 - b1 - b2)) - b1 ^ 2 - b2 ^ 2 + SallB) / ((b1 + b2) ^ 2))
-         + (((2 * (dr1 + dr2) * (1 - dr1 - dr2)) - dr1 ^ 2 - dr2 ^ 2 + SallDR) / ((dr1 + dr2) ^ 2))
+    MMP0 = (A1_freq + A2_freq) ^ 2 * (B1_freq + B2_freq) ^ 2 * (DR1_freq + DR2_freq) ^ 2,
+    MMP2 = (((2 * (A1_freq + A2_freq) * (1 - A1_freq - A2_freq)) - A1_freq ^ 2 - A2_freq ^ 2 + SallA) / ((A1_freq + A2_freq) ^ 2))
+         + (((2 * (B1_freq + B2_freq) * (1 - B1_freq - B2_freq)) - B1_freq ^ 2 - B2_freq ^ 2 + SallB) / ((B1_freq + B2_freq) ^ 2))
+         + (((2 * (DR1_freq + DR2_freq) * (1 - DR1_freq - DR2_freq)) - DR1_freq ^ 2 - DR2_freq ^ 2 + SallDR) / ((DR1_freq + DR2_freq) ^ 2))
     ),
     by = 'ID'
   ]
@@ -142,7 +145,7 @@ et_mmp_v1<-function(data = candidates,
     by = 'ID'
   ]
 
-  return(data[order(ID)])
+  return(data)
   }
 
 
@@ -196,7 +199,7 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
     stop("points for 6 mmHLA is not valid!\n")}
 
   # apply mmHLA function
-  mm<-mmHLA_r(dA = dA, dB = dB, dDR = dDR,
+  mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
             cA = cA, cB = cB, cDR = cDR)
 
   pts<-dplyr::if_else(sum(mm[4]) == 0, mm0,
@@ -393,55 +396,111 @@ et1_v1<-function(iso = TRUE, dABO = "A",
 
   n <- max(1, n)
 
+  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+  data.table::setDT(xm, key = 'ID')
+
   data <- et_mmp_v1(data = data, # Isto pode ser feito antes do for loop de candidato vs dador
-                 hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
-                 abo_freq = abo_freq) %>%
-    dplyr::select(ID, bg, A1, A2, B1, B2, DR1, DR2,
-                  age, dialysis, cPRA, urgent, MMP)
+                    hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
+                    abo_freq = abo_freq)
 
-  data <- merge(data,
-                xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
-                all.x=TRUE)
-  data <- data %>%
-    #as.data.frame() %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(donor_age = dage,
-                  SP = ifelse(sp(dage = dage, cage = age) == 1, 1, 0),
-                  AM = ifelse(SP == 0 & cPRA >= 85, 1, 0),
-                  compBlood=ifelse(AM == 1,
-                                   abo(iso = FALSE, dABO = dABO, cABO = bg),
-                                   abo(iso = iso, dABO = dABO, cABO = bg)
-                                   ),
-                  pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR, # Pode-se chamar o mmHLA apenas uma vez aqui.
-                                       cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2),
-                                       mm0 = mm0,
-                                       mm1 = mm1,
-                                       mm2 = mm2,
-                                       mm3 = mm3,
-                                       mm4 = mm4,
-                                       mm5 = mm5,
-                                       mm6 = mm6),
-                  mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
-                  mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmB"],
-                  mmDR = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
-                                 cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmDR"],
-                  mmHLA = mmA + mmB + mmDR,
-                  mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),
-                  pointsDial = et_dial(month = month, dial = dialysis), # Isto pode ser feito antes do for loop de candidato vs dador
-                  pointsETx = round(pointsHLA + pointsDial + MMP)) %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(compBlood == TRUE & (xm == 'NEG' | is.na(xm))) %>%
-    dplyr::mutate(pointsET = ifelse(SP == 1, dialysis, pointsETx),
-                  HI = hiper(cPRA = cPRA, cutoff = 85)) %>%
-    dplyr::arrange(desc(SP),desc(AM), desc(mm000), desc(pointsET)) %>%
-    dplyr::slice(1:n) %>%
-    dplyr::select(ID, bg,
-                  A1, A2, B1, B2, DR1, DR2,
-                  mmA, mmB, mmDR, mmHLA,
-                  age, donor_age, dialysis, cPRA, HI,
-                  pointsET, SP, AM)
+  data = data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
+                  age, dialysis, cPRA, urgent, MMP)]
 
-  return(data)
+  data <- merge(data, xm, by = 'ID', all.x=TRUE)
+
+  data[, `:=`(
+      donor_age = dage,
+      SP = ifelse(sp(dage = dage, cage = age) == 1, 1, 0)
+      ), 
+    by = 'ID'
+  ][, row_n := 1:nrow(data)]
+      
+  data[, `:=`(
+      AM = ifelse(SP == 0 & cPRA >= 85, 1, 0)
+      ), 
+      by = 'ID'
+  ]
+
+  data[, `:=`(
+    compBlood = ifelse(AM == 1,
+                      abo(iso = FALSE, dABO = dABO, cABO = bg),
+                      abo(iso = iso, dABO = dABO, cABO = bg)
+                      ),
+    pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR, # Pode-se chamar o mmHLA apenas uma vez aqui.
+                                      cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2),
+                                      mm0 = mm0,
+                                      mm1 = mm1,
+                                      mm2 = mm2,
+                                      mm3 = mm3,
+                                      mm4 = mm4,
+                                      mm5 = mm5,
+                                      mm6 = mm6)
+    ), 
+    by = 'ID'
+  ]
+
+  l <- list()
+  
+  for (i in 1:nrow(data)){
+    res <- mmHLA(dA = dA,
+                 dB = dB,
+                 dDR = dDR,
+                 cA = c(data$A1[i], data$A2[i]),
+                 cB = c(data$B1[i], data$B2[i]),
+                 cDR = c(data$DR1[i], data$DR2[i])
+    )
+
+    l = append(l, res)
+  }
+
+  data[, `:=`(
+    mmA = unlist(l[(1 + (row_n - 1) * 4)]),
+    mmB = unlist(l[2 + (row_n - 1) * 4]),
+    mmDR = unlist(l[3 + (row_n - 1) * 4]),
+    mmHLA = unlist(l[4 + (row_n - 1) * 4])
+  )]
+
+  data[, `:=`(
+    mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),
+    pointsDial = et_dial(month = month, dial = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
+    ), 
+    by = 'ID'
+  ]
+
+  data[, `:=`(
+    pointsETx = round(pointsHLA + pointsDial + MMP)
+    ), 
+    by = 'ID'
+  ]
+
+  data = data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
+    pointsET = ifelse(SP == 1, dialysis, pointsETx),
+    HI = hiper(cPRA = cPRA, cutoff = 85)
+    ), 
+    by = 'ID'
+  ]
+
+  
+
+  return(data[order(-SP, -AM, -mm000, -pointsET)][
+      1:n][!is.na(ID),][, .(ID, 
+                            bg,
+                            A1, 
+                            A2, 
+                            B1, 
+                            B2, 
+                            DR1, 
+                            DR2,
+                            mmA, 
+                            mmB, 
+                            mmDR, 
+                            mmHLA,
+                            age, 
+                            donor_age, 
+                            dialysis, 
+                            cPRA, 
+                            HI,
+                            pointsET, 
+                            SP, 
+                            AM)])
 }

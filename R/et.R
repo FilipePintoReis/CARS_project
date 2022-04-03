@@ -237,7 +237,6 @@ et_dial<-function(dial = 0, month = 2.78){
 
 }
 
-
 #' resume function for ET algorithm punctuation
 #'
 #' @description Ordering of waitlisted candidates for a given donor and
@@ -280,22 +279,22 @@ et_dial<-function(dial = 0, month = 2.78){
 #' n = 2)
 #' @export
 et1_v0<-function(iso = TRUE, dABO = "A",
-              dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-              dage = 65,
-              data = candidates, month = 2.78,
-              mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-              mm4 = 133.33, mm5 = 66.67, mm6 = 0,
-              df.abs = cabs,
-              hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-              abo_freq = ABOpt,
-              n = 2
-              ){
+                 dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+                 dage = 65,
+                 data = candidates, month = 2.78,
+                 mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
+                 mm4 = 133.33, mm5 = 66.67, mm6 = 0,
+                 df.abs = cabs,
+                 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
+                 abo_freq = ABOpt,
+                 n = 2
+                 ){
 
   n <- max(1, n)
 
   data <- et_mmp_v0(data = data, # Isto pode ser feito antes do for loop de candidato vs dador
-                 hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
-                 abo_freq = abo_freq) %>%
+                    hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
+                    abo_freq = abo_freq) %>%
     dplyr::select(ID, bg, A1, A2, B1, B2, DR1, DR2,
                   age, dialysis, cPRA, urgent, MMP)
 
@@ -311,7 +310,7 @@ et1_v0<-function(iso = TRUE, dABO = "A",
                   compBlood=ifelse(AM == 1,
                                    abo(iso = FALSE, dABO = dABO, cABO = bg),
                                    abo(iso = iso, dABO = dABO, cABO = bg)
-                                   ),
+                  ),
                   pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR, # Pode-se chamar o mmHLA apenas uma vez aqui.
                                        cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2),
                                        mm0 = mm0,
@@ -345,7 +344,6 @@ et1_v0<-function(iso = TRUE, dABO = "A",
 
   return(data)
 }
-
 
 #' resume function for ET algorithm punctuation
 #'
@@ -383,7 +381,10 @@ et1_v0<-function(iso = TRUE, dABO = "A",
 #' data = candidates, month = 2.78,
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
 #' mm4 = 133.33, mm5 = 66.67, mm6 = 0,
-#' df.abs = cabs, n = 2)
+#' df.abs = cabs,
+#' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
+#' abo_freq = ABOpt,
+#' n = 2)
 #' @export
 et1_v1<-function(iso = TRUE, dABO = "A",
               dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
@@ -507,3 +508,5 @@ et1_v1<-function(iso = TRUE, dABO = "A",
                             SP,
                             AM)])
 }
+
+

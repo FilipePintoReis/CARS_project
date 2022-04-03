@@ -296,3 +296,116 @@ lima1_v2 <- function(iso = TRUE
     ]
   )
 }
+
+
+#' Candidates' selection according to Lima's algorithm for multiple donors
+#'
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to to Lima's algorithm.
+#' @param iso A logical value for isogroupal compatibility.
+#' @param df.donors A data frame containing demographics and medical information
+#' for a poll of donors
+#' @param df.candidates A data frame containing demographics and medical information
+#' for a group of waitlisted transplant candidates with
+#' color priority classification.
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param n A positive integer to slice the first candidates.
+#' @return An ordered data frame with a column 'cp' (color priority),
+#' 'sp', 'hi' and 'mmHLA'.
+#' @examples
+#' lima_mult_v0(iso = TRUE,
+#' df.donors = donors,
+#' df.abs = cabs,
+#' df.candidates = candidates,
+#' n = 2)
+#' @export
+lima_mult_v0 <- function(iso = TRUE
+                         , df.donors = donors
+                         , df.abs = cabs
+                         , df.candidates = candidates
+                         , n = 2){
+
+  df <- df.donors %>%
+    mutate(dA = map2(.x = A1,
+                     .y = A2,
+                     ~c(.x,.y)),
+           dB = map2(.x = B1,
+                     .y = B2,
+                     ~c(.x,.y)),
+           dDR = map2(.x = DR1,
+                      .y = DR2,
+                      ~c(.x,.y))
+           ) %>%
+    select(ID, bg, dA, dB, dDR, age)
+
+
+  lst <- pmap(df,
+              ~lima1_v0(iso = iso
+                        , dABO = ..2
+                        , dA = ..3, dB = ..4, dDR = ..5
+                        , dage = ..6
+                        , df.abs = df.abs
+                        , data = df.candidates
+                        , n = n))
+
+  names(lst) <- df$ID
+
+  return(lst)
+
+}
+
+
+#' Candidates' selection according to Lima's algorithm for multiple donors
+#'
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to to Lima's algorithm.
+#' @param iso A logical value for isogroupal compatibility.
+#' @param df.donors A data frame containing demographics and medical information
+#' for a poll of donors
+#' @param df.candidates A data frame containing demographics and medical information
+#' for a group of waitlisted transplant candidates with
+#' color priority classification.
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param n A positive integer to slice the first candidates.
+#' @return An ordered data frame with a column 'cp' (color priority),
+#' 'sp', 'hi' and 'mmHLA'.
+#' @examples
+#' lima_mult_v1(iso = TRUE,
+#' df.donors = donors,
+#' df.abs = cabs,
+#' df.candidates = candidates,
+#' n = 2)
+#' @export
+lima_mult_v1 <- function(iso = TRUE
+                         , df.donors = donors
+                         , df.abs = cabs
+                         , df.candidates = candidates
+                         , n = 2){
+
+  id <- df.donors$ID
+
+  df <- df.donors %>%
+    dplyr::mutate(dABO = bg,
+                  dA = purrr::map2(.x = A1,
+                            .y = A2,
+                            ~c(.x,.y)),
+                  dB = purrr::map2(.x = B1,
+                            .y = B2,
+                            ~c(.x,.y)),
+                  dDR = purrr::map2(.x = DR1,
+                             .y = DR2,
+                             ~c(.x,.y)),
+                  dage = age
+                  ) %>%
+    dplyr::select(dABO, dA, dB, dDR, dage)
+
+  lst <- purrr::pmap(df,lima1_v2,
+                     iso = iso,
+                     n = n,
+                     df.abs = df.abs,
+                     data = df.candidates)
+  names(lst) <- id
+
+  return(lst)
+
+}

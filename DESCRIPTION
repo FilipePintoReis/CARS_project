@@ -18,7 +18,8 @@ Imports:
     tidyr,
     utils,
     reticulate,
-    data.table
+    data.table,
+    purrr
 Depends: 
     R (>= 4.0.0)
 LazyData: true

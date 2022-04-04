@@ -182,3 +182,126 @@ pt1_v0 <- function(iso = TRUE
   return(data)
 
 }
+
+#' Matching punctuation' according to 2007 PT's algorithm
+#'
+#' @description Ordering of waitlisted candidates for a given donor and
+#' according to PT's algorithm.
+#' @param iso A logical value for isogroupal compatibility.
+#' @param dABO A character value with ABO blood group.
+#' @param dA donor's HLA-A typing.
+#' @param dB donor's HLA-B typing.
+#' @param dDR donor's HLA-DR typing.
+#' @param dage A numeric value with donor's age.
+#' @param data A data frame containing demographics and medical information for
+#' a group of waitlisted transplant candidates with color priority classification.
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param pts.80 A numerical value for the points to a cPRA >= 80
+#' @param pts.50 A numerical value for the points to a cPRA >= 50
+#' @param pts.dial punctuaction for each month on dialysis
+#' @param pts.age A numerical value for the points to age difference
+#' @param n A positive integer to slice the first candidates.
+#' @return An ordered data frame with a column 'cp' (color priority),
+#' 'sp', 'hi' and 'mmHLA'.
+#' @examples
+#' pt1_v1(iso = TRUE, dABO = "A",
+#' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+#' dage = 65,  data = candidates,
+#' df.abs = cabs, n = 2)
+#' @export
+pt1_v1 <- function(iso = TRUE
+                , dABO = "O"
+                , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                , dage = 65
+                , df.abs = cabs
+                , data = candidates
+                , pts.80 = 8
+                , pts.50 = 4
+                , pts.dial = 0.1
+                , pts.age = 4
+                , n = 2){
+
+  n <- max(1, n)
+
+  data <- cp(data = data) %>% # Isto pode ser feito antes do for loop de candidato vs dador
+    as.data.frame()
+
+  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+
+  data.table::setDT(data, key = 'ID')
+  data.table::setDT(xm, key = 'ID')
+
+  data <- merge(data, xm,
+                by = 'ID',
+                all.x=TRUE)
+
+    data[, `:=`(
+      donor_age = dage,
+      SP = sp(cage = age, dage = dage),
+      HI = hiper(cPRA = cPRA),
+      compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
+      ), by = 'ID'][, row_n := 1:nrow(data)]
+
+  l <- list()
+
+  for (i in 1:nrow(data)){
+    res <- mmHLA(dA = dA,
+                 dB = dB,
+                 dDR = dDR,
+                 cA = c(data$A1[i], data$A2[i]),
+                 cB = c(data$B1[i], data$B2[i]),
+                 cDR = c(data$DR1[i], data$DR2[i])
+    )
+
+    l = append(l, res)
+  }
+
+  data[, `:=`(
+    mmA = unlist(l[(1 + (row_n - 1) * 4)]),
+    mmB = unlist(l[2 + (row_n - 1) * 4]),
+    mmDR = unlist(l[3 + (row_n - 1) * 4]),
+    mmHLA = unlist(l[4 + (row_n - 1) * 4])
+  )]
+
+  data[, `:=`(
+      ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
+      ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
+      ptsage = pts_age(dage = dage, cage = age, pts = pts.age),
+      ptsdial = pts.dial * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
+      ), by = 'ID']
+
+    data[, `:=`(
+      ptsPT = ptsHLA + ptsPRA + ptsage + ptsdial
+      ), by = 'ID']
+
+  return(
+    data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),]
+    [order(HI, -ptsPT)]
+    [1:n]
+    [!is.na(ID),]
+    [, .(ID,
+         bg,
+         A1,
+         A2,
+         B1,
+         B2,
+         DR1,
+         DR2,
+         mmA,
+         mmB,
+         mmDR,
+         mmHLA,
+         age,
+         donor_age,
+         dialysis,
+         cPRA,
+         HI,
+         ptsPT, 
+         SP,
+         ptsHLA, 
+         ptsPRA, 
+         ptsage, 
+         ptsdial)
+    ]
+  )
+}

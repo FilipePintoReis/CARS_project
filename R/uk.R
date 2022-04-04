@@ -79,7 +79,6 @@ ric<-function(DRI = 'D1',
   return(data)
 }
 
-
 #' Donor recipient age difference
 #'
 #' @description computes punctuation according to donor-recipient age difference
@@ -182,7 +181,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param dDR donor's HLA-DR typing.
 #' @param dage A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information for
-#' a group of waitlisted transplant for UK transplant.
+#' a group of waitlisted transplant for UK transplant. 
 #' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
 #' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
 #' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
@@ -266,7 +265,7 @@ uk1_v0<-function(DRI = 'D1',
     #as.data.frame() %>%
     dplyr::rowwise() %>%
     dplyr::mutate(donor_age = dage,
-                  compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier),
+                  compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier), # ?
                   mmA = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
                                 cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2))["mmA"],
                   mmB = mmHLA_r(dA = dA, dB = dB, dDR = dDR,
@@ -278,7 +277,7 @@ uk1_v0<-function(DRI = 'D1',
                                     (mmDR == 0 & mmB <=1) | (mmDR == 1 & mmB == 0) ~ 2,
                                     (mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1) ~ 3,
                                     TRUE ~ 4),
-                  pts.hla.age = dplyr::case_when(level == 1 ~ b1*cos(age/18)+a1,
+                  pts.hla.age = dplyr::case_when(level == 1 ~ b1*cos(age/18)+a1, 
                                           level == 2 ~ b2*cos(age/18)+a2,
                                           TRUE ~ b3*sin(age/50)
                                           ),
@@ -286,8 +285,8 @@ uk1_v0<-function(DRI = 'D1',
                                         mmA + mmB + mmDR == 1 ~ mm1,
                                         mmA + mmB + mmDR < 4 ~ mm23,
                                         TRUE ~ mm46),
-                  matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score
-                  pts.age = age_diff(dage = dage, cage = age),
+                  matchability = round(m * (1+(MS/nn)^o),1),  # compute matchability points from Match Score # Isto pode ser feito antes do for loop de candidato vs dador
+                  pts.age = age_diff(dage = dage, cage = age), 
                   pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts),
                   pointsUK = round(ifelse(Tier == "A",
                                           9999,
@@ -306,4 +305,198 @@ uk1_v0<-function(DRI = 'D1',
 
   return(data)
 
+}
+
+`?` <- function(x, y)
+    eval(
+      sapply(
+        strsplit(
+          deparse(substitute(y)), 
+          ":"
+      ), 
+      function(e) parse(text = e)
+    )[[2 - as.logical(x)]])
+
+#' resume function for UK algorithm punctuation
+#'
+#' @description Ordering of waitlisted candidates for a given donor and according
+#' to UK transplant algorithm.
+#' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
+#' @param dABO A character value with ABO blood group.
+#' @param dA donor's HLA-A typing.
+#' @param dB donor's HLA-B typing.
+#' @param dDR donor's HLA-DR typing.
+#' @param dage A numeric value with donor's age.
+#' @param data A data frame containing demographics and medical information for
+#' a group of waitlisted transplant for UK transplant.
+#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param ptsDial A numeric value for the points corresponding to each month
+#' on dialysis
+#' @param a1 A numeric value for HLA match and age combined formula:
+#' b1*cos(age/18)+a1
+#' @param a2 A numeric value for HLA match and age combined formula:
+#' b2*cos(age/18)+a2
+#' @param b1 A numeric value for HLA match and age combined formula:
+#' b1*cos(age/18)+a1
+#' @param b2 A numeric value for HLA match and age combined formula:
+#' b2*cos(age/18)+a2
+#' @param b3 A numeric value for HLA match and age combined formula:
+#' b3*sin(age/50)
+#' @param m A numeric value for matchability formula: m * (1+(MS/nn)^o)
+#' @param nn A numeric value for matchability formula: m * (1+(MS/nn)^o)
+#' @param o A numeric value for matchability formula: m * (1+(MS/nn)^o)
+#' @param mm1 A numeric value to penalize 1 mm
+#' @param mm23 A numeric value to penalize 2-3 mm
+#' @param mm46 A numeric value to penalize 4-6 mm
+#' @param pts A negative value with penalization for B candidates
+#' @param df.abs A data frame with candidates' antibodies.
+#' @param n A positive integer to slice the first candidates.
+#' @examples
+#' uk1_v1(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+#' dABO = "O", dage = 65, data = candidates.uk,
+#' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
+#' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
+#' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
+#' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000,
+#' ptsDial = 1,
+#' a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
+#' m = 40, nn = 4.5, o = 4.7,
+#' mm1 = -100, mm23 = -150, mm46 = -250,
+#' pts = -1000,
+#' df.abs = cabs, n = 2)
+#' @export
+uk1_v1<-function(DRI = 'D1',
+              dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
+              dABO = "O",
+              dage = 65,
+              data = candidates.uk,
+              D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
+              D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
+              D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
+              D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000,
+              ptsDial = 1,
+              a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
+              m = 40, nn = 4.5, o = 4.7,
+              mm1 = -100, mm23 = -150, mm46 = -250,
+              pts = -1000,
+              df.abs = cabs,
+              n = 2
+              ){
+
+  n <- max(1, n)
+
+  data <- cp(data = data) %>%
+    as.data.frame()
+
+  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+
+  data.table::setDT(data, key = 'ID')
+  data.table::setDT(xm, key = 'ID')
+
+  data <- merge(data, xm,
+                by = 'ID',
+                all.x=TRUE)
+  
+  data <- ric(
+    DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
+    D2R1 = D2R1, D2R2 = D2R2, D2R3 = D2R3, D2R4 = D2R4,
+    D3R1 = D3R1, D3R2 = D3R2, D3R3 = D3R3, D3R4 = D3R4,
+    D4R1 = D4R1, D4R2 = D4R2, D4R3 = D4R3, D4R4 = D4R4,
+    data = data
+  )
+  
+  data[, `:=`(
+      donor_age = dage,
+      compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier)
+    ), 
+    by = 'ID'
+  ][, row_n := 1:nrow(data)]
+
+  l <- list()
+  
+  for (i in 1:nrow(data)){
+    res <- mmHLA(dA = dA,
+                 dB = dB,
+                 dDR = dDR,
+                 cA = c(data$A1[i], data$A2[i]),
+                 cB = c(data$B1[i], data$B2[i]),
+                 cDR = c(data$DR1[i], data$DR2[i])
+    )
+
+    l = append(l, res)
+  }
+
+  data[, `:=`(
+    mmA = unlist(l[(1 + (row_n - 1) * 4)]),
+    mmB = unlist(l[2 + (row_n - 1) * 4]),
+    mmDR = unlist(l[3 + (row_n - 1) * 4]),
+    mmHLA = unlist(l[4 + (row_n - 1) * 4])
+  )]
+
+  data[, `:=`(
+    level = ifelse(mmA + mmB + mmDR == 0, 1, 
+              ifelse((mmDR == 0 & mmB <= 1) | (mmDR == 1 & mmB == 0), 2, 
+                ifelse((mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1), 3, 4)))
+    ),
+    by = 'ID'
+  ]
+
+  data[, `:=`(
+    pts.hla.age = ifelse(level == 1, b1 * cos(age / 18) + a1, 
+                    ifelse(level == 2, b2 * cos(age / 18) + a2,  b3 * sin(age / 50))),
+    total.HLA = ifelse(mmA + mmB + mmDR == 0, 0,
+                  ifelse(mmA + mmB + mmDR == 1, mm1,
+                    ifelse(mmA + mmB + mmDR < 4, mm23, mm46))),
+    # compute matchability points from Match Score
+    matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
+    pts.age = age_diff(dage = dage, cage = age), 
+    pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
+    ),
+    by = 'ID'
+  ]
+
+  data[, `:=`(
+    pointsUK = round(
+        ifelse(Tier == "A", 9999, ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo)
+        , 1)
+    ),
+    by = 'ID'
+  ]
+
+  return(data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][
+    order(Tier, -pointsUK, -matchability, -dialysis)][
+      1:n][!is.na(ID),][, .(ID, 
+                            bg,
+                            A1, 
+                            A2, 
+                            B1, 
+                            B2, 
+                            DR1, 
+                            DR2,
+                            matchability,
+                            mmA, 
+                            mmB, 
+                            mmDR, 
+                            mmHLA,
+                            age, 
+                            donor_age, 
+                            dialysis, 
+                            cPRA, 
+                            Tier,
+                            pointsUK)])
 }

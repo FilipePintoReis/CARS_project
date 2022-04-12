@@ -399,7 +399,7 @@ lima_mult_v1 <- function(iso = TRUE
                   ) %>%
     dplyr::select(dABO, dA, dB, dDR, dage)
 
-  lst <- purrr::pmap(df,lima1_v2,
+  lst <- purrr::pmap(df, lima1_v2,
                      iso = iso,
                      n = n,
                      df.abs = df.abs,
@@ -407,5 +407,4 @@ lima_mult_v1 <- function(iso = TRUE
   names(lst) <- id
 
   return(lst)
-
 }

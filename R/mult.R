@@ -89,18 +89,9 @@ several <- function(iso = TRUE
         dplyr::filter(!ID %in% cc) %>% # This can be optimized
         dplyr::slice(1:2)
 
-      # print(tmp)
-      # return()
       res <- dplyr::bind_rows(res, tmp)
   
       cc <- c(cc, tmp$ID)
-
-      # if (!is.null(res)){
-      #   res <- mapply(c, res, tmp, SIMPLIFY = FALSE)
-      # }
-      # else {
-      #   res <- tmp
-      # }
     }
 
     # temos o res.

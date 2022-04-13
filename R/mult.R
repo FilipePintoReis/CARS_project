@@ -1,7 +1,7 @@
 #' Candidates' selection according to any algorithm for multiple donors
 #'
 #' @description Ordering of waitlisted candidates for a given donor and
-#' according to to any algorithm.
+#' according to any algorithm.
 #' @param iso A logical value for isogroupal compatibility.
 #' @param df.donors A data frame containing demographics and medical information
 #' for a poll of donors
@@ -24,8 +24,11 @@ mult <- function(iso = TRUE
                          , df.donors = donors
                          , df.abs = cabs
                          , df.candidates = candidates
-                         , algorithm = et1_v1
+                         , algorithm = lima1_v2
                          , n = 2){
+
+  # defenir condições de validação dos inputs
+  # ver função stopifnot()
 
   id <- df.donors$ID
 
@@ -58,10 +61,14 @@ several <- function(iso = TRUE
                          , df.donors = donors
                          , df.abs = cabs
                          , df.candidates = candidates
-                         , algorithm = et1_v1
-                         , iteration.number = 2){
+                         , algorithm = lima1_v2
+                         , iteration.number = 10){
+
+  # defenir condições de validação dos inputs
+  # ver função stopifnot()
 
   df.donors$nrow <- 1:nrow(df.donors)
+
 
   pre_calculated_mappings <- mult(iso = iso
                          , df.donors = df.donors
@@ -70,75 +77,56 @@ several <- function(iso = TRUE
                          , algorithm = algorithm
                          , n = nrow(df.candidates))
 
-  # print(pre_calculated_mappings)
-  # return()
-  
-  # Criar objeto stats que é uma lista de estatísticas
-  stats <- list()
+  res.mul <- list()
 
-  for (i in 1:iteration.number){
-    shuffled_donors <- df.donors[sample(1:nrow(df.donors)), ]
+  for (. in 1:iteration.number){
+    #shuffled_donors <- df.donors[sample(1:nrow(df.donors)), ]
+    shuffled_donors <- sample(df.donors$nrow)
 
     # Create used candidates.
     cc <- NULL
     # Create Local Results.
     res <- NULL
-    
-    for (j in 1:nrow(shuffled_donors)){
-      tmp <- pre_calculated_mappings[[ shuffled_donors[j,]$nrow ]] %>%
+
+    for (j in 1:length(shuffled_donors)){ # como agora trabalho um vector uso a função length
+      #tmp <- pre_calculated_mappings[[ shuffled_donors[j,]$nrow ]] %>%
+      tmp <- pre_calculated_mappings[[shuffled_donors[j]]] %>%
         dplyr::filter(!ID %in% cc) %>% # This can be optimized
         dplyr::slice(1:2)
 
       res <- dplyr::bind_rows(res, tmp)
-  
+
       cc <- c(cc, tmp$ID)
     }
 
-    # temos o res.
-    # tmp_stats = tirar estatísticas do res (e.g., média de idades.)
-    tmp_stats <- NULL
+    res.mul <- append(res.mul, list(res))
 
-    tmp_stats$A1_mean        <- sapply(list(sapply(res$A1, as.integer)) , mean)
-    tmp_stats$A2_mean        <- sapply(list(sapply(res$A2, as.integer)) , mean)
-    tmp_stats$B1_mean        <- sapply(list(sapply(res$B1, as.integer)) , mean)
-    tmp_stats$B2_mean        <- sapply(list(sapply(res$B2, as.integer)) , mean)
-    tmp_stats$DR1_mean       <- sapply(list(sapply(res$DR1, as.integer)), mean)
-    tmp_stats$DR2_mean       <- sapply(list(sapply(res$DR2, as.integer)), mean)
-    tmp_stats$mmA_mean       <- sapply(list(res$mmA)                    , mean)  
-    tmp_stats$mmB_mean       <- sapply(list(res$mmB)                    , mean)  
-    tmp_stats$mmDR_mean      <- sapply(list(res$mmDR)                   , mean)   
-    tmp_stats$mmHLA_mean     <- sapply(list(res$mmHLA)                  , mean)     
-    tmp_stats$age_mean       <- sapply(list(res$age)                    , mean)      
-    tmp_stats$donor_age_mean <- sapply(list(res$donor_age)              , mean)          
-    tmp_stats$dialysis_mean  <- sapply(list(res$dialysis)               , mean)       
-    tmp_stats$cPRA_mean      <- sapply(list(res$cPRA)                   , mean)   
-    # tmp_stats$cp        <- sapply(res$cp       , mean)
-    tmp_stats$SP_mean        <- sapply(list(res$SP)                     , mean)      
-
-
-    tmp_stats$A1_median        <- sapply(list(sapply(res$A1, as.integer)) , median)
-    tmp_stats$A2_median        <- sapply(list(sapply(res$A2, as.integer)) , median)
-    tmp_stats$B1_median        <- sapply(list(sapply(res$B1, as.integer)) , median)
-    tmp_stats$B2_median        <- sapply(list(sapply(res$B2, as.integer)) , median)
-    tmp_stats$DR1_median       <- sapply(list(sapply(res$DR1, as.integer)), median)
-    tmp_stats$DR2_median       <- sapply(list(sapply(res$DR2, as.integer)), median)
-    tmp_stats$mmA_median       <- sapply(list(res$mmA)                    , median)  
-    tmp_stats$mmB_median       <- sapply(list(res$mmB)                    , median)  
-    tmp_stats$mmDR_median      <- sapply(list(res$mmDR)                   , median)   
-    tmp_stats$mmHLA_median     <- sapply(list(res$mmHLA)                  , median)     
-    tmp_stats$age_median       <- sapply(list(res$age)                    , median)      
-    tmp_stats$donor_age_median <- sapply(list(res$donor_age)              , median)          
-    tmp_stats$dialysis_median  <- sapply(list(res$dialysis)               , median)       
-    tmp_stats$cPRA_median      <- sapply(list(res$cPRA)                   , median)   
-    # tmp_stats$cp        <- sapply(res$cp       , median)
-    tmp_stats$SP_median        <- sapply(list(res$SP)                     , median)  
-
-    # print(tmp_stats)     
-    stats <- append(stats, list(tmp_stats))
-    # Fazer append de tmp_stats a stats.
   }
 
-  print(stats)
-  # Temos distribuição de stats.
+  mean_age <- res.mul %>% purrr::map(., ~mean(.x$age)) %>% unlist()
+  mean_dialysis <- res.mul %>% purrr::map(., ~mean(.x$dialysis)) %>% unlist()
+  mean_cPRA <- res.mul %>% purrr::map(., ~mean(.x$cPRA)) %>% unlist()
+  freq_mmHLA <- res.mul %>% purrr::map(., ~table(.x$mmHLA)) #%>% unlist()
+  freq_mmA <- res.mul %>% purrr::map(., ~table(.x$mmA)) #%>% unlist()
+  freq_mmB <- res.mul %>% purrr::map(., ~table(.x$mmB)) #%>% unlist()
+  freq_mmDR <- res.mul %>% purrr::map(., ~table(.x$mmDR)) #%>% unlist()
+  freq_ABO <- res.mul %>% purrr::map(., ~table(.x$bg))
+  freq_HI <- res.mul %>% purrr::map(., ~table(.x$HI))
+  freq_color <- res.mul %>% purrr::map(., ~table(.x$cp))
+  freq_SP <- res.mul %>% purrr::map(., ~table(.x$SP))
+
+  return(list(age = mean_age,
+              dialysis = mean_dialysis,
+              cPRA = mean_cPRA,
+              mmHLA = freq_mmHLA,
+              mmA = freq_mmA,
+              mmB = freq_mmB,
+              mmDR = freq_mmDR,
+              ABO = freq_ABO,
+              HI = freq_HI,
+              color = freq_color,
+              SP = freq_SP))
+
+  #return(res.mul)
 
 }

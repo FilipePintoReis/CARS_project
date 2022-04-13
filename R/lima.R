@@ -326,20 +326,20 @@ lima_mult_v0 <- function(iso = TRUE
                          , n = 2){
 
   df <- df.donors %>%
-    mutate(dA = map2(.x = A1,
+    dplyr::mutate(dA = purrr::map2(.x = A1,
                      .y = A2,
                      ~c(.x,.y)),
-           dB = map2(.x = B1,
+           dB = purrr::map2(.x = B1,
                      .y = B2,
                      ~c(.x,.y)),
-           dDR = map2(.x = DR1,
+           dDR = purrr::map2(.x = DR1,
                       .y = DR2,
                       ~c(.x,.y))
            ) %>%
-    select(ID, bg, dA, dB, dDR, age)
+    dplyr::select(ID, bg, dA, dB, dDR, age)
 
 
-  lst <- pmap(df,
+  lst <- purrr::pmap(df,
               ~lima1_v0(iso = iso
                         , dABO = ..2
                         , dA = ..3, dB = ..4, dDR = ..5

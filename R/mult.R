@@ -47,6 +47,8 @@ calculate_donor_to_candidate_matchability <- function(...){
     dplyr::select(dABO, dA, dB, dDR, dage)
 
   if (...[["function_name"]] == "uk1_v1") {
+    stopifnot(1 == 1)
+
     lst <- purrr::pmap(df, ...[["algorithm"]],
                      n = ...[["n"]],
                      df.abs = ...[["df.abs"]],
@@ -83,6 +85,8 @@ calculate_donor_to_candidate_matchability <- function(...){
   }
 
   else if (...[["function_name"]] == "lima1_v1") {
+    stopifnot(1 == 1)
+
     lst <- purrr::pmap(df, ...[["algorithm"]],
                      iso = ...[["iso"]],
                      n = ...[["n"]],
@@ -91,11 +95,35 @@ calculate_donor_to_candidate_matchability <- function(...){
   }
 
   else if (...[["function_name"]] == "et1_v1") {
+    stopifnot(1 == 1)
+
     lst <- purrr::pmap(df, ...[["algorithm"]],
                      iso = ...[["iso"]],
                      n = ...[["n"]],
                      df.abs = ...[["df.abs"]],
-                     data = ...[["df.candidates"]])
+                     data = ...[["df.candidates"]],
+                     month = ...[["month"]], 
+                     mm0 = ...[["mm0"]], 
+                     mm1 = ...[["mm1"]], 
+                     mm2 = ...[["mm2"]], 
+                     mm3 = ...[["mm3"]], 
+                     mm4 = ...[["mm4"]], 
+                     mm5 = ...[["mm5"]], 
+                     mm6 = ...[["mm6"]])
+  }
+
+    else if (...[["function_name"]] == "pt1_v1") {
+      stopifnot(1 == 1)
+      
+      lst <- purrr::pmap(df, ...[["algorithm"]],
+                     iso = ...[["iso"]],
+                     n = ...[["n"]],
+                     df.abs = ...[["df.abs"]],
+                     data = ...[["df.candidates"]],
+                     pts.80 = ...[["pts.80"]],
+                     pts.50 = ...[["pts.50"]],
+                     pts.dial = ...[["pts.dial"]],
+                     pts.age = ...[["pts.age"]])
   }
 
   names(lst) <- df.donors$ID
@@ -214,7 +242,7 @@ lima_several <- function(){
         df.abs = cabs, 
         df.candidates = candidates, 
         algorithm = lima1_v2, 
-        n = nrow(candidates.uk), 
+        n = nrow(candidates), 
         function_name = "lima1_v2", 
         iso = TRUE
         )
@@ -222,4 +250,46 @@ lima_several <- function(){
     )
 }
 
+et_several <- function(){
+  return(
+    several(
+      iteration.number = 10, 
+      list(df.donors = donors
+        , df.abs = cabs
+        , df.candidates = candidates
+        , algorithm = et1_v1
+        , n = nrow(candidates)
+        , function_name = "et1_v1"
+        , iso = TRUE
+        , month = 2
+        , mm0 = 400 
+        , mm1 = 333.33 
+        , mm2 = 266.67 
+        , mm3 = 200
+        , mm4 = 133.33 
+        , mm5 = 66.67 
+        , mm6 = 0)
+      )
+    )
+}
+
+pt_several <- function(){
+  return(
+    several(
+      iteration.number = 10, 
+      list(df.donors = donors
+        , df.abs = cabs
+        , df.candidates = candidates
+        , algorithm = pt1_v1
+        , n = nrow(candidates)
+        , function_name = "pt1_v1"
+        , iso = TRUE
+        , pts.80 = 8
+        , pts.50 = 4
+        , pts.dial = 0.1
+        , pts.age = 4
+        )
+      )
+    )
+}
 

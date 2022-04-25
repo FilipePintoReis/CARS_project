@@ -221,7 +221,9 @@ lima1_v1 <- function(iso = TRUE
 #' @export
 lima1_v2 <- function(iso = TRUE
                      , dABO = "O"
-                     , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                     , dA = c("1","2")
+                     , dB = c("15","44")
+                     , dDR = c("1","4")
                      , dage = 60
                      , df.abs = cabs
                      , data = candidates

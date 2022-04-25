@@ -211,7 +211,9 @@ pt1_v0 <- function(iso = TRUE
 #' @export
 pt1_v1 <- function(iso = TRUE
                 , dABO = "O"
-                , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                , dA = c("1","2")
+                , dB = c("15","44")
+                , dDR = c("1","4")
                 , dage = 65
                 , df.abs = cabs
                 , data = candidates

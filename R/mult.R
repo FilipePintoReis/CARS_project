@@ -50,7 +50,36 @@ calculate_donor_to_candidate_matchability <- function(...){
     lst <- purrr::pmap(df, ...[["algorithm"]],
                      n = ...[["n"]],
                      df.abs = ...[["df.abs"]],
-                     data = ...[["df.candidates"]])
+                     data = ...[["df.candidates"]],
+                     D1R1 = ...[["D1R1"]],
+                     D1R2 = ...[["D1R2"]],
+                     D1R3 = ...[["D1R3"]],
+                     D1R4 = ...[["D1R4"]],
+                     D2R1 = ...[["D2R1"]],
+                     D2R2 = ...[["D2R2"]],
+                     D2R3 = ...[["D2R3"]],
+                     D2R4 = ...[["D2R4"]],
+                     D3R1 = ...[["D3R1"]],
+                     D3R2 = ...[["D3R2"]],
+                     D3R3 = ...[["D3R3"]],
+                     D3R4 = ...[["D3R4"]],
+                     D4R1 = ...[["D4R1"]],
+                     D4R2 = ...[["D4R2"]],
+                     D4R3 = ...[["D4R3"]],
+                     D4R4 = ...[["D4R4"]],
+                     ptsDial = ...[["ptsDial"]],
+                     a1 = ...[["a1"]],
+                     a2 = ...[["a2"]],
+                     b1 = ...[["b1"]],
+                     b2 = ...[["b2"]],
+                     b3 = ...[["b3"]],
+                     m =  ...[["m"]],                   
+                     nn = ...[["nn"]],
+                     o = ...[["o"]],
+                     mm1 = ...[["mm1"]],
+                     mm23 = ...[["mm23"]], 
+                     mm46 = ...[["mm46"]],
+                     pts = ...[["pts"]])
   }
 
   else if (...[["function_name"]] == "lima1_v1") {
@@ -68,7 +97,6 @@ calculate_donor_to_candidate_matchability <- function(...){
                      df.abs = ...[["df.abs"]],
                      data = ...[["df.candidates"]])
   }
-
 
   names(lst) <- df.donors$ID
 
@@ -142,7 +170,36 @@ uk_several <- function(){
               df.candidates = candidates.uk, 
               algorithm = uk1_v1,
               n = nrow(candidates.uk), 
-              function_name = "uk1_v1"
+              function_name = "uk1_v1",
+              D1R1 = 1000,
+              D1R2 = 700,
+              D1R3 = 350,
+              D1R4 = 0,
+              D2R1 = 700,
+              D2R2 = 1000,
+              D2R3 = 500,
+              D2R4 = 350,
+              D3R1 = 350,
+              D3R2 = 500,
+              D3R3 = 1000,
+              D3R4 = 700,
+              D4R1 = 0,
+              D4R2 = 350,
+              D4R3 = 700,
+              D4R4 = 1000,
+              ptsDial = 1,
+              a1 = 2300,
+              a2 = 1500,
+              b1 = 1200,
+              b2 = 750,
+              b3 = 400,
+              m = 40,
+              nn = 4.5,
+              o = 4.7,
+              mm1 = -100,
+              mm23 = -150,
+              mm46 = -250,
+              pts = -1000
             )
           )
         )

@@ -84,14 +84,18 @@ calculate_donor_to_candidate_matchability <- function(...){
                      pts = ...[["pts"]])
   }
 
-  else if (...[["function_name"]] == "lima1_v1") {
+  else if (...[["function_name"]] == "lima1_v2") {
     stopifnot(1 == 1)
 
     lst <- purrr::pmap(df, ...[["algorithm"]],
                      iso = ...[["iso"]],
                      n = ...[["n"]],
                      df.abs = ...[["df.abs"]],
-                     data = ...[["df.candidates"]])
+                     data = ...[["df.candidates"]],
+                     q2 = ...[["q2"]],
+                     q3 = ...[["q3"]],
+                     cPRA1 = ...[["cPRA1"]],
+                     cPRA2 = ...[["cPRA2"]])
   }
 
   else if (...[["function_name"]] == "et1_v1") {
@@ -109,22 +113,31 @@ calculate_donor_to_candidate_matchability <- function(...){
                      mm3 = ...[["mm3"]], 
                      mm4 = ...[["mm4"]], 
                      mm5 = ...[["mm5"]], 
-                     mm6 = ...[["mm6"]])
+                     mm6 = ...[["mm6"]],
+                     hlaA = ...[["hlaA"]], 
+                     hlaB = ...[["hlaB"]], 
+                     hlaDR = ...[["hlaDR"]], 
+                     abo_freq = ...[["abo_freq"]])
   }
 
-    else if (...[["function_name"]] == "pt1_v1") {
-      stopifnot(1 == 1)
+  else if (...[["function_name"]] == "pt1_v1") {
+    stopifnot(1 == 1)
       
-      lst <- purrr::pmap(df, ...[["algorithm"]],
-                     iso = ...[["iso"]],
-                     n = ...[["n"]],
-                     df.abs = ...[["df.abs"]],
-                     data = ...[["df.candidates"]],
-                     pts.80 = ...[["pts.80"]],
-                     pts.50 = ...[["pts.50"]],
-                     pts.dial = ...[["pts.dial"]],
-                     pts.age = ...[["pts.age"]])
+    lst <- purrr::pmap(df, ...[["algorithm"]],
+                    iso = ...[["iso"]],
+                    n = ...[["n"]],
+                    df.abs = ...[["df.abs"]],
+                    data = ...[["df.candidates"]],
+                    pts.80 = ...[["pts.80"]],
+                    pts.50 = ...[["pts.50"]],
+                    pts.dial = ...[["pts.dial"]],
+                    pts.age = ...[["pts.age"]])
   }
+
+  else {
+    stop("The function specified in 'function_name' does not exist.")
+  }
+
 
   names(lst) <- df.donors$ID
 
@@ -237,14 +250,17 @@ lima_several <- function(){
   return(
     several(
       iteration.number = 10, 
-      list(
-        df.donors = donors, 
-        df.abs = cabs, 
-        df.candidates = candidates, 
-        algorithm = lima1_v2, 
-        n = nrow(candidates), 
-        function_name = "lima1_v2", 
-        iso = TRUE
+      list(iso = TRUE
+        , df.donors = donors
+        , df.abs = cabs
+        , df.candidates = candidates
+        , algorithm = lima1_v2
+        , n = nrow(candidates)
+        , function_name = "lima1_v2"
+        , q2 = 60
+        , q3 = 100
+        , cPRA1 = 50
+        , cPRA2 = 85
         )
       )
     )
@@ -268,7 +284,11 @@ et_several <- function(){
         , mm3 = 200
         , mm4 = 133.33 
         , mm5 = 66.67 
-        , mm6 = 0)
+        , mm6 = 0
+        , hlaA = hlaApt
+        , hlaB = hlaBpt
+        , hlaDR = hlaDRpt
+        , abo_freq = ABOpt)
       )
     )
 }

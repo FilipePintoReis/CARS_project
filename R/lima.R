@@ -12,7 +12,11 @@
 #' @examples
 #' cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)
 #' @export
-cp <- function(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85){
+cp <- function(data = candidates,
+               q2 = 60,
+               q3 = 100,
+               cPRA1 = 50,
+               cPRA2 = 85){
 
   # verify function parameters
   if(cPRA2 < cPRA1){
@@ -65,11 +69,19 @@ lima1_v0 <- function(iso = TRUE
                   , dage = 60
                   , df.abs = cabs
                   , data = candidates
-                  , n = 2){
+                  , n = 2
+                  , q2 = 60
+                  , q3 = 100
+                  , cPRA1 = 50
+                  , cPRA2 = 85){
 
   n <- max(1, n)
 
-  data <- cp(data = data) %>%
+  data <- cp(data = data
+            , q2 = q2
+            , q3 = q3
+            , cPRA1 = cPRA1
+            , cPRA2 = cPRA2) %>%
     as.data.frame()
 
   data <- merge(data,
@@ -135,10 +147,21 @@ lima1_v1 <- function(iso = TRUE
                   , dage = 60
                   , df.abs = cabs
                   , data = candidates
-                  , n = 2){
+                  , n = 2
+                  , q2 = 60
+                  , q3 = 100
+                  , cPRA1 = 50
+                  , cPRA2 = 85){
+
   n <- max(1, n)
 
-  data_table <- merge(cp(data = data),
+  data <- cp(data = data
+            , q2 = q2
+            , q3 = q3
+            , cPRA1 = cPRA1
+            , cPRA2 = cPRA2)
+
+  data_table <- merge(data,
                       xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs),
                       all.x=TRUE)
 
@@ -220,16 +243,24 @@ lima1_v1 <- function(iso = TRUE
 #' data = candidates, n = 2)
 #' @export
 lima1_v2 <- function(iso = TRUE
-                     , dABO = "O"
-                     , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
-                     , dage = 60
-                     , df.abs = cabs
-                     , data = candidates
-                     , n = 2){
+                  , dABO = "O"
+                  , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
+                  , dage = 60
+                  , df.abs = cabs
+                  , data = candidates
+                  , n = 2
+                  , q2 = 60
+                  , q3 = 100
+                  , cPRA1 = 50
+                  , cPRA2 = 85){
 
   n <- max(1, n)
 
-  data <- cp(data = data) %>% # Isto pode ser feito antes do for loop de candidato vs dador
+  data <- cp(data = data
+            , q2 = q2 
+            , q3 = q3
+            , cPRA1 = cPRA1
+            , cPRA2 = cPRA2) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
   xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
@@ -326,20 +357,20 @@ lima_mult_v0 <- function(iso = TRUE
                          , n = 2){
 
   df <- df.donors %>%
-    mutate(dA = map2(.x = A1,
+    dplyr::mutate(dA = purrr::map2(.x = A1,
                      .y = A2,
                      ~c(.x,.y)),
-           dB = map2(.x = B1,
+           dB = purrr::map2(.x = B1,
                      .y = B2,
                      ~c(.x,.y)),
-           dDR = map2(.x = DR1,
+           dDR = purrr::map2(.x = DR1,
                       .y = DR2,
                       ~c(.x,.y))
            ) %>%
-    select(ID, bg, dA, dB, dDR, age)
+    dplyr::select(ID, bg, dA, dB, dDR, age)
 
 
-  lst <- pmap(df,
+  lst <- purrr::pmap(df,
               ~lima1_v0(iso = iso
                         , dABO = ..2
                         , dA = ..3, dB = ..4, dDR = ..5
@@ -399,7 +430,7 @@ lima_mult_v1 <- function(iso = TRUE
                   ) %>%
     dplyr::select(dABO, dA, dB, dDR, dage)
 
-  lst <- purrr::pmap(df,lima1_v2,
+  lst <- purrr::pmap(df, lima1_v2,
                      iso = iso,
                      n = n,
                      df.abs = df.abs,
@@ -407,5 +438,4 @@ lima_mult_v1 <- function(iso = TRUE
   names(lst) <- id
 
   return(lst)
-
 }

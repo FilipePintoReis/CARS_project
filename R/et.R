@@ -386,17 +386,27 @@ et1_v0<-function(iso = TRUE, dABO = "A",
 #' abo_freq = ABOpt,
 #' n = 2)
 #' @export
-et1_v1<-function(iso = TRUE, dABO = "A",
-              dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-              dage = 65,
-              data = candidates, month = 2.78,
-              mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-              mm4 = 133.33, mm5 = 66.67, mm6 = 0,
-              df.abs = cabs,
-              hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-              abo_freq = ABOpt,
-              n = 2
-              ){
+et1_v1<-function(iso = TRUE
+              , dABO = "A"
+              , dA = c("1","2")
+              , dB = c("15","44")
+              , dDR = c("1","4")
+              , dage = 65
+              , data = candidates 
+              , month = 2.78
+              , mm0 = 400
+              , mm1 = 333.33
+              , mm2 = 266.67
+              , mm3 = 200
+              , mm4 = 133.33
+              , mm5 = 66.67
+              , mm6 = 0
+              , df.abs = cabs
+              , hlaA = hlaApt
+              , hlaB = hlaBpt
+              , hlaDR = hlaDRpt
+              , abo_freq = ABOpt
+              , n = 2){
 
   n <- max(1, n)
 

@@ -14,23 +14,22 @@
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' mult(iso = TRUE,
+#' calculate_donor_to_candidate_matchability(iso = TRUE,
 #' df.donors = donors,
 #' df.abs = cabs,
 #' df.candidates = candidates,
 #' n = 2)
 #' @export
-mult <- function(iso = TRUE
-                         , df.donors = donors
-                         , df.abs = cabs
-                         , df.candidates = candidates
-                         , algorithm = lima1_v2
-                         , n = 2){
+calculate_donor_to_candidate_matchability <- function(...){ 
+  # Tem de ter sempre 
+  # donors 
+  # candidates.
+  # n (que é sempre o tamanho do número de candidatos)
 
   # defenir condições de validação dos inputs
   # ver função stopifnot()
 
-  id <- df.donors$ID
+  df.donors <- ...[["df.donors"]]
 
   df <- df.donors %>%
     dplyr::mutate(dABO = bg,
@@ -47,40 +46,47 @@ mult <- function(iso = TRUE
                   ) %>%
     dplyr::select(dABO, dA, dB, dDR, dage)
 
-  lst <- purrr::pmap(df, algorithm,
-                     iso = iso,
-                     n = n,
-                     df.abs = df.abs,
-                     data = df.candidates)
-  names(lst) <- id
+  if (...[["function_name"]] == "uk1_v1") {
+    lst <- purrr::pmap(df, ...[["algorithm"]],
+                     n = ...[["n"]],
+                     df.abs = ...[["df.abs"]],
+                     data = ...[["df.candidates"]])
+  }
+
+  else if (...[["function_name"]] == "lima1_v1") {
+    lst <- purrr::pmap(df, ...[["algorithm"]],
+                     iso = ...[["iso"]],
+                     n = ...[["n"]],
+                     df.abs = ...[["df.abs"]],
+                     data = ...[["df.candidates"]])
+  }
+
+  else if (...[["function_name"]] == "et1_v1") {
+    lst <- purrr::pmap(df, ...[["algorithm"]],
+                     iso = ...[["iso"]],
+                     n = ...[["n"]],
+                     df.abs = ...[["df.abs"]],
+                     data = ...[["df.candidates"]])
+  }
+
+
+  names(lst) <- df.donors$ID
 
   return(lst)
 }
 
-several <- function(iso = TRUE
-                         , df.donors = donors
-                         , df.abs = cabs
-                         , df.candidates = candidates
-                         , algorithm = lima1_v2
-                         , iteration.number = 10){
-
+several <- function(iteration.number = 10, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-
+  
+  df.donors <- ...[["df.donors"]]
   df.donors$nrow <- 1:nrow(df.donors)
 
-
-  pre_calculated_mappings <- mult(iso = iso
-                         , df.donors = df.donors
-                         , df.abs = df.abs
-                         , df.candidates = df.candidates
-                         , algorithm = algorithm
-                         , n = nrow(df.candidates))
+  pre_calculated_mappings <- calculate_donor_to_candidate_matchability(...)
 
   res.mul <- list()
 
   for (. in 1:iteration.number){
-    #shuffled_donors <- df.donors[sample(1:nrow(df.donors)), ]
     shuffled_donors <- sample(df.donors$nrow)
 
     # Create used candidates.
@@ -88,8 +94,7 @@ several <- function(iso = TRUE
     # Create Local Results.
     res <- NULL
 
-    for (j in 1:length(shuffled_donors)){ # como agora trabalho um vector uso a função length
-      #tmp <- pre_calculated_mappings[[ shuffled_donors[j,]$nrow ]] %>%
+    for (j in 1:length(shuffled_donors)){
       tmp <- pre_calculated_mappings[[shuffled_donors[j]]] %>%
         dplyr::filter(!ID %in% cc) %>% # This can be optimized
         dplyr::slice(1:2)
@@ -100,7 +105,6 @@ several <- function(iso = TRUE
     }
 
     res.mul <- append(res.mul, list(res))
-
   }
 
   mean_age <- res.mul %>% purrr::map(., ~mean(.x$age)) %>% unlist()
@@ -126,7 +130,39 @@ several <- function(iso = TRUE
               HI = freq_HI,
               color = freq_color,
               SP = freq_SP))
-
-  #return(res.mul)
-
 }
+
+
+uk_several <- function(){
+  return(
+    several(iteration.number = 10, 
+            list(
+              df.donors = donors.uk, 
+              df.abs = cabs, 
+              df.candidates = candidates.uk, 
+              algorithm = uk1_v1,
+              n = nrow(candidates.uk), 
+              function_name = "uk1_v1"
+            )
+          )
+        )
+}
+
+lima_several <- function(){
+  return(
+    several(
+      iteration.number = 10, 
+      list(
+        df.donors = donors, 
+        df.abs = cabs, 
+        df.candidates = candidates, 
+        algorithm = lima1_v2, 
+        n = nrow(candidates.uk), 
+        function_name = "lima1_v2", 
+        iso = TRUE
+        )
+      )
+    )
+}
+
+

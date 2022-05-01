@@ -13,7 +13,11 @@ lima(
   dage = 60,
   df.abs = cabs,
   data = candidates,
-  n = 2
+  n = 2,
+  q2 = 60,
+  q3 = 100,
+  cPRA1 = 50,
+  cPRA2 = 85
 )
 }
 \arguments{

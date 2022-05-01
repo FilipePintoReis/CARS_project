@@ -57,12 +57,12 @@ cp <- function(data = candidates,
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' lima1_v2(iso = TRUE, dABO = "O",
+#' lima(iso = TRUE, dABO = "O",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' dage = 60, df.abs = cabs,
 #' data = candidates, n = 2)
 #' @export
-lima1_v2 <- function(iso = TRUE
+lima <- function(iso = TRUE
                   , dABO = "O"
                   , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
                   , dage = 60
@@ -163,13 +163,13 @@ lima1_v2 <- function(iso = TRUE
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
 #' @examples
-#' lima_mult_v1(iso = TRUE,
+#' lima_mult(iso = TRUE,
 #' df.donors = donors,
 #' df.abs = cabs,
 #' df.candidates = candidates,
 #' n = 2)
 #' @export
-lima_mult_v1 <- function(iso = TRUE
+lima_mult <- function(iso = TRUE
                          , df.donors = donors
                          , df.abs = cabs
                          , df.candidates = candidates
@@ -192,7 +192,7 @@ lima_mult_v1 <- function(iso = TRUE
                   ) %>%
     dplyr::select(dABO, dA, dB, dDR, dage)
 
-  lst <- purrr::pmap(df, lima1_v2,
+  lst <- purrr::pmap(df, lima,
                      iso = iso,
                      n = n,
                      df.abs = df.abs,

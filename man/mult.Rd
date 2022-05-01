@@ -9,7 +9,7 @@ mult(
   df.donors = donors,
   df.abs = cabs,
   df.candidates = candidates,
-  algorithm = lima1_v2,
+  algorithm = lima,
   n = 2
 )
 }

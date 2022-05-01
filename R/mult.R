@@ -84,7 +84,7 @@ calculate_donor_to_candidate_matchability <- function(...){
                      pts = ...[["pts"]])
   }
 
-  else if (...[["function_name"]] == "lima1_v2") {
+  else if (...[["function_name"]] == "lima") {
     stopifnot(1 == 1)
 
     lst <- purrr::pmap(df, ...[["algorithm"]],
@@ -254,9 +254,9 @@ lima_several <- function(){
         , df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
-        , algorithm = lima1_v2
+        , algorithm = lima
         , n = nrow(candidates)
-        , function_name = "lima1_v2"
+        , function_name = "lima"
         , q2 = 60
         , q3 = 100
         , cPRA1 = 50

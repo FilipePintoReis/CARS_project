@@ -3,7 +3,6 @@
 #' @return A logical value T/F
 #' @noRd
 blood_group_checker <- function(input_string){
-
   valid_blood_groups = c('O', 'A', 'B', 'AB')
 
   if (input_string %in% valid_blood_groups){
@@ -26,12 +25,15 @@ age_checker <- function(input_number){
 #' @return A logical value T/F
 #' @noRd
 tier_checker <- function(input_string){
-
   valid_tiers = c('A', 'B')
 
   if (input_string %in% valid_tiers){
     return(TRUE)
-    } else {return(FALSE)}
+    } 
+    
+  else {
+      return(FALSE)
+    }
   }
 
 #' Validates that the RRI is within the correct range of values
@@ -44,10 +46,15 @@ rri_checker <- function(input_string){
 
   if (input_string %in% valid_rris){
     return(TRUE)
-    } else {return(FALSE)}
+    } 
+  
+  else {
+    return(FALSE)
+    }
   }
 
 #' Checks if new_id is present in id_set or not. If it is not, adds it to id_set
+#' TODO
 #' @param id_set verify id
 #' @param new_id verify id
 #' @return A logical value T/F
@@ -75,8 +82,8 @@ candid_check <- function(csv_file){
     'DR2',
     'age',
     'dialysis',
-    'cPRA')#,
-  #'urgent')
+    'cPRA',
+    'urgent')
 
   for (i in 1:length(candid_columns)){
     if (!candid_columns[i] %in% colnames(csv_file)){
@@ -137,8 +144,8 @@ candid_uk_check <- function(csv_file){
     'cPRA',
     'Tier',
     'MS',
-    'RRI')#,
-  #'urgent')
+    'RRI',
+    'urgent')
 
   for (i in 1:length(candid_uk_columns)){
     if (!candid_uk_columns[i] %in% colnames(csv_file)){

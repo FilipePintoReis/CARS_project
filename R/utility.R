@@ -75,8 +75,8 @@ candid_check <- function(csv_file){
     'DR2',
     'age',
     'dialysis',
-    'cPRA')#,
-  #'urgent')
+    'cPRA',
+    'urgent')
 
   for (i in 1:length(candid_columns)){
     if (!candid_columns[i] %in% colnames(csv_file)){
@@ -95,13 +95,15 @@ candid_check <- function(csv_file){
     if (!blood_group_checker(csv_file$bg[i])){
       print(paste('Invalid blood group in line', i))
       print(paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
-      break
+      return(FALSE)
     }
     if (!age_checker(csv_file$age[i])){
       print(paste('Negative age in line', i))
-      break
+      return(FALSE)
     }
   }
+
+  return(TRUE)
 }
 
 #' Validates the Candids
@@ -189,3 +191,11 @@ validate_candid_uk <- function(file_name, file_type){
   file <- read.csv(file_name, sep = ";")
   candid_uk_check(file)
 }
+
+
+# candidates_with_a_twist <- read.csv("candidates.csv")
+#
+# save(candidates_with_a_twist, file = "candidates_with_a_twist.rda")
+# read.csv()
+#
+# write.csv(candidates_with_a_twist, "candidates_2.csv")

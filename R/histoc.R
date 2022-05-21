@@ -6,7 +6,7 @@
 #' The histoc functions: abo, abo.uk, age.diff, b.blood, cp, et1, et_mmHLA, et-dial,
 # hiper, lima1, mmHLA, pt1, pts_HLA, pts_PRA, pts_age,
 # ric, sp, txscore, uk1, xmatch_r
-#' @import data.table reticulate
+#' @import data.table
 #' @docType package
 #' @name histoc
 NULL

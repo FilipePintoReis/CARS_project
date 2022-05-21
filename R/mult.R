@@ -46,7 +46,7 @@ calculate_donor_to_candidate_matchability <- function(...){
                   ) %>%
     dplyr::select(dABO, dA, dB, dDR, dage)
 
-  if (...[["function_name"]] == "uk1_v1") {
+  if (...[["function_name"]] == "uk1") {
     stopifnot(1 == 1)
 
     lst <- purrr::pmap(df, ...[["algorithm"]],
@@ -84,7 +84,7 @@ calculate_donor_to_candidate_matchability <- function(...){
                      pts = ...[["pts"]])
   }
 
-  else if (...[["function_name"]] == "lima1_v2") {
+  else if (...[["function_name"]] == "lima") {
     stopifnot(1 == 1)
 
     lst <- purrr::pmap(df, ...[["algorithm"]],
@@ -98,7 +98,7 @@ calculate_donor_to_candidate_matchability <- function(...){
                      cPRA2 = ...[["cPRA2"]])
   }
 
-  else if (...[["function_name"]] == "et1_v1") {
+  else if (...[["function_name"]] == "et1") {
     stopifnot(1 == 1)
 
     lst <- purrr::pmap(df, ...[["algorithm"]],
@@ -120,7 +120,7 @@ calculate_donor_to_candidate_matchability <- function(...){
                      abo_freq = ...[["abo_freq"]])
   }
 
-  else if (...[["function_name"]] == "pt1_v1") {
+  else if (...[["function_name"]] == "pt1") {
     stopifnot(1 == 1)
       
     lst <- purrr::pmap(df, ...[["algorithm"]],
@@ -209,9 +209,9 @@ uk_several <- function(){
               df.donors = donors.uk, 
               df.abs = cabs, 
               df.candidates = candidates.uk, 
-              algorithm = uk1_v1,
+              algorithm = uk1,
               n = nrow(candidates.uk), 
-              function_name = "uk1_v1",
+              function_name = "uk1",
               D1R1 = 1000,
               D1R2 = 700,
               D1R3 = 350,
@@ -254,9 +254,9 @@ lima_several <- function(){
         , df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
-        , algorithm = lima1_v2
+        , algorithm = lima
         , n = nrow(candidates)
-        , function_name = "lima1_v2"
+        , function_name = "lima"
         , q2 = 60
         , q3 = 100
         , cPRA1 = 50
@@ -273,9 +273,9 @@ et_several <- function(){
       list(df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
-        , algorithm = et1_v1
+        , algorithm = et1
         , n = nrow(candidates)
-        , function_name = "et1_v1"
+        , function_name = "et1"
         , iso = TRUE
         , month = 2
         , mm0 = 400 
@@ -300,9 +300,9 @@ pt_several <- function(){
       list(df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
-        , algorithm = pt1_v1
+        , algorithm = pt1
         , n = nrow(candidates)
-        , function_name = "pt1_v1"
+        , function_name = "pt1"
         , iso = TRUE
         , pts.80 = 8
         , pts.50 = 4

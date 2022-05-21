@@ -17,9 +17,9 @@ Imports:
     magrittr,
     tidyr,
     utils,
-    reticulate,
     data.table,
-    purrr
+    purrr,
+    mockr
 Depends: 
     R (>= 4.0.0)
 LazyData: true

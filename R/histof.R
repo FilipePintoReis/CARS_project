@@ -41,10 +41,10 @@ abo <- function(cABO = 'A', dABO = 'A', iso = TRUE){
 #' mmDR number of HLA-DR mismatchs between \code{dA}DRand \code{cDR};
 #' and mmHLA as the sum of mmA + mmB + mmDR
 #' @examples
-#' mmHLA_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
+#' mmHLA(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
 #' cA = c('1','2'), cB = c('03','15'), cDR = c('04','07'))
 #' @export
-mmHLA_r <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
+mmHLA <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
                   cA = c('1','2'), cB = c('3','15'), cDR = c('4','7')){
 
   mmA = NULL

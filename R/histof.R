@@ -95,9 +95,9 @@ mmHLA <- function(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
 #' xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs)
 #' @export
 xmatch_r <- function(dA = c('1','2'),
-                   dB = c('5','7'),
-                   dDR = c('1','4'),
-                   df.abs = cabs){
+                        dB = c('5','7'),
+                        dDR = c('1','4'),
+                        df.abs = cabs){
 
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop(
@@ -113,13 +113,17 @@ xmatch_r <- function(dA = c('1','2'),
             paste0('DR',dDR[1]),
             paste0('DR',dDR[2]))
 
-  df.abs %>%
-    dplyr::mutate(res = abs %in% dhla) %>%
-    dplyr::group_by(ID) %>%
-    dplyr::summarise(xm = ifelse(sum(res)>0, "POS","NEG")) %>%
-    dplyr::ungroup()
+  data.table::setDT(df.abs)
 
-}
+  df.abs[, res := abs %in% dhla]
+  res <- df.abs[,
+                xm := ifelse(sum(res)>0, "POS","NEG"),
+                by = 'ID'][, .(xm[.N]),
+                           by = 'ID']
+
+  data.table::setnames(res, 'V1', 'xm')
+  res[]
+  }
 
 #' Hiperimunized classification
 #'
@@ -224,7 +228,7 @@ txscore <- function(ageR = 20
                   ifelse(mmHLA_ < 4, '1-3', '4-6'))
 
   ageR <- ifelse(ageR < 35 , 0.0993,
-                 ifelse(ageR <50 , -0.0784,
+                 ifelse(ageR < 50 , -0.0784,
                         ifelse(ageR < 65, 0, 0.1881)))
   race <- ifelse(race == "White", 0,
                  ifelse(race == "Black", 0.1609,

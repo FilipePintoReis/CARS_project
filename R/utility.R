@@ -47,19 +47,10 @@ rri_checker <- function(input_string){
     } else {return(FALSE)}
   }
 
-#' Checks if new_id is present in id_set or not. If it is not, adds it to id_set
-#' @param id_set verify id
-#' @param new_id verify id
-#' @return A logical value T/F
-#' @noRd
-id_uniqueness <- function(id_set, new_id){
-
-}
 
 #' Validates the Candid file.
 #' Makes sure the header matches the header that a candid file should have.
 #' For each line, call blood group and age checks.
-#' FUNCAO NAO ACABADA
 #' @param candidate.dataframe a dataframe
 #' @return A logical value T/F
 #' @noRd
@@ -91,6 +82,13 @@ candidate_dataframe_check <- function(candidate.dataframe){
     return(FALSE)
   }
 
+  candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
+  duplication.location <- anyDuplicated(candidate.datatable)
+
+  if(duplication.location != 0){
+    print(paste('Duplicated ID in line', duplication.location))
+  }
+
   for (i in 1:nrow(candidate.dataframe)){
     if (!blood_group_checker(candidate.dataframe$bg[i])){
       print(paste('Invalid blood group in line', i))
@@ -107,7 +105,6 @@ candidate_dataframe_check <- function(candidate.dataframe){
 }
 
 #' Validates the Candids
-#' FUNCAO NAO ACABADA
 #' @param file_name name of the file
 #' @param file_type type of the file
 #' @return A logical value T/F
@@ -120,7 +117,6 @@ validate_candid <- function(file_name, file_type){
 #' Validates the CandidUK file.
 #' Makes sure the header matches the header that a candid file should have.
 #' For each line, call blood group and age checks.
-#' FUNCAO NAO ACABADA
 #' @param candidate.dataframe candidate's dataframe
 #' @return A logical value T/F
 #' @noRd
@@ -155,6 +151,13 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
     return(FALSE)
   }
 
+  candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
+  duplication.location <- anyDuplicated(candidate.datatable)
+
+  if(duplication.location != 0){
+    print(paste('Duplicated ID in line', duplication.location))
+  }
+
   for (i in 1:nrow(candidate.dataframe)){
     if (!blood_group_checker(candidate.dataframe$bg[i])){
       print(paste('Invalid blood group in line', i))
@@ -184,7 +187,6 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
 }
 
 #' Validates the CandidUK file.
-#' FUNCAO NAO ACABADA
 #' @param file_name name of the file
 #' @param file_type type of the file
 #' @return A logical value T/F
@@ -194,10 +196,3 @@ validate_candid_uk <- function(file_name, file_type){
   uk_candidate_dataframe_check(file)
 }
 
-
-# candidates_with_a_twist <- read.csv("candidates.csv")
-#
-# save(candidates_with_a_twist, file = "candidates_with_a_twist.rda")
-# read.csv()
-#
-# write.csv(candidates_with_a_twist, "candidates_2.csv")

@@ -1,0 +1,188 @@
+test_that('Test Blood Group Checker', {
+  valid_input = c('O', 'A', 'B', 'AB')
+  invalid_input = c('o', 'OA', 'Z', 1) #, c('A'))
+  
+  for (valid in valid_input){
+    expect_equal(blood_group_checker(valid), TRUE)
+  }
+  
+  for (invalid in invalid_input){
+    expect_equal(blood_group_checker(invalid), FALSE)
+  }
+})
+
+test_that('Test Age Checker', {
+  valid_input = c(2, 10, 50, 33, 29, 80)
+  invalid_input = c(1, 99, '50', -1, c(10))
+  
+  for (valid in valid_input){
+    expect_equal(age_checker(valid), TRUE)
+  }
+  
+  for (invalid in invalid_input){
+    expect_equal(age_checker(invalid), FALSE)
+  }
+})
+
+test_that('Test Tier Checker', {
+  valid_input = c('A', 'B')
+  invalid_input = c('a', 'AB', 'Z') #, c('A'))
+  
+  for (valid in valid_input){
+    expect_equal(tier_checker(valid), TRUE)
+  }
+  
+  for (invalid in invalid_input){
+    expect_equal(tier_checker(invalid), FALSE)
+  }
+})
+
+test_that('Test RRI Checker', {
+  valid_input = c('R1', 'R2', 'R3', 'R4')
+  invalid_input = c('r1', 'R1R2', 'Z1') #, c('R1'))
+  
+  for (valid in valid_input){
+    expect_equal(rri_checker(valid), TRUE)
+  }
+  
+  for (invalid in invalid_input){
+    expect_equal(rri_checker(invalid), FALSE)
+  }
+})
+
+test_that('Test Candidate Dataframe Checker', {
+  valid_input = list(
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1),
+      urgent = c(1)
+    )
+  )
+  
+  invalid_input = list(
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1)
+    ),
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1),
+      urgent = c(1),
+      random_column = c(TRUE)
+    )
+  )
+  
+  mockr::with_mock(
+    blood_group_checker = function(var) TRUE,
+    age_checker = function(var) TRUE, 
+    {
+      for (valid in valid_input){
+        expect_equal(candidate_dataframe_check(valid), TRUE)
+      }
+    
+      for (invalid in invalid_input){
+        expect_equal(candidate_dataframe_check(invalid), FALSE)
+      }
+    })
+})
+
+test_that('Test UK Candidate Dataframe Checker', {
+  valid_input = list(
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1),
+      Tier = c(1),
+      MS = c(1),
+      RRI = c(1),
+      urgent = c(1)
+    )
+  )
+  
+  invalid_input = list(
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1),
+      Tier = c(1),
+      MS = c(1),
+      RRI = c(1)
+    ),
+    data.frame(
+      ID = c(1),
+      bg = c('A'),
+      A1 = c(1),
+      A2 = c(1),
+      B1 = c(1),
+      B2 = c(1),
+      DR1 = c(1),
+      DR2 = c(1),
+      age = c(1),
+      dialysis = c(1),
+      cPRA = c(1),
+      Tier = c(1),
+      MS = c(1),
+      RRI = c(1),
+      urgent = c(1),
+      random_column = c(TRUE)
+    )
+  )
+  
+  mockr::with_mock(
+    blood_group_checker = function(var) TRUE,
+    tier_checker = function(var) TRUE,
+    age_checker = function(var) TRUE, 
+    rri_checker = function(var) TRUE, 
+    {
+      for (valid in valid_input){
+        expect_equal(uk_candidate_dataframe_check(valid), TRUE)
+      }
+    
+      for (invalid in invalid_input){
+        expect_equal(uk_candidate_dataframe_check(invalid), FALSE)
+      }
+  })
+})

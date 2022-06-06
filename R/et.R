@@ -309,27 +309,29 @@ et<-function(iso = TRUE
     ),
     by = 'ID']
 
-  return(data[order(-SP, -AM, -mm000, -pointsET)][
-    1:n][!is.na(ID),][, .(ID,
-                          bg,
-                          A1,
-                          A2,
-                          B1,
-                          B2,
-                          DR1,
-                          DR2,
-                          mmA,
-                          mmB,
-                          mmDR,
-                          mmHLA,
-                          age,
-                          donor_age,
-                          dialysis,
-                          cPRA,
-                          HI,
-                          pointsET,
-                          SP,
-                          AM)])
+  return(data[order(-SP, -AM, -mm000, -pointsET)]
+         [1:n]
+         [!is.na(ID),]
+         [, .(ID,
+              bg,
+              A1,
+              A2,
+              B1,
+              B2,
+              DR1,
+              DR2,
+              mmA,
+              mmB,
+              mmDR,
+              mmHLA,
+              age,
+              donor_age,
+              dialysis,
+              cPRA,
+              HI,
+              pointsET,
+              SP,
+              AM)])
 }
 
 

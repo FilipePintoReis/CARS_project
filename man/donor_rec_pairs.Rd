@@ -2,10 +2,7 @@
 % Please edit documentation in R/mult.R
 \name{donor_rec_pairs}
 \alias{donor_rec_pairs}
-\title{função que cria os os pares dador receptor para cada dador
-deve ter como inputs os data frames de dadores, candidatos e anticorpos,
-o número de candidatos a selecionar para cada dador (quando n = 0 seleciona todos)
-e os parametros de cada algoritmo}
+\title{Candidates' selection according to any algorithm for multiple donors}
 \usage{
 donor_rec_pairs(
   df.donors = donors,
@@ -16,9 +13,33 @@ donor_rec_pairs(
   ...
 )
 }
+\arguments{
+\item{df.donors}{A data frame containing demographics and medical information
+for a poll of donors. For uk algorithm must have respective columns.}
+
+\item{df.candidates}{A data frame containing demographics and medical information
+for a group of waitlisted transplant candidates. For uk algorithm must have respective columns.}
+
+\item{df.abs}{A data frame with candidates' antibodies.}
+
+\item{algorithm}{The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)}
+
+\item{n}{A positive integer to slice the first candidates.}
+
+\item{...}{all the parameters used on the function algorithm}
+}
+\value{
+A list with the number of elements equal to the number of rows on donors data frame.
+Each element have a data frame with select candidates by donor.
+}
 \description{
-função que cria os os pares dador receptor para cada dador
-deve ter como inputs os data frames de dadores, candidatos e anticorpos,
-o número de candidatos a selecionar para cada dador (quando n = 0 seleciona todos)
-e os parametros de cada algoritmo
+Ordering of waitlisted candidates for a given donor and
+according to any algorithm.
+}
+\examples{
+donor_rec_pairs(df.donors = donors,
+df.candidates = candidates,
+df.abs = cabs,
+algorithm = lima,
+n = 2)
 }

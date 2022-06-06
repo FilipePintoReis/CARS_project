@@ -2,22 +2,47 @@
 % Please edit documentation in R/mult.R
 \name{several}
 \alias{several}
-\title{Generic function that runs the matchability between all combinations of donors and candidates.
-Runs an arbitrary number of times to provide statistics}
+\title{Runs several time the function donor_rec_pairs() for as bootstrap.}
 \usage{
-several(iteration.number = 10, ...)
+several(
+  iteration.number = 10,
+  df.donors = donors,
+  df.candidates = candidates,
+  df.abs = cabs,
+  algorithm = lima,
+  n = 0,
+  ...
+)
 }
 \arguments{
 \item{iteration.number}{Number of times the matchability runs.}
+
+\item{df.donors}{A data frame containing demographics and medical information
+for a poll of donors. For uk algorithm must have respective columns.}
+
+\item{df.candidates}{A data frame containing demographics and medical information
+for a group of waitlisted transplant candidates. For uk algorithm must have respective columns.}
+
+\item{df.abs}{A data frame with candidates' antibodies.}
+
+\item{algorithm}{The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)}
+
+\item{n}{A positive integer to slice the first candidates.}
+
+\item{...}{all the parameters used on the function algorithm}
 }
 \value{
 Statistics related to all the times the function ran.
 }
 \description{
 Generic function that runs the matchability between all combinations of donors and candidates.
-Runs an arbitrary number of times to provide statistics
+Runs an arbitrary number of times ('iteration.number') to provide statistics.
 }
 \examples{
 several(iteration.number = 10,
-...)
+df.donors = donors,
+df.candidates = candidates,
+df.abs = cabs,
+algorithm = lima,
+n = 0)
 }

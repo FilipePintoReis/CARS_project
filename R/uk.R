@@ -350,27 +350,27 @@ uk<-function(DRI = 'D1',
     by = 'ID']
 
   return(
-    data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][
-    order(Tier, -pointsUK, -matchability, -dialysis)][
-      1:n][!is.na(ID),][]
-    [, .(ID,
-                            bg,
-                            A1,
-                            A2,
-                            B1,
-                            B2,
-                            DR1,
-                            DR2,
-                            matchability,
-                            mmA,
-                            mmB,
-                            mmDR,
-                            mmHLA,
-                            age,
-                            donor_age,
-                            dialysis,
-                            cPRA,
-                            Tier,
-                            pointsUK)]
+    data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),]
+    [order(Tier, -pointsUK, -matchability, -dialysis)]
+    [1:n]
+    [!is.na(ID), .(ID,
+                   bg,
+                   A1,
+                   A2,
+                   B1,
+                   B2,
+                   DR1,
+                   DR2,
+                   matchability,
+                   mmA,
+                   mmB,
+                   mmDR,
+                   mmHLA,
+                   age,
+                   donor_age,
+                   dialysis,
+                   cPRA,
+                   Tier,
+                   pointsUK)]
     )
 }

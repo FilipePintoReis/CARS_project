@@ -4,27 +4,32 @@
 #' @param cABO A character from 'A', 'B', 'AB', 'O'
 #' @param dABO A character from 'A', 'B', 'AB', 'O'
 #' @param iso A logical value T/F
+#' @param validation.required Bool to decide whether to validate input.
 #' @return A logical value T/F
 #' @examples
-#' abo(cABO = 'A', dABO = 'A', iso = TRUE)
+#' abo(cABO = 'A', dABO = 'A', iso = TRUE, validation.required = TRUE)
 #' @export
-abo <- function(cABO = 'A', dABO = 'A', iso = TRUE){
+abo <- function(cABO = 'A', dABO = 'A', iso = TRUE, validation.required = TRUE){
 
-  if(blood_group_checker(cABO) & blood_group_checker(dABO)){
+  if (validation.required){
+    blood_group_checker(cABO) 
+    blood_group_checker(dABO)
+  }
+  
 
-    if(iso == TRUE){
-      value <- cABO == dABO
-      } else {
-        value <- ifelse(dABO == 'O', TRUE,
-                        ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
-                               ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
-                                      ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
-                                      )
-                               )
-        )
-        }
-    return(value)
-    } else { stop('blood group is not valid!') }
+  if(iso == TRUE){
+    value <- cABO == dABO
+    } else {
+      value <- ifelse(dABO == 'O', TRUE,
+                      ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
+                              ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
+                                    ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
+                                    )
+                              )
+      )
+      }
+  return(value)
+    
 }
 
 #' number of HLA mismatchs

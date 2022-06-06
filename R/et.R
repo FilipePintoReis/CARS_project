@@ -12,14 +12,22 @@
 #' @param hlaB A data frame with HLA-B allele frequencies
 #' @param hlaDR A data frame with HLA-DR allele frequencies
 #' @param abo_freq A data frame with ABO blood group frequencies
+#' @param validation.required Bool to decide whether to validate input.
 #' @examples
 #' et_mmp(data = candidates,
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-#' abo_freq = ABOpt)
+#' abo_freq = ABOpt, validation.required = TRUE)
 #' @export
 et_mmp<-function(data = candidates,
-                 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-                 abo_freq = ABOpt){
+                 hlaA = hlaApt, 
+                 hlaB = hlaBpt, 
+                 hlaDR = hlaDRpt,
+                 abo_freq = ABOpt,
+                 validation.required = TRUE){
+
+  if (validation.required){
+
+  }
 
   # compute the sum of squared frequencies for each loci with PT frequencies
   SallA <-sum((hlaA %>% tidyr::drop_na() %>% .$freq) ^ 2)
@@ -97,11 +105,12 @@ et_mmp<-function(data = candidates,
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
+#' @param validation.required Bool to decide whether to validate input.
 #' @examples
 #' et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-#' mm4 = 133.33, mm5 = 66.67, mm6 = 0)
+#' mm4 = 133.33, mm5 = 66.67, mm6 = 0, validation.required = TRUE)
 #' @export
 et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
@@ -111,23 +120,25 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    mm3 = 200,
                    mm4 = 133.33,
                    mm5 = 66.67,
-                   mm6 = 0){
-
-  # verify function parameters
-  if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
-    stop("points for 0 mmHLA (full match) is not valid!\n")}
-  if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
-    stop("points for 1 mmHLA is not valid!\n")}
-  if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
-    stop("points for 2 mmHLA is not valid!\n")}
-  if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
-    stop("points for 3 mmHLA is not valid!\n")}
-  if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
-    stop("points for 4 mmHLA is not valid!\n")}
-  if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
-    stop("points for 5 mmHLA is not valid!\n")}
-  if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
-    stop("points for 6 mmHLA is not valid!\n")}
+                   mm6 = 0,
+                   validation.required = TRUE){
+  
+  if (validation.required){
+    if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
+      stop("points for 0 mmHLA (full match) is not valid!\n")}
+    if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
+      stop("points for 1 mmHLA is not valid!\n")}
+    if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
+      stop("points for 2 mmHLA is not valid!\n")}
+    if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
+      stop("points for 3 mmHLA is not valid!\n")}
+    if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
+      stop("points for 4 mmHLA is not valid!\n")}
+    if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
+      stop("points for 5 mmHLA is not valid!\n")}
+    if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
+      stop("points for 6 mmHLA is not valid!\n")}
+  }
 
   # apply mmHLA function
   mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
@@ -151,18 +162,22 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' (between 0 and 500)
 #' @param month A numeric value with the punctuation for each month
 #' (between 0 and 10)
+#' @param validation.required Bool to decide whether to validate input.
 #' @examples
-#' et_dial(dial = 100, month = 2.78)
+#' et_dial(dial = 100, month = 2.78, validation.required = TRUE)
 #' @export
-et_dial<-function(dial = 0, month = 2.78){
+et_dial<-function(dial = 0, month = 2.78, validation.required = TRUE){
+  if (validation.required){
+    if(!is.numeric(dial) | dial < 0 | dial > 499){
+      stop("value for time on dialysis is not valid!\n")
+    }
 
-  # verify function parameters
-  if(!is.numeric(dial) | dial < 0 | dial > 499){
-    stop("value for time on dialysis is not valid!\n")}
-  if(!is.numeric(month) | month < 0 | month > 10){
-    stop("attributed points for each month on dialysis is not valid!\n")}
+    if(!is.numeric(month) | month < 0 | month > 10){
+      stop("attributed points for each month on dialysis is not valid!\n")
+    }
+  }
 
-  pts<-dial * month
+  pts <- dial * month
 
   return(pts)
 

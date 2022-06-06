@@ -38,21 +38,21 @@ ric<-function(DRI = 'D1',
   # verify function parameters
   if(!DRI %in% c('D1','D2','D3','D4')){stop("DRI is not a valid option! Select of 'D1','D2','D3','D4' \n")
   } else if (D1R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D1R2 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D1R3 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D1R4 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D2R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D2R2 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D2R3 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D2R4 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D3R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D3R2 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D3R3 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D3R4 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D4R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D4R2 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D4R3 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D4R4 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
+  } else if (D1R2 < 0 | D1R2 > 1000){stop("D1R2 is not between 0 and 1000!\n")
+  } else if (D1R3 < 0 | D1R3 > 1000){stop("D1R3 is not between 0 and 1000!\n")
+  } else if (D1R4 < 0 | D1R4 > 1000){stop("D1R4 is not between 0 and 1000!\n")
+  } else if (D2R1 < 0 | D2R1 > 1000){stop("D2R1 is not between 0 and 1000!\n")
+  } else if (D2R2 < 0 | D2R2 > 1000){stop("D2R2 is not between 0 and 1000!\n")
+  } else if (D2R3 < 0 | D2R3 > 1000){stop("D2R3 is not between 0 and 1000!\n")
+  } else if (D2R4 < 0 | D2R4 > 1000){stop("D2R4 is not between 0 and 1000!\n")
+  } else if (D3R1 < 0 | D3R1 > 1000){stop("D3R1 is not between 0 and 1000!\n")
+  } else if (D3R2 < 0 | D3R2 > 1000){stop("D3R2 is not between 0 and 1000!\n")
+  } else if (D3R3 < 0 | D3R3 > 1000){stop("D3R3 is not between 0 and 1000!\n")
+  } else if (D3R4 < 0 | D3R4 > 1000){stop("D3R4 is not between 0 and 1000!\n")
+  } else if (D4R1 < 0 | D4R1 > 1000){stop("D4R1 is not between 0 and 1000!\n")
+  } else if (D4R2 < 0 | D4R2 > 1000){stop("D4R2 is not between 0 and 1000!\n")
+  } else if (D4R3 < 0 | D4R3 > 1000){stop("D4R3 is not between 0 and 1000!\n")
+  } else if (D4R4 < 0 | D4R4 > 1000){stop("D4R4 is not between 0 and 1000!\n")
   }
 
   if (DRI == 'D1') {
@@ -129,7 +129,6 @@ b_blood<-function(dABO = "B",
 }
 
 
-
 #' test for ABO compatibility on UK transplant
 #'
 #' @description ABO compatibility test between donor and candidate according to
@@ -146,9 +145,9 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 
   res = NULL
   # verify function parameters
-  if (!dABO %in% c("A", "B", "AB", "O")) {stop("donor's group is not a valid option!\n")}
-  if (!cABO %in% c("A", "B", "AB", "O")) {stop("candidate's group is not a valid option!\n")}
-  if (! tier %in% c('A','B')) {stop("candidate's Tier is not a valid option!\n")}
+  if (!blood_group_checker(dABO)){stop("donor's group is not a valid option!\n")}
+  if (!blood_group_checker(cABO)){stop("candidate's group is not a valid option!\n")}
+  if (!tier %in% c('A','B')) {stop("candidate's Tier is not a valid option!\n")}
 
   if(tier == 'B'){
     res<-ifelse(dABO == "O" & (cABO == "O" | cABO == "B"), TRUE,
@@ -274,19 +273,15 @@ uk<-function(DRI = 'D1',
 
   n <- max(1, n)
 
-  data <- cp(data = data) %>%
-    as.data.frame()
+  # data <- cp(data = data) %>%
+  #   as.data.frame()
 
   xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
 
   data.table::setDT(data, key = 'ID')
   data.table::setDT(xm, key = 'ID')
 
-  data <- merge(data, xm,
-                by = 'ID',
-                all.x=TRUE)
-
-  data <- ric(
+   data <- ric(
     DRI = DRI, D1R1 = D1R1, D1R2 = D1R2, D1R3 = D1R3, D1R4 = D1R4,
     D2R1 = D2R1, D2R2 = D2R2, D2R3 = D2R3, D2R4 = D2R4,
     D3R1 = D3R1, D3R2 = D3R2, D3R3 = D3R3, D3R4 = D3R4,
@@ -294,12 +289,15 @@ uk<-function(DRI = 'D1',
     data = data
   )
 
+   data <- merge(data, xm,
+                 by = 'ID',
+                 all.x=TRUE)
+
   data[, `:=`(
       donor_age = dage,
       compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier)
-    ),
-    by = 'ID'
-  ][, row_n := 1:nrow(data)]
+      ),
+    by = 'ID'][, row_n := 1:nrow(data)]
 
   l <- list()
 
@@ -327,8 +325,7 @@ uk<-function(DRI = 'D1',
               ifelse((mmDR == 0 & mmB <= 1) | (mmDR == 1 & mmB == 0), 2,
                 ifelse((mmDR == 0 & mmB == 2) |(mmDR == 1 & mmB == 1), 3, 4)))
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
 
   data[, `:=`(
     pts.hla.age = ifelse(level == 1, b1 * cos(age / 18) + a1,
@@ -341,20 +338,22 @@ uk<-function(DRI = 'D1',
     pts.age = age_diff(dage = dage, cage = age),
     pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
 
   data[, `:=`(
     pointsUK = round(
-        ifelse(Tier == "A", 9999, ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo)
+        ifelse(Tier == "A",
+               9999,
+               ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo)
         , 1)
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
 
-  return(data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][
+  return(
+    data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][
     order(Tier, -pointsUK, -matchability, -dialysis)][
-      1:n][!is.na(ID),][, .(ID,
+      1:n][!is.na(ID),][]
+    [, .(ID,
                             bg,
                             A1,
                             A2,
@@ -372,5 +371,6 @@ uk<-function(DRI = 'D1',
                             dialysis,
                             cPRA,
                             Tier,
-                            pointsUK)])
+                            pointsUK)]
+    )
 }

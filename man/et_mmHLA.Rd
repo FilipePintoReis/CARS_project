@@ -48,8 +48,8 @@ et_mmHLA(
 \item{mm6}{A numeric value with points for 6 HLA mm on ETKAS points table}
 }
 \description{
-Punctuation given for HLA mismatches within ET Kidney allocation
-system
+Computes HLA mismatches and the respective punctuation within ET
+Kidney allocation system
 }
 \examples{
 et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),

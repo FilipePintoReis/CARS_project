@@ -54,6 +54,10 @@ cp <- function(data = candidates,
 #' color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
+#' @param q2 A numerical value for the median of candidates' waiting list.
+#' @param q3 A numerical value for the third quartile of candidates' waiting list.
+#' @param cPRA1 A numerical value (0-100) for the lower cPRA cutoff.
+#' @param cPRA2 A numerical value (0-100) for the higher cPRA cutoff. cPRA2
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
 #' @examples
@@ -77,7 +81,7 @@ lima <- function(iso = TRUE
   n <- max(1, n)
 
   data <- cp(data = data
-            , q2 = q2 
+            , q2 = q2
             , q3 = q3
             , cPRA1 = cPRA1
             , cPRA2 = cPRA2) %>% # Isto pode ser feito antes do for loop de candidato vs dador

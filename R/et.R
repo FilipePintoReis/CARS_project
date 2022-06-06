@@ -76,13 +76,13 @@ et_mmp<-function(data = candidates,
     by = 'ID'
   ]
 
-  return(data)
+  return(data[])
   }
 
 #' ET points for mmHLA
 #'
-#' @description Punctuation given for HLA mismatches within ET Kidney allocation
-#' system
+#' @description Computes HLA mismatches and the respective punctuation within ET
+#' Kidney allocation system
 #' @param dA donor's HLA-A typing
 #' @param dB donor's HLA-B typing
 #' @param dDR donor's HLA-DR typing

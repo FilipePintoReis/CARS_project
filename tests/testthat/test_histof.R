@@ -1,5 +1,4 @@
 context("Histocompatibility")
-library(histoc)
 
 test_that("compatibility ABO", {
   expect_false(abo(cABO = 'A', dABO = 'O', iso = TRUE))

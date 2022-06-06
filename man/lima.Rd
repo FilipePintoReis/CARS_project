@@ -40,6 +40,14 @@ for a group of waitlisted transplant candidates with
 color priority classification.}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{q2}{A numerical value for the median of candidates' waiting list.}
+
+\item{q3}{A numerical value for the third quartile of candidates' waiting list.}
+
+\item{cPRA1}{A numerical value (0-100) for the lower cPRA cutoff.}
+
+\item{cPRA2}{A numerical value (0-100) for the higher cPRA cutoff. cPRA2}
 }
 \value{
 An ordered data frame with a column 'cp' (color priority),

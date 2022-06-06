@@ -155,10 +155,13 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' several(iteration.number = 10,
 #' ...)
 #' @export
-several <- function(iteration.number = 10, ...){
+several <- function(iteration.number = 10, should.seed = FALSE, seed = 123, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-  
+  if(should.seed){
+    set.seed(seed)
+  }
+
   df.donors <- ...[["df.donors"]]
   df.donors$nrow <- 1:nrow(df.donors)
 

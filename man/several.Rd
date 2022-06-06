@@ -5,7 +5,7 @@
 \title{Generic function that runs the matchability between all combinations of donors and candidates.
 Runs an arbitrary number of times to provide statistics}
 \usage{
-several(iteration.number = 10, ...)
+several(iteration.number = 10, should.seed = FALSE, seed = 123, ...)
 }
 \arguments{
 \item{iteration.number}{Number of times the matchability runs.}

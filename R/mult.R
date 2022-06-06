@@ -150,6 +150,8 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' @description Generic function that runs the matchability between all combinations of donors and candidates.
 #' Runs an arbitrary number of times to provide statistics
 #' @param iteration.number Number of times the matchability runs.
+#' @param should.seed Bool to decide whether to set a seed number.
+#' @param seed Seed for new random number. It's only used when should.seed = TRUE
 #' @return Statistics related to all the times the function ran.
 #' @examples
 #' several(iteration.number = 10,

@@ -108,7 +108,7 @@ test_that('Test Candidate Dataframe Checker', {
       }
     
       for (invalid in invalid_input){
-        expect_equal(candidate_dataframe_check(invalid), FALSE)
+        expect_error(candidate_dataframe_check(invalid))
       }
     })
 })

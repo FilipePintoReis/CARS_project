@@ -176,12 +176,12 @@ several <- function(iteration.number = 10, ...){
         dplyr::filter(!ID %in% used.candidates) %>% # This can be optimized
         dplyr::slice(1:2)
 
-      rescurrent.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
+      current.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
 
       used.candidates <- c(used.candidates, tmp$ID)
     }
 
-    all.statistics <- append(all.statistics, list(res))
+    all.statistics <- append(all.statistics, list(current.iteration.statistics))
   }
 
   mean_age <- all.statistics %>% purrr::map(., ~mean(.x$age)) %>% unlist()

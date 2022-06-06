@@ -95,7 +95,7 @@ lima <- function(iso = TRUE
   data[, `:=`(
     donor_age = dage,
     SP = sp(cage = age, dage = dage),
-    HI = hiper(cPRA = cPRA), # Isto pode ser feito antes do for loop de candidato vs dador
+    HI = hiper(cPRA = cPRA, 85), # Isto pode ser feito antes do for loop de candidato vs dador
     compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
     ), by = 'ID'][, row_n := 1:nrow(data)]
 

@@ -71,14 +71,12 @@ candidate_dataframe_check <- function(candidate.dataframe){
 
   for (i in 1:length(candidate.fields)){
     if (!candidate.fields[i] %in% colnames(candidate.dataframe)){
-      print(paste('Column', candidate.fields[i], 'is not present in the file.'))
-      return(FALSE)
+      stop('Column ', candidate.fields[i], ' is not present in the file.')
     }
   }
 
   if (length(candidate.fields) != length(colnames(candidate.dataframe))){
-    print('There are unexpected columns in the file. Expected:')
-    print(paste(candidate.fields, collapse = ", "))
+    stop('There are unexpected columns in the file. Expected: ', candidate.fields, ' ', collapse = ", ")
     return(FALSE)
   }
 
@@ -86,18 +84,15 @@ candidate_dataframe_check <- function(candidate.dataframe){
   duplication.location <- anyDuplicated(candidate.datatable)
 
   if(duplication.location != 0){
-    print(paste('Duplicated ID in line', duplication.location))
+    stop(paste('Duplicated ID in line', duplication.location))
   }
 
   for (i in 1:nrow(candidate.dataframe)){
     if (!blood_group_checker(candidate.dataframe$bg[i])){
-      print(paste('Invalid blood group in line', i))
-      print(paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
-      return(FALSE)
+      stop(paste('Invalid blood group in line', i), paste('\nSupported groups are', paste(valid_blood_groups, collapse = ", ")))
     }
     if (!age_checker(candidate.dataframe$age[i])){
-      print(paste('Negative age in line', i))
-      return(FALSE)
+      stop('Negative age in line', i)
     }
   }
 

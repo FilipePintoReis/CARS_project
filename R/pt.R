@@ -3,25 +3,32 @@
 #' @description Punctuation given for age difference between candidates and donors
 #' @param donor.age A numeric value with donor's age.
 #' @param candidate.age A numeric value with candidate's age.
-#' @param pts A numerical value for the points to age difference
+#' @param age.difference.points A numerical value for the points to age difference
 #' @return A numerical value for pre-defined points
 #' @examples
-#' pts_age(donor.age = 60, candidate.age = 40, pts = 4)
+#' pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4)
 #' @export
 pts_age <- function(donor.age = 60
                     , candidate.age = 40
-                    , pts = 4){
+                    , age.difference.points = 4){
   # verify function parameters
-  if(!is.numeric(donor.age) | donor.age < 18 | donor.age > 99){
-    stop("donor's age is not valid!\n")}
-  if(!is.numeric(candidate.age) | candidate.age < 18 | candidate.age > 99){
-    stop("candidate's age is not valid!\n")}
-  if(!is.numeric(pts) | pts < 1 | pts > 20){
-    stop("age points are not valid!\n")}
+  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age){
+    stop("Donor's age is not valid!\n")}
+  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
+    stop("Candidate's age is not valid!\n")}
+  if(!is.numeric(age.difference.points) | age.difference.points < 1 | age.difference.points > 20){
+    stop("Age points are not valid!\n")}
 
-  pts <- ifelse((donor.age > 60 & candidate.age < 55) | (donor.age < 40 & candidate.age > 55), 0, pts)
+  age.difference.points <- ifelse(
+    (
+      (donor.age > 60 & candidate.age < 55) | 
+      (donor.age < 40 & candidate.age > 55)
+    ),
+    0,
+    age.difference.points
+  )
 
-  return(pts)
+  return(age.difference.points)
 
 }
 

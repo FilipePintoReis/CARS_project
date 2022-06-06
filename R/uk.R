@@ -83,20 +83,20 @@ ric<-function(DRI = 'D1',
 #'
 #' @description computes punctuation according to donor-recipient age difference
 #' @param donor.age A numeric value with donor's age.
-#' @param cage A numeric value with candidate's age.
+#' @param candidate.age A numeric value with candidate's age.
 #' @return A numeric value.
 #' @examples
-#' age_diff(donor.age = 60, cage = 50)
+#' age_diff(donor.age = 60, candidate.age = 50)
 #' @export
 age_diff<-function(donor.age = 60,
-                   cage = 50){
+                   candidate.age = 50){
   # verify ages
-  if(!is.numeric(donor.age) | donor.age < 18 | donor.age > 99) {stop("donor's age is not valid!\n")}
-  if(!is.numeric(cage) | cage < 18 | cage > 99) {stop("candidate's age is not valid!\n")}
+  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age) {stop("donor's age is not valid!\n")}
+  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age) {stop("candidate's age is not valid!\n")}
 
   res <-NULL
 
-  res <- (-1 / 2) * ((donor.age - cage) ^ 2)
+  res <- (-1 / 2) * ((donor.age - candidate.age) ^ 2)
 
   return(res)
 
@@ -201,15 +201,15 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param ptsDial A numeric value for the points corresponding to each month
 #' on dialysis
 #' @param a1 A numeric value for HLA match and age combined formula:
-#' b1*cos(age/18)+a1
+#' b1*cos(age / env$adulthood.age)+a1
 #' @param a2 A numeric value for HLA match and age combined formula:
-#' b2*cos(age/18)+a2
+#' b2*cos(age / env$adulthood.age)+a2
 #' @param b1 A numeric value for HLA match and age combined formula:
-#' b1*cos(age/18)+a1
+#' b1*cos(age / env$adulthood.age)+a1
 #' @param b2 A numeric value for HLA match and age combined formula:
-#' b2*cos(age/18)+a2
+#' b2*cos(age / env$adulthood.age)+a2
 #' @param b3 A numeric value for HLA match and age combined formula:
-#' b3*sin(age/50)
+#' b3*sin(age / 50)
 #' @param m A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param nn A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param o A numeric value for matchability formula: m * (1+(MS/nn)^o)
@@ -331,14 +331,14 @@ uk<-function(DRI = 'D1',
   ]
 
   data[, `:=`(
-    pts.hla.age = ifelse(level == 1, b1 * cos(age / 18) + a1,
-                    ifelse(level == 2, b2 * cos(age / 18) + a2,  b3 * sin(age / 50))),
+    pts.hla.age = ifelse(level == 1, b1 * cos(age / env$adulthood.age) + a1,
+                    ifelse(level == 2, b2 * cos(age / env$adulthood.age) + a2,  b3 * sin(age / 50))),
     total.HLA = ifelse(mmA + mmB + mmDR == 0, 0,
                   ifelse(mmA + mmB + mmDR == 1, mm1,
                     ifelse(mmA + mmB + mmDR < 4, mm23, mm46))),
     # compute matchability points from Match Score
     matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
-    pts.age = age_diff(donor.age = donor.age, cage = age),
+    pts.age = age_diff(donor.age = donor.age, candidate.age = age),
     pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
     ),
     by = 'ID'

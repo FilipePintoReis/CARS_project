@@ -16,7 +16,7 @@ blood_group_checker <- function(input_string){
 #' @return A logical value T/F
 #' @noRd
 age_checker <- function(input_number){
-  if (!is.numeric(input_number) | input_number < 1 | input_number > 99){
+  if (!is.numeric(input_number) | input_number < env$person.minimum.age | input_number > env$person.maximum.age){
     return(FALSE)
     } else {return(TRUE)}
   }

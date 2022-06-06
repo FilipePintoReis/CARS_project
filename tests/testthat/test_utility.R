@@ -1,6 +1,6 @@
 test_that('Test Blood Group Checker', {
   valid_input = c('O', 'A', 'B', 'AB')
-  invalid_input = c('o', 'OA', 'Z', 1) #, c('A'))
+  invalid_input = c('o', 'OA', 'Z', 1)
   
   for (valid in valid_input){
     expect_equal(blood_group_checker(valid), TRUE)
@@ -26,7 +26,7 @@ test_that('Test Age Checker', {
 
 test_that('Test Tier Checker', {
   valid_input = c('A', 'B')
-  invalid_input = c('a', 'AB', 'Z') #, c('A'))
+  invalid_input = c('a', 'AB', 'Z')
   
   for (valid in valid_input){
     expect_equal(tier_checker(valid), TRUE)
@@ -39,7 +39,7 @@ test_that('Test Tier Checker', {
 
 test_that('Test RRI Checker', {
   valid_input = c('R1', 'R2', 'R3', 'R4')
-  invalid_input = c('r1', 'R1R2', 'Z1') #, c('R1'))
+  invalid_input = c('r1', 'R1R2', 'Z1')
   
   for (valid in valid_input){
     expect_equal(rri_checker(valid), TRUE)

@@ -131,7 +131,7 @@ xmatch_r <- function(dA = c('1','2'),
 #' @examples
 #' hiper(cPRA = 99, cutoff = 85)
 #' @export
-hiper <- function(cPRA, cutoff = 85){
+hiper <- function(cPRA = 99, cutoff = 85){
 
   value <- cPRA >= cutoff
   return(value)

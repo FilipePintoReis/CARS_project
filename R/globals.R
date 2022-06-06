@@ -19,5 +19,5 @@ utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
                          "DR1_freq","DR2_freq",
                          "MMP0","MMP2",
                          "MMP1","level",
-                         "donors","dABO","dA","dB","dDR","dage"
+                         "donors","dABO","dA","dB","dDR","donor.age"
                          ))

@@ -10,7 +10,7 @@ lima(
   dA = c("1", "2"),
   dB = c("15", "44"),
   dDR = c("1", "4"),
-  dage = 60,
+  donor.age = 60,
   df.abs = cabs,
   data = candidates,
   n = 2,
@@ -31,7 +31,7 @@ lima(
 
 \item{dDR}{donor's HLA-DR typing.}
 
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
 \item{df.abs}{A data frame with candidates' antibodies.}
 
@@ -52,6 +52,6 @@ according to to Lima's algorithm.
 \examples{
 lima(iso = TRUE, dABO = "O",
 dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-dage = 60, df.abs = cabs,
+donor.age = 60, df.abs = cabs,
 data = candidates, n = 2)
 }

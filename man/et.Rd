@@ -10,7 +10,7 @@ et(
   dA = c("1", "2"),
   dB = c("15", "44"),
   dDR = c("1", "4"),
-  dage = 65,
+  donor.age = 65,
   data = candidates,
   month = 2.78,
   mm0 = 400,
@@ -39,7 +39,7 @@ et(
 
 \item{dDR}{donor's HLA-DR typing.}
 
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
 \item{data}{A data frame containing demographics and medical information for
 a group of waitlisted transplant candidates.}
@@ -84,7 +84,7 @@ according to ETKAS algorithm.
 \examples{
 et(iso = TRUE, dABO = "A",
 dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-dage = 65,
+donor.age = 65,
 data = candidates, month = 2.78,
 mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
 mm4 = 133.33, mm5 = 66.67, mm6 = 0,

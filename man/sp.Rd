@@ -4,12 +4,12 @@
 \alias{sp}
 \title{Senior Program classification}
 \usage{
-sp(dage, cage)
+sp(donor.age, candidate.age)
 }
 \arguments{
-\item{dage}{A numeric value with donor's age}
+\item{donor.age}{A numeric value with donor's age}
 
-\item{cage}{A numeric value with candidate's age}
+\item{candidate.age}{A numeric value with candidate's age}
 }
 \value{
 The value 1 for a candidates older than 65 with also a donor
@@ -21,5 +21,5 @@ Prioritization for older patients for older donors, followed for young patients
 for younger donors, and for last the remaining patients.
 }
 \examples{
-sp(dage = 66, cage = 70)
+sp(donor.age = 66, candidate.age = 70)
 }

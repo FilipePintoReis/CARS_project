@@ -4,10 +4,10 @@
 \alias{age_diff}
 \title{Donor recipient age difference}
 \usage{
-age_diff(dage = 60, cage = 50)
+age_diff(donor.age = 60, cage = 50)
 }
 \arguments{
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
 \item{cage}{A numeric value with candidate's age.}
 }
@@ -18,5 +18,5 @@ A numeric value.
 computes punctuation according to donor-recipient age difference
 }
 \examples{
-age_diff(dage = 60, cage = 50)
+age_diff(donor.age = 60, cage = 50)
 }

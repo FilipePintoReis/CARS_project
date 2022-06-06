@@ -42,9 +42,9 @@ calculate_donor_to_candidate_matchability <- function(...){
                   dDR = purrr::map2(.x = DR1,
                              .y = DR2,
                              ~c(.x,.y)),
-                  dage = age
+                  donor.age = age
                   ) %>%
-    dplyr::select(dABO, dA, dB, dDR, dage)
+    dplyr::select(dABO, dA, dB, dDR, donor.age)
 
   if (...[["function_name"]] == "uk") {
     stopifnot(1 == 1)

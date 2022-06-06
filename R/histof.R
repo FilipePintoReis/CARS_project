@@ -142,17 +142,17 @@ hiper <- function(cPRA, cutoff = 85){
 #' @description Returns 1 when candidates' belongs to Senior Program.
 #' Prioritization for older patients for older donors, followed for young patients
 #' for younger donors, and for last the remaining patients.
-#' @param dage A numeric value with donor's age
-#' @param cage A numeric value with candidate's age
+#' @param donor.age A numeric value with donor's age
+#' @param candidate.age A numeric value with candidate's age
 #' @return The value 1 for a candidates older than 65 with also a donor
 #' older than 65
 #' @examples
-#' sp(dage = 66, cage = 70)
+#' sp(donor.age = 66, candidate.age = 70)
 #' @export
-sp <- function(dage, cage){
+sp <- function(donor.age, candidate.age){
 
-  value <- ifelse(dage >= 65 & cage >= 65, 1,
-                  ifelse(dage < 65 & cage < 65, 2,3))
+  value <- ifelse(donor.age >= 65 & candidate.age >= 65, 1,
+                  ifelse(donor.age < 65 & candidate.age < 65, 2,3))
   return(value)
 }
 

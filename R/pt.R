@@ -1,25 +1,25 @@
 #' Points for age differences
 #'
 #' @description Punctuation given for age difference between candidates and donors
-#' @param dage A numeric value with donor's age.
-#' @param cage A numeric value with candidate's age.
+#' @param donor.age A numeric value with donor's age.
+#' @param candidate.age A numeric value with candidate's age.
 #' @param pts A numerical value for the points to age difference
 #' @return A numerical value for pre-defined points
 #' @examples
-#' pts_age(dage = 60, cage = 40, pts = 4)
+#' pts_age(donor.age = 60, candidate.age = 40, pts = 4)
 #' @export
-pts_age <- function(dage = 60
-                    , cage = 40
+pts_age <- function(donor.age = 60
+                    , candidate.age = 40
                     , pts = 4){
   # verify function parameters
-  if(!is.numeric(dage) | dage < 18 | dage > 99){
+  if(!is.numeric(donor.age) | donor.age < 18 | donor.age > 99){
     stop("donor's age is not valid!\n")}
-  if(!is.numeric(cage) | cage < 18 | cage > 99){
+  if(!is.numeric(candidate.age) | candidate.age < 18 | candidate.age > 99){
     stop("candidate's age is not valid!\n")}
   if(!is.numeric(pts) | pts < 1 | pts > 20){
     stop("age points are not valid!\n")}
 
-  pts<-ifelse((dage > 60 & cage < 55) | (dage < 40 & cage > 55), 0, pts)
+  pts <- ifelse((donor.age > 60 & candidate.age < 55) | (donor.age < 40 & candidate.age > 55), 0, pts)
 
   return(pts)
 
@@ -111,7 +111,7 @@ pts_HLA <- function(itemA = 12
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
-#' @param dage A numeric value with donor's age.
+#' @param donor.age A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates with color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
@@ -125,7 +125,7 @@ pts_HLA <- function(itemA = 12
 #' @examples
 #' pt(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-#' dage = 65,  data = candidates,
+#' donor.age = 65,  data = candidates,
 #' df.abs = cabs, n = 2)
 #' @export
 pt <- function(iso = TRUE
@@ -133,7 +133,7 @@ pt <- function(iso = TRUE
                 , dA = c("1","2")
                 , dB = c("15","44")
                 , dDR = c("1","4")
-                , dage = 65
+                , donor.age = 65
                 , df.abs = cabs
                 , data = candidates
                 , pts.80 = 8
@@ -157,8 +157,8 @@ pt <- function(iso = TRUE
                 all.x=TRUE)
 
     data[, `:=`(
-      donor_age = dage,
-      SP = sp(cage = age, dage = dage),
+      donor_age = donor.age,
+      SP = sp(candidate.age = age, donor.age = donor.age),
       HI = hiper(cPRA = cPRA),
       compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
       ), by = 'ID'][, row_n := 1:nrow(data)]
@@ -187,7 +187,7 @@ pt <- function(iso = TRUE
   data[, `:=`(
       ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
       ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
-      ptsage = pts_age(dage = dage, cage = age, pts = pts.age),
+      ptsage = pts_age(donor.age = donor.age, candidate.age = age, pts = pts.age),
       ptsdial = pts.dial * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
       ), by = 'ID']
 

@@ -177,7 +177,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
-#' @param dage A numeric value with donor's age.
+#' @param donor.age A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates.
 #' @param month A numeric value with the punctuation for each month
@@ -200,7 +200,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @examples
 #' et(iso = TRUE, dABO = "A",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-#' dage = 65,
+#' donor.age = 65,
 #' data = candidates, month = 2.78,
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
 #' mm4 = 133.33, mm5 = 66.67, mm6 = 0,
@@ -214,7 +214,7 @@ et<-function(iso = TRUE
               , dA = c("1","2")
               , dB = c("15","44")
               , dDR = c("1","4")
-              , dage = 65
+              , donor.age = 65
               , data = candidates 
               , month = 2.78
               , mm0 = 400
@@ -246,8 +246,8 @@ et<-function(iso = TRUE
   data <- merge(data, xm, by = 'ID', all.x=TRUE)
 
   data[, `:=`(
-      donor_age = dage,
-      SP = ifelse(sp(dage = dage, cage = age) == 1, 1, 0)
+      donor_age = donor.age,
+      SP = ifelse(sp(donor.age = donor.age, candidate.age = age) == 1, 1, 0)
       ),
     by = 'ID'
   ][, row_n := 1:nrow(data)]

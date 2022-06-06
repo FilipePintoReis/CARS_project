@@ -4,12 +4,12 @@
 \alias{pts_age}
 \title{Points for age differences}
 \usage{
-pts_age(dage = 60, cage = 40, pts = 4)
+pts_age(donor.age = 60, candidate.age = 40, pts = 4)
 }
 \arguments{
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
-\item{cage}{A numeric value with candidate's age.}
+\item{candidate.age}{A numeric value with candidate's age.}
 
 \item{pts}{A numerical value for the points to age difference}
 }
@@ -20,5 +20,5 @@ A numerical value for pre-defined points
 Punctuation given for age difference between candidates and donors
 }
 \examples{
-pts_age(dage = 60, cage = 40, pts = 4)
+pts_age(donor.age = 60, candidate.age = 40, pts = 4)
 }

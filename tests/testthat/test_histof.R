@@ -65,10 +65,10 @@ test_that("Hiperimunized patients", {
 })
 
 test_that("Senior program classification", {
-  expect_equal(sp(dage = 66, cage = 70), 1)
-  expect_equal(sp(dage = 50, cage = 64), 2)
-  expect_equal(sp(dage = 66, cage = 64), 3)
-  expect_equal(sp(dage = 50, cage = 70), 3)
+  expect_equal(sp(donor.age = 66, candidate.age = 70), 1)
+  expect_equal(sp(donor.age = 50, candidate.age = 64), 2)
+  expect_equal(sp(donor.age = 66, candidate.age = 64), 3)
+  expect_equal(sp(donor.age = 50, candidate.age = 70), 3)
 })
 
 test_that("Tx Score (5 year survival probability)", {

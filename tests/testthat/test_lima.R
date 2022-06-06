@@ -43,7 +43,7 @@ test_that("Test lima algorithm", {
     dA = c("1","2")
     dB = c("15","44")
     dDR = c("1","4")
-    dage = 60
+    donor.age = 60
     df.abs = cabs
     n = 2
     q2 = 60
@@ -100,7 +100,7 @@ test_that("Test lima algorithm", {
                 dA = dA,
                 dB = dB,
                 dDR = dDR,
-                dage = dage,
+                donor.age = donor.age,
                 df.abs = cabs,
                 data = candidates,
                 n = n,

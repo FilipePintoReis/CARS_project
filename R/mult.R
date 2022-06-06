@@ -20,9 +20,9 @@
 #' df.candidates = candidates,
 #' n = 2)
 #' @export
-calculate_donor_to_candidate_matchability <- function(...){ 
-  # Tem de ter sempre 
-  # donors 
+calculate_donor_to_candidate_matchability <- function(...){
+  # Tem de ter sempre
+  # donors
   # candidates.
   # n (que é sempre o tamanho do número de candidatos)
 
@@ -75,11 +75,11 @@ calculate_donor_to_candidate_matchability <- function(...){
                      b1 = ...[["b1"]],
                      b2 = ...[["b2"]],
                      b3 = ...[["b3"]],
-                     m =  ...[["m"]],                   
+                     m =  ...[["m"]],
                      nn = ...[["nn"]],
                      o = ...[["o"]],
                      mm1 = ...[["mm1"]],
-                     mm23 = ...[["mm23"]], 
+                     mm23 = ...[["mm23"]],
                      mm46 = ...[["mm46"]],
                      pts = ...[["pts"]])
   }
@@ -106,23 +106,23 @@ calculate_donor_to_candidate_matchability <- function(...){
                      n = ...[["n"]],
                      df.abs = ...[["df.abs"]],
                      data = ...[["df.candidates"]],
-                     month = ...[["month"]], 
-                     mm0 = ...[["mm0"]], 
-                     mm1 = ...[["mm1"]], 
-                     mm2 = ...[["mm2"]], 
-                     mm3 = ...[["mm3"]], 
-                     mm4 = ...[["mm4"]], 
-                     mm5 = ...[["mm5"]], 
+                     month = ...[["month"]],
+                     mm0 = ...[["mm0"]],
+                     mm1 = ...[["mm1"]],
+                     mm2 = ...[["mm2"]],
+                     mm3 = ...[["mm3"]],
+                     mm4 = ...[["mm4"]],
+                     mm5 = ...[["mm5"]],
                      mm6 = ...[["mm6"]],
-                     hlaA = ...[["hlaA"]], 
-                     hlaB = ...[["hlaB"]], 
-                     hlaDR = ...[["hlaDR"]], 
+                     hlaA = ...[["hlaA"]],
+                     hlaB = ...[["hlaB"]],
+                     hlaDR = ...[["hlaDR"]],
                      abo_freq = ...[["abo_freq"]])
   }
 
   else if (...[["function_name"]] == "pt") {
     stopifnot(1 == 1)
-      
+
     lst <- purrr::pmap(df, ...[["algorithm"]],
                     iso = ...[["iso"]],
                     n = ...[["n"]],
@@ -158,7 +158,7 @@ calculate_donor_to_candidate_matchability <- function(...){
 several <- function(iteration.number = 10, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-  
+
   df.donors <- ...[["df.donors"]]
   df.donors$nrow <- 1:nrow(df.donors)
 
@@ -176,12 +176,12 @@ several <- function(iteration.number = 10, ...){
         dplyr::filter(!ID %in% used.candidates) %>% # This can be optimized
         dplyr::slice(1:2)
 
-      rescurrent.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
+      current.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
 
       used.candidates <- c(used.candidates, tmp$ID)
     }
 
-    all.statistics <- append(all.statistics, list(res))
+    all.statistics <- append(all.statistics, list(current.iteration.statistics))
   }
 
   mean_age <- all.statistics %>% purrr::map(., ~mean(.x$age)) %>% unlist()
@@ -212,13 +212,13 @@ several <- function(iteration.number = 10, ...){
 # No export, testing purposes
 uk_several <- function(){
   return(
-    several(iteration.number = 10, 
+    several(iteration.number = 10,
             list(
-              df.donors = donors.uk, 
-              df.abs = cabs, 
-              df.candidates = candidates.uk, 
+              df.donors = donors.uk,
+              df.abs = cabs,
+              df.candidates = candidates.uk,
               algorithm = uk,
-              n = nrow(candidates.uk), 
+              n = nrow(candidates.uk),
               function_name = "uk",
               D1R1 = 1000,
               D1R2 = 700,
@@ -258,7 +258,7 @@ uk_several <- function(){
 lima_several <- function(){
   return(
     several(
-      iteration.number = 10, 
+      iteration.number = 10,
       list(iso = TRUE
         , df.donors = donors
         , df.abs = cabs
@@ -279,7 +279,7 @@ lima_several <- function(){
 et_several <- function(){
   return(
     several(
-      iteration.number = 10, 
+      iteration.number = 10,
       list(df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
@@ -288,12 +288,12 @@ et_several <- function(){
         , function_name = "et"
         , iso = TRUE
         , month = 2
-        , mm0 = 400 
-        , mm1 = 333.33 
-        , mm2 = 266.67 
+        , mm0 = 400
+        , mm1 = 333.33
+        , mm2 = 266.67
         , mm3 = 200
-        , mm4 = 133.33 
-        , mm5 = 66.67 
+        , mm4 = 133.33
+        , mm5 = 66.67
         , mm6 = 0
         , hlaA = hlaApt
         , hlaB = hlaBpt
@@ -307,7 +307,7 @@ et_several <- function(){
 pt_several <- function(){
   return(
     several(
-      iteration.number = 10, 
+      iteration.number = 10,
       list(df.donors = donors
         , df.abs = cabs
         , df.candidates = candidates
@@ -322,5 +322,180 @@ pt_several <- function(){
         )
       )
     )
+}
+
+##############
+#' função que cria os os pares dador receptor para cada dador
+#' deve ter como inputs os data frames de dadores, candidatos e anticorpos,
+#' o número de candidatos a selecionar para cada dador (quando n = 0 seleciona todos)
+#' e os parametros de cada algoritmo
+donor_rec_pairs <- function(df.donors = donors,
+                            df.candidates = candidates,
+                            df.abs = cabs,
+                            algorithm = lima,
+                            n = 2, ...){
+  if(!is.numeric(n))stop("'n' is not a valid numeric value!")
+
+  df.donors <- df.donors %>%
+    dplyr::mutate(dABO = bg,
+                  dA = purrr::map2(.x = A1,
+                                   .y = A2,
+                                   ~c(.x,.y)),
+                  dB = purrr::map2(.x = B1,
+                                   .y = B2,
+                                   ~c(.x,.y)),
+                  dDR = purrr::map2(.x = DR1,
+                                    .y = DR2,
+                                    ~c(.x,.y)),
+                  dage = age
+    ) %>%
+    dplyr::select(dABO, dA, dB, dDR, dage)
+
+  if(n == 0) n <- nrow(df.candidates)
+
+  lst <- purrr::pmap(df.donors,
+                     data = df.candidates,
+                     df.abs = df.abs,
+                     algorithm,
+                     n=n,
+                     ...)
+
+  names(lst) <- df.donors$ID
+
+  lst
+}
+
+## função several revisitada
+# está sempre a dar o mesmo resultado
+
+
+##
+several_v1 <- function(iteration.number = 10,
+                       df.donors = donors,
+                       df.candidates = candidates,
+                       df.abs = cabs,
+                       algorithm = lima,
+                       n = 0, ...){
+  # defenir condições de validação dos inputs
+  # ver função stopifnot()
+
+  #df.donors <- ...[["df.donors"]]
+  df.donors$nrow <- 1:nrow(df.donors)
+
+  pre_calculated_mappings <- donor_rec_pairs(df.donors = df.donors,
+                                             df.candidates = df.candidates,
+                                             df.abs = df.abs,
+                                             algorithm = algorithm,
+                                             n = n, ...)
+
+  all.statistics <- list()
+
+  for (. in 1:iteration.number){
+    used.candidates <- NULL
+    current.iteration.statistics <- NULL
+    shuffled_donors <- sample(df.donors$nrow)
+
+    for (j in 1:length(shuffled_donors)){
+      tmp <- pre_calculated_mappings[[shuffled_donors[j]]] %>%
+        dplyr::filter(!ID %in% used.candidates) %>% # This can be optimized
+        dplyr::slice(1:2)
+
+      current.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
+
+      used.candidates <- c(used.candidates, tmp$ID)
+    }
+
+    all.statistics <- append(all.statistics, list(current.iteration.statistics))
+  }
+
+  mean_age <- all.statistics %>% purrr::map(., ~mean(.x$age)) %>% unlist()
+  mean_dialysis <- all.statistics %>% purrr::map(., ~mean(.x$dialysis)) %>% unlist()
+  mean_cPRA <- all.statistics %>% purrr::map(., ~mean(.x$cPRA)) %>% unlist()
+  freq_mmHLA <- all.statistics %>% purrr::map(., ~table(.x$mmHLA)) #%>% unlist()
+  freq_mmA <- all.statistics %>% purrr::map(., ~table(.x$mmA)) #%>% unlist()
+  freq_mmB <- all.statistics %>% purrr::map(., ~table(.x$mmB)) #%>% unlist()
+  freq_mmDR <- all.statistics %>% purrr::map(., ~table(.x$mmDR)) #%>% unlist()
+  freq_ABO <- all.statistics %>% purrr::map(., ~table(.x$bg))
+  freq_HI <- all.statistics %>% purrr::map(., ~table(.x$HI))
+  freq_color <- all.statistics %>% purrr::map(., ~table(.x$cp))
+  freq_SP <- all.statistics %>% purrr::map(., ~table(.x$SP))
+
+  return(list(age = mean_age,
+              dialysis = mean_dialysis,
+              cPRA = mean_cPRA,
+              mmHLA = freq_mmHLA,
+              mmA = freq_mmA,
+              mmB = freq_mmB,
+              mmDR = freq_mmDR,
+              ABO = freq_ABO,
+              HI = freq_HI,
+              color = freq_color,
+              SP = freq_SP))
+}
+
+###
+
+several_v2 <- function(iteration.number = 10,
+                       df.donors = donors,
+                       df.candidates = candidates,
+                       df.abs = cabs,
+                       algorithm = lima,
+                       n = 0, ...){
+  # defenir condições de validação dos inputs
+  # ver função stopifnot()
+
+  #df.donors <- ...[["df.donors"]]
+  df.donors$nrow <- 1:nrow(df.donors)
+
+  pre_calculated_mappings <- donor_rec_pairs(df.donors = df.donors,
+                                             df.candidates = df.candidates,
+                                             df.abs = df.abs,
+                                             algorithm = algorithm,
+                                             n = n, ...)
+
+  all.statistics <- list()
+
+  for (. in 1:iteration.number){
+    used.candidates <- NULL
+    current.iteration.statistics <- NULL
+    shuffled_donors <- sample(df.donors$nrow)
+
+    for (j in 1:length(shuffled_donors)){
+      tmp <- pre_calculated_mappings[[shuffled_donors[j]]][
+        !ID %in% used.candidates,][
+          1:2,]
+
+      current.iteration.statistics <- data.table::rbindlist(list(current.iteration.statistics,
+                                                                 tmp))
+
+      used.candidates <- c(used.candidates, tmp$ID)
+    }
+
+    all.statistics <- append(all.statistics, list(current.iteration.statistics))
+  }
+
+  mean_age <- all.statistics %>% purrr::map(., ~mean(.x$age)) %>% unlist()
+  mean_dialysis <- all.statistics %>% purrr::map(., ~mean(.x$dialysis)) %>% unlist()
+  mean_cPRA <- all.statistics %>% purrr::map(., ~mean(.x$cPRA)) %>% unlist()
+  freq_mmHLA <- all.statistics %>% purrr::map(., ~table(.x$mmHLA)) #%>% unlist()
+  freq_mmA <- all.statistics %>% purrr::map(., ~table(.x$mmA)) #%>% unlist()
+  freq_mmB <- all.statistics %>% purrr::map(., ~table(.x$mmB)) #%>% unlist()
+  freq_mmDR <- all.statistics %>% purrr::map(., ~table(.x$mmDR)) #%>% unlist()
+  freq_ABO <- all.statistics %>% purrr::map(., ~table(.x$bg))
+  freq_HI <- all.statistics %>% purrr::map(., ~table(.x$HI))
+  freq_color <- all.statistics %>% purrr::map(., ~table(.x$cp))
+  freq_SP <- all.statistics %>% purrr::map(., ~table(.x$SP))
+
+  return(list(age = mean_age,
+              dialysis = mean_dialysis,
+              cPRA = mean_cPRA,
+              mmHLA = freq_mmHLA,
+              mmA = freq_mmA,
+              mmB = freq_mmB,
+              mmDR = freq_mmDR,
+              ABO = freq_ABO,
+              HI = freq_HI,
+              color = freq_color,
+              SP = freq_SP))
 }
 

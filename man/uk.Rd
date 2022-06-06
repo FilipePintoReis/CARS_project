@@ -97,19 +97,19 @@ a group of waitlisted transplant for UK transplant.}
 on dialysis}
 
 \item{a1}{A numeric value for HLA match and age combined formula:
-b1*cos(age/18)+a1}
+b1*cos(age / env$adulthood.age)+a1}
 
 \item{a2}{A numeric value for HLA match and age combined formula:
-b2*cos(age/18)+a2}
+b2*cos(age / env$adulthood.age)+a2}
 
 \item{b1}{A numeric value for HLA match and age combined formula:
-b1*cos(age/18)+a1}
+b1*cos(age / env$adulthood.age)+a1}
 
 \item{b2}{A numeric value for HLA match and age combined formula:
-b2*cos(age/18)+a2}
+b2*cos(age / env$adulthood.age)+a2}
 
 \item{b3}{A numeric value for HLA match and age combined formula:
-b3*sin(age/50)}
+b3*sin(age / 50)}
 
 \item{m}{A numeric value for matchability formula: m * (1+(MS/nn)^o)}
 

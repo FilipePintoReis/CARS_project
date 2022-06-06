@@ -182,7 +182,7 @@ test_that('Test UK Candidate Dataframe Checker', {
       }
     
       for (invalid in invalid_input){
-        expect_equal(uk_candidate_dataframe_check(invalid), FALSE)
+        expect_error(uk_candidate_dataframe_check(invalid))
       }
   })
 })

@@ -77,7 +77,6 @@ candidate_dataframe_check <- function(candidate.dataframe){
 
   if (length(candidate.fields) != length(colnames(candidate.dataframe))){
     stop('There are unexpected columns in the file. Expected: ', candidate.fields, ' ', collapse = ", ")
-    return(FALSE)
   }
 
   candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
@@ -135,46 +134,36 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
 
   for (i in 1:length(candid_uk_columns)){
     if (!candid_uk_columns[i] %in% colnames(candidate.dataframe)){
-      print(paste('Column', candid_uk_columns[i], 'is not present in the file.'))
-      return(FALSE)
+      stop(paste('Column', candid_uk_columns[i], 'is not present in the file.'))
     }
   }
 
   if (length(candid_uk_columns) != length(colnames(candidate.dataframe))){
-    print('There are unexpected columns in the file. Expected:')
-    print(paste(candid_uk_columns, collapse = ", "))
-    return(FALSE)
+    stop('There are unexpected columns in the file. Expected:\n', paste(candid_uk_columns, collapse = ", "))
   }
 
   candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
   duplication.location <- anyDuplicated(candidate.datatable)
 
   if(duplication.location != 0){
-    print(paste('Duplicated ID in line', duplication.location))
+    stop(paste('Duplicated ID in line', duplication.location))
   }
 
   for (i in 1:nrow(candidate.dataframe)){
     if (!blood_group_checker(candidate.dataframe$bg[i])){
-      print(paste('Invalid blood group in line', i))
-      print(paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
-      break
+      stop(paste('Invalid blood group in line', i), paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
     }
 
     if (!tier_checker(candidate.dataframe$Tier[i])){
-      print(paste('Invalid tier in line', i))
-      print(paste('Supported tiers are', paste(valid_tiers, collapse = ", ")))
-      break
+      stop(paste('Invalid tier in line', i), paste('Supported tiers are', paste(valid_tiers, collapse = ", ")))
     }
 
     if (!age_checker(candidate.dataframe$age[i])){
-      print(paste('Negative age in line', i))
-      break
+      stop(paste('Negative age in line', i))
     }
 
     if (!rri_checker(candidate.dataframe$RRI[i])){
-      print(paste('Invalid RRI in line', i))
-      print(paste('Supported RRIs are', paste(valid_rris, collapse = ", ")))
-      break
+      stop(paste('Invalid RRI in line', i), paste('Supported RRIs are', paste(valid_rris, collapse = ", ")))
     }
   }
 

@@ -4,7 +4,7 @@
 \alias{hiper}
 \title{Hiperimunized classification}
 \usage{
-hiper(cPRA, cutoff = 85)
+hiper(cPRA = 99, cutoff = 85)
 }
 \arguments{
 \item{cPRA}{candidate's cPRA value}

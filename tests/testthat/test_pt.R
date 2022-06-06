@@ -1,16 +1,34 @@
 test_that("Test pts_age function", {
-  donor.age <- 60
-  candidate.age <- 40
-  pts <- 4
+    valid.donor.ages <- c(50, 61, 61, 39, 39)
+    valid.candidate.ages <- c(40, 55, 54, 55, 56)
+    valid.age.difference.points <- c(4, 4, 4, 4, 4)
+    valid.results <- c(4, 4, 0, 4, 0)
 
-  expect_equal(
-    pts_age(
-        donor.age <- donor.age,
-        candidate.age <- candidate.age,
-        pts <- pts
-    ),
-    results
-  )
+
+    for (i in 1:length(valid.donor.ages)){
+        expect_equal(
+            pts_age(
+                donor.age <- valid.donor.ages[i],
+                candidate.age <- valid.candidate.ages[i],
+                age.difference.points <- valid.age.difference.points[i]
+            ),
+            valid.results[i]
+        )
+    }  
+
+    invalid.donor.ages <- c('50', 61, 61, env$adulthood.age - 1, 39, 39, env$person.maximum.age, 39, 39)
+    invalid.candidate.ages <- c(40, '55', 54, 55, env$adulthood.age - 1, 39, 39, env$person.maximum.age, 39)
+    invalid.age.difference.points <- c(4, 4, '4', 4, 4, env$minimum.age.difference.points - 1, 4, 4, env$maximum.age.difference.points + 1)
+
+    for (i in 1:length(valid.donor.ages)){
+        expect_error(
+            pts_age(
+                donor.age <- invalid.donor.ages[i],
+                candidate.age <- invalid.candidate.ages[i],
+                age.difference.points <- invalid.age.difference.points[i]
+            )
+        )
+    }  
 })
 
 # test_that("Test pts_PRA function", {

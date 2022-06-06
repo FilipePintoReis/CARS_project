@@ -16,7 +16,7 @@ pts_age <- function(donor.age = 60
     stop("Donor's age is not valid!\n")}
   if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
     stop("Candidate's age is not valid!\n")}
-  if(!is.numeric(age.difference.points) | age.difference.points < 1 | age.difference.points > 20){
+  if(!is.numeric(age.difference.points) | age.difference.points < env$minimum.age.difference.points | age.difference.points > env$maximum.age.difference.points){
     stop("Age points are not valid!\n")}
 
   age.difference.points <- ifelse(
@@ -194,7 +194,7 @@ pt <- function(iso = TRUE
   data[, `:=`(
       ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
       ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
-      ptsage = pts_age(donor.age = donor.age, candidate.age = age, pts = pts.age),
+      ptsage = pts_age(donor.age = donor.age, candidate.age = age, age.difference.points = pts.age),
       ptsdial = pts.dial * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
       ), by = 'ID']
 

@@ -19,7 +19,8 @@ Imports:
     utils,
     data.table,
     purrr,
-    mockr
+    mockr,
+    tibble
 Depends: 
     R (>= 4.0.0)
 LazyData: true

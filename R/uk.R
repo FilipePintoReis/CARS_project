@@ -289,11 +289,14 @@ uk<-function(DRI = 'D1',
     data = data
   )
 
+   data[, ID := as.character(ID)] # forçar ID para character
+   xm[, ID := as.character(ID)] # forçar ID para character
+
    data <- merge(data, xm,
                  by = 'ID',
                  all.x=TRUE)
 
-  data[, `:=`(
+   data[, `:=`(
       donor_age = dage,
       compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier)
       ),

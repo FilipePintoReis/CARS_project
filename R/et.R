@@ -244,6 +244,9 @@ et<-function(iso = TRUE
   data = data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
                   age, dialysis, cPRA, urgent, MMP)]
 
+  data[, ID := as.character(ID)] # forçar ID para character
+  xm[, ID := as.character(ID)] # forçar ID para character
+
   data <- merge(data, xm, by = 'ID', all.x=TRUE)
 
   data[, `:=`(
@@ -303,13 +306,14 @@ et<-function(iso = TRUE
     ),
     by = 'ID']
 
-  data = data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
+  data <- data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
     pointsET = ifelse(SP == 1, dialysis, pointsETx),
     HI = hiper(cPRA = cPRA, cutoff = 85)
     ),
     by = 'ID']
 
-  return(data[order(-SP, -AM, -mm000, -pointsET)]
+  return(
+    data[order(-SP, -AM, -mm000, -pointsET)]
          [1:n]
          [!is.na(ID),]
          [, .(ID,
@@ -331,7 +335,8 @@ et<-function(iso = TRUE
               HI,
               pointsET,
               SP,
-              AM)])
+              AM)]
+    )
 }
 
 

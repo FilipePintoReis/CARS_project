@@ -164,61 +164,66 @@ sp <- function(dage, cage){
 #'
 #' @description Returns the estimated 5-year event (mortality or graft failure
 #' combined outcome) probability as described by Molnar, el al (2017).
-#' @param ageR A numeric value with recipient's age
-#' @param race A character value with recipient's race from the options:
+#' @param recipient.age A numeric value with recipient's age
+#' @param recipient.race A character value with recipient's race from the options:
 #' 'White', 'Black', 'Hispanic', 'Other'
-#' @param causeESRD A numeric value with recipient's cause of End-Stage Renal
+#' @param recipient.causeESRD A numeric value with recipient's cause of End-Stage Renal
 #' Disease, with options: 'Other', 'Diabetes', 'Hypertension',
 #' 'Glomerulonephritis', 'Cystic disease'
-#' @param timeD A numeric value with recipient's time on dialysis (months)
-#' @param diabetesR A logical value with recipient's diabetic status
-#' @param coronary A logical value with recipient's coronary artery disease status
-#' @param albumin A numeric value with recipient's albumin (g/dL)
-#' @param hemoglobin A numeric value with recipient's hemoglobin (g/dL)
-#' @param ageD A numeric value with donor's age
-#' @param diabetesD A logical value with donor's diabetic status, with options:
+#' @param recipient.timeD A numeric value with recipient's time on dialysis (months)
+#' @param recipient.diabetes A logical value with recipient's diabetic status
+#' @param recipient.coronary A logical value with recipient's coronary artery disease status
+#' @param recipient.albumin A numeric value with recipient's albumin (g/dL)
+#' @param recipient.hemoglobin A numeric value with recipient's hemoglobin (g/dL)
+#' @param donor.age A numeric value with donor's age
+#' @param donor.diabetes A logical value with donor's diabetic status, with options:
 #' 'Absence', 'Presence', 'Unknown'
-#' @param ECD A logical value regarding Extended Criteria Donor
+#' @param donor.ECD A logical value regarding Extended Criteria Donor
 #' @param mmHLA_A A numeric value (0, 1, 2) with the number of HLA-A mismatchs
 #' @param mmHLA_B A numeric value (0, 1, 2) with the number of HLA-B mismatchs
 #' @param mmHLA_DR A numeric value (0, 1, 2) with the number of HLA-DR mismatchs
 #' @return 5 year probability for combined outcome of mortality or graft failure
 #' @examples
-#' txscore(ageR = 20, race = "White", causeESRD = "Other",
-#' timeD = 12, diabetesR = FALSE, coronary = FALSE,
-#' albumin = 1.5, hemoglobin = 10, ageD = 30, diabetesD = "Absence",
-#' ECD = FALSE, mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
+#' txscore(recipient.age = 20,
+#' recipient.race = "White", #insurance = 0,
+#' recipient.causeESRD = "Other",
+#' recipient.timeD = 12, recipient.diabetes = FALSE,
+#' recipient.coronary = FALSE, recipient.albumin = 1.5,
+#' recipient.hemoglobin = 10, donor.age = 30,
+#' donor.diabetes = "Absence",
+#' donor.ECD = FALSE, #mmHLA = "0",
+#' mmHLA_A = 0, mmHLA_B = 0, mmHLA_DR = 0)
 #' @source \url{https://balima.shinyapps.io/scoreTx/}
 #' @export
-txscore <- function(ageR = 20
-                    , race = "White"
+txscore <- function(recipient.age = 20
+                    , recipient.race = "White"
                     #, insurance = 0
-                    , causeESRD = "Other"
-                    , timeD = 12 #
-                    , diabetesR = FALSE
-                    , coronary = FALSE
-                    , albumin = 1.5
-                    , hemoglobin = 10
-                    , ageD = 30
-                    , diabetesD = "Absence"
-                    , ECD = FALSE
+                    , recipient.causeESRD = "Other"
+                    , recipient.timeD = 12 #
+                    , recipient.diabetes = FALSE
+                    , recipient.coronary = FALSE
+                    , recipient.albumin = 1.5
+                    , recipient.hemoglobin = 10
+                    , donor.age = 30
+                    , donor.diabetes = "Absence"
+                    , donor.ECD = FALSE
                     #, mmHLA = "0"
                     , mmHLA_A = 0
                     , mmHLA_B = 0
                     , mmHLA_DR = 0
 ){
 
-  if(!age_checker(ageR)){stop("Recipient's age is not valid!")}
-  if(!race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
-  if(!causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
-  if(!is.numeric(timeD) | timeD < 0 | timeD > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
-  if(!is.logical(diabetesR)){stop("Recipient's diabetes is not valid! Expected a logical value.")}
-  if(!is.logical(coronary)){stop("Recipient's coronary disease is not valid! Expected a logical value.")}
-  if(!is.numeric(albumin) | albumin < 1 | albumin > 5){stop("Recipient's Albumin is not valid! Expected a value between 1 and 5")}
-  if(!is.numeric(hemoglobin) | hemoglobin < 3 | hemoglobin > 20){stop("Recipient's Hemoglobin is not valid! Expected a value between 3 and 20")}
-  if(!age_checker(ageD)){stop("Donor's age is not valid!")}
-  if(!diabetesD %in% c('Absence','Presence','Unknown')){stop("Donor's diabetes is not valid! Valid options: 'Absence','Presence','Unknown'")}
-  if(!is.logical(ECD)){stop("Recipient's ECD is not valid! Expected a logical value.")}
+  if(!age_checker(recipient.age)){stop("Recipient's age is not valid!")}
+  if(!recipient.race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
+  if(!recipient.causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
+  if(!is.numeric(recipient.timeD) | recipient.timeD < 0 | recipient.timeD > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
+  if(!is.logical(recipient.diabetes)){stop("Recipient's diabetes is not valid! Expected a logical value.")}
+  if(!is.logical(recipient.coronary)){stop("Recipient's coronary disease is not valid! Expected a logical value.")}
+  if(!is.numeric(recipient.albumin) | recipient.albumin < 1 | recipient.albumin > 5){stop("Recipient's Albumin is not valid! Expected a value between 1 and 5")}
+  if(!is.numeric(recipient.hemoglobin) | recipient.hemoglobin < 3 | recipient.hemoglobin > 20){stop("Recipient's Hemoglobin is not valid! Expected a value between 3 and 20")}
+  if(!age_checker(donor.age)){stop("Donor's age is not valid!")}
+  if(!donor.diabetes %in% c('Absence','Presence','Unknown')){stop("Donor's diabetes is not valid! Valid options: 'Absence','Presence','Unknown'")}
+  if(!is.logical(donor.ECD)){stop("Recipient's ECD is not valid! Expected a logical value.")}
   if(!mmHLA_A %in% c(0,1,2)){stop("Number of mm HLA-A is not valid! Valid optios: 0, 1, 2")}
   if(!mmHLA_B %in% c(0,1,2)){stop("Number of mm HLA-B is not valid! Valid optios: 0, 1, 2")}
   if(!mmHLA_DR %in% c(0,1,2)){stop("Number of mm HLA-DR is not valid! Valid optios: 0, 1, 2")}
@@ -227,31 +232,34 @@ txscore <- function(ageR = 20
   mmHLA <- ifelse(mmHLA_ == 0 , '0',
                   ifelse(mmHLA_ < 4, '1-3', '4-6'))
 
-  ageR <- ifelse(ageR < 35 , 0.0993,
-                 ifelse(ageR < 50 , -0.0784,
-                        ifelse(ageR < 65, 0, 0.1881)))
-  race <- ifelse(race == "White", 0,
-                 ifelse(race == "Black", 0.1609,
-                        ifelse(race == "Hispanic", -0.2554, -0.4475)))
-  causeESRD <- ifelse(causeESRD == "Diabetes", 0,
-                      ifelse(causeESRD == "Hypertension", 0.1541,
-                             ifelse(causeESRD == "Glomerulonephritis", 0.1447,
-                                    ifelse(causeESRD == "Cystic Disease", -0.1870, 0.3209))))
-  timeD <- ifelse(timeD < 12, 0,
-                  ifelse(timeD < 36, -0.2618,
-                         ifelse(timeD < 61, -0.3747, -0.1432)))
-  diabetesR <- ifelse(diabetesR == TRUE, 0.3021, 0)
-  coronary <- ifelse(coronary == TRUE, 0.2617, 0)
-  albumin <- (albumin - 4)*(-0.2644)
-  hemoglobin <- (hemoglobin - 12.3)*(-0.0451)
-  ageD <- (ageD - 39)*0.0059
-  diabetesD <- ifelse(diabetesD == "Absence", 0,
-                      ifelse(diabetesD == "Presence", 0.4596, -0.3308))
-  ECD <- ifelse(ECD == TRUE, 0.2082, 0)
+  recipient.age <- ifelse(recipient.age < 35 , 0.0993,
+                 ifelse(recipient.age < 50 , -0.0784,
+                        ifelse(recipient.age < 65, 0, 0.1881)))
+  recipient.race <- ifelse(recipient.race == "White", 0,
+                 ifelse(recipient.race == "Black", 0.1609,
+                        ifelse(recipient.race == "Hispanic", -0.2554, -0.4475)))
+  recipient.causeESRD <- ifelse(recipient.causeESRD == "Diabetes", 0,
+                      ifelse(recipient.causeESRD == "Hypertension", 0.1541,
+                             ifelse(recipient.causeESRD == "Glomerulonephritis", 0.1447,
+                                    ifelse(recipient.causeESRD == "Cystic Disease", -0.1870, 0.3209))))
+  recipient.timeD <- ifelse(recipient.timeD < 12, 0,
+                  ifelse(recipient.timeD < 36, -0.2618,
+                         ifelse(recipient.timeD < 61, -0.3747, -0.1432)))
+  recipient.diabetes <- ifelse(recipient.diabetes == TRUE, 0.3021, 0)
+  recipient.coronary <- ifelse(recipient.coronary == TRUE, 0.2617, 0)
+  recipient.albumin <- (recipient.albumin - 4)*(-0.2644)
+  recipient.hemoglobin <- (recipient.hemoglobin - 12.3)*(-0.0451)
+  donor.age <- (donor.age - 39)*0.0059
+  donor.diabetes <- ifelse(donor.diabetes == "Absence", 0,
+                      ifelse(donor.diabetes == "Presence", 0.4596, -0.3308))
+  donor.ECD <- ifelse(donor.ECD == TRUE, 0.2082, 0)
   mmHLA <- ifelse(mmHLA == "0" , 0,
                   ifelse(mmHLA == "1-3", 0.3241, 0.3115))
 
-  LP <- ageR + race + causeESRD + timeD + diabetesR + coronary + albumin + hemoglobin + ageD + diabetesD + ECD + mmHLA
+  LP <- recipient.age + recipient.race + recipient.causeESRD + recipient.timeD +
+    recipient.diabetes + recipient.coronary + recipient.albumin +
+    recipient.hemoglobin + donor.age + donor.diabetes + donor.ECD +
+    mmHLA
 
   gamma <- 0.916
 

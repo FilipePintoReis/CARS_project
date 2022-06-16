@@ -9,6 +9,10 @@ several(iteration.number = 10, should.seed = FALSE, seed = 123, ...)
 }
 \arguments{
 \item{iteration.number}{Number of times the matchability runs.}
+
+\item{should.seed}{Bool to decide whether to set a seed number.}
+
+\item{seed}{Seed for new random number. It's only used when should.seed = TRUE}
 }
 \value{
 Statistics related to all the times the function ran.
@@ -19,5 +23,7 @@ Runs an arbitrary number of times to provide statistics
 }
 \examples{
 several(iteration.number = 10,
+should.seed = FALSE,
+seed = 123,
 ...)
 }

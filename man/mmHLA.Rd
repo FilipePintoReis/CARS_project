@@ -10,7 +10,8 @@ mmHLA(
   dDR = c("1", "4"),
   cA = c("1", "2"),
   cB = c("3", "15"),
-  cDR = c("4", "7")
+  cDR = c("4", "7"),
+  validation.required = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ mmHLA(
 \item{cB}{candidate's HLA-B typing}
 
 \item{cDR}{candidate's HLA-DR typing}
+
+\item{validation.required}{Bool to decide whether to validate input.}
 }
 \value{
 mmA number of HLA-A mismatchs between \code{dA} and \code{cA};
@@ -37,5 +40,5 @@ Computes the number of HLA mismatchs between donor and candidate
 }
 \examples{
 mmHLA(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'),
-cA = c('1','2'), cB = c('03','15'), cDR = c('04','07'))
+cA = c('1','2'), cB = c('03','15'), cDR = c('04','07'), validation.required = TRUE)
 }

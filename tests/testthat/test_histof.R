@@ -73,7 +73,7 @@ test_that("Tx Score (5 year survival probability)", {
                        , recipient.race = "White"
                        #, insurance = 0
                        , recipient.causeESRD = "Other"
-                       , recipient.timeD = 60
+                       , recipient.dialysis = 60
                        , recipient.diabetes = F
                        , recipient.coronary = F
                        , recipient.albumin = 1.5
@@ -89,7 +89,7 @@ test_that("Tx Score (5 year survival probability)", {
                        , recipient.race = "Black"
                        #, insurance = 0
                        , recipient.causeESRD = "Hypertension"
-                       , recipient.timeD = 21
+                       , recipient.dialysis = 21
                        , recipient.diabetes = F
                        , recipient.coronary = F
                        , recipient.albumin = 2.7
@@ -105,7 +105,7 @@ test_that("Tx Score (5 year survival probability)", {
                        , recipient.race = "Black"
                        #, insurance = 0
                        , recipient.causeESRD = "Hypertension"
-                       , recipient.timeD = 0
+                       , recipient.dialysis = 0
                        , recipient.diabetes = F
                        , recipient.coronary = F
                        , recipient.albumin = 1
@@ -121,7 +121,7 @@ test_that("Tx Score (5 year survival probability)", {
                      , recipient.race = "Black"
                      #, insurance = 0
                      , recipient.causeESRD = "Hypertension"
-                     , recipient.timeD = 0
+                     , recipient.dialysis = 0
                      , recipient.diabetes = F
                      , recipient.coronary = F
                      , recipient.albumin = 1

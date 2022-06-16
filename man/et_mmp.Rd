@@ -28,7 +28,7 @@ group of waitlisted transplant candidates.}
 
 \item{abo_freq}{A data frame with ABO blood group frequencies}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \description{
 Mismatch Probability (MMP) is a calculation of the probability of

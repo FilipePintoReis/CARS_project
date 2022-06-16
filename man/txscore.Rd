@@ -11,7 +11,7 @@ txscore(
   recipient.age = 20,
   recipient.race = "White",
   recipient.causeESRD = "Other",
-  recipient.timeD = 12,
+  recipient.dialysis = 12,
   recipient.diabetes = FALSE,
   recipient.coronary = FALSE,
   recipient.albumin = 1.5,
@@ -35,7 +35,7 @@ txscore(
 Disease, with options: 'Other', 'Diabetes', 'Hypertension',
 'Glomerulonephritis', 'Cystic disease'}
 
-\item{recipient.timeD}{A numeric value with recipient's time on dialysis (months)}
+\item{recipient.dialysis}{A numeric value with recipient's time on dialysis (months)}
 
 \item{recipient.diabetes}{A logical value with recipient's diabetic status}
 
@@ -58,7 +58,7 @@ Disease, with options: 'Other', 'Diabetes', 'Hypertension',
 
 \item{mmHLA_DR}{A numeric value (0, 1, 2) with the number of HLA-DR mismatchs}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 5 year probability for combined outcome of mortality or graft failure
@@ -71,7 +71,7 @@ combined outcome) probability as described by Molnar, el al (2017).
 txscore(recipient.age = 20,
 recipient.race = "White", #insurance = 0,
 recipient.causeESRD = "Other",
-recipient.timeD = 12, recipient.diabetes = FALSE,
+recipient.dialysis = 12, recipient.diabetes = FALSE,
 recipient.coronary = FALSE, recipient.albumin = 1.5,
 recipient.hemoglobin = 10, donor.age = 30,
 donor.diabetes = "Absence",

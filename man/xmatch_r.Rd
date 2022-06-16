@@ -21,7 +21,7 @@ xmatch_r(
 
 \item{df.abs}{data frame with candidates' antibodies}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A dataframe with candidates' ID and xm result POS/NEG

@@ -75,7 +75,7 @@ test_that("Test pt algorithm", {
     df.abs = cabs
     pts.80 = 8
     pts.50 = 4
-    pts.dial = 0.1
+    pts.dialysis = 0.1
     pts.age = 4
     n = 2
 
@@ -137,7 +137,7 @@ test_that("Test pt algorithm", {
                 , data = candidates_test
                 , pts.80 = 8
                 , pts.50 = 4
-                , pts.dial = 0.1
+                , pts.dialysis = 0.1
                 , pts.age = 4
                 , n = 2
             )

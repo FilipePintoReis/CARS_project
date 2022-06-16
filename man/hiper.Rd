@@ -11,7 +11,7 @@ hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
 
 \item{cutoff}{A value to compare candidate's cPRA}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A logical value T/F when cPRA >= cutoff

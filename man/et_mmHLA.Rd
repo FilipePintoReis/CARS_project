@@ -48,7 +48,7 @@ et_mmHLA(
 
 \item{mm6}{A numeric value with points for 6 HLA mm on ETKAS points table}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \description{
 Computes HLA mismatches and the respective punctuation within ET

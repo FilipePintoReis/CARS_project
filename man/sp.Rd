@@ -10,6 +10,8 @@ sp(donor.age, candidate.age, check.validity = TRUE)
 \item{donor.age}{A numeric value with donor's age}
 
 \item{candidate.age}{A numeric value with candidate's age}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 The value 1 for a candidates older than 65 with also a donor

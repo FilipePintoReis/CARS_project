@@ -12,7 +12,7 @@
 #' @param hlaB A data frame with HLA-B allele frequencies
 #' @param hlaDR A data frame with HLA-DR allele frequencies
 #' @param abo_freq A data frame with ABO blood group frequencies
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmp(data = candidates,
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
@@ -104,7 +104,7 @@ et_mmp<-function(data = candidates,
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
@@ -157,17 +157,17 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #'
 #' @description Punctuation given for each month on dialysis, within ET
 #' Kidney allocation system
-#' @param dial A numeric value with candidate's time on dialysis, in months
+#' @param dialysis A numeric value with candidate's time on dialysis, in months
 #' (between 0 and 500)
 #' @param month A numeric value with the punctuation for each month
 #' (between 0 and 10)
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
-#' et_dial(dial = 100, month = 2.78, check.validity = TRUE)
+#' et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
 #' @export
-et_dial<-function(dial = 0, month = 2.78, check.validity = TRUE){
+et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
   if (check.validity){
-    if(!is.numeric(dial) | dial < 0 | dial > 499){
+    if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
       stop("value for time on dialysis is not valid!\n")
     }
 
@@ -176,7 +176,7 @@ et_dial<-function(dial = 0, month = 2.78, check.validity = TRUE){
     }
   }
 
-  pts <- dial * month
+  pts <- dialysis * month
 
   return(pts)
 
@@ -210,7 +210,7 @@ et_dial<-function(dial = 0, month = 2.78, check.validity = TRUE){
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
-#' @param check.validity A logical value, When TRUE, function's inputs are checked against valid options.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return An ordered data frame with columns cPRA, HI, pointsET, SP, AM
 #' and 'mmHLA'.
 #' @examples
@@ -250,11 +250,11 @@ et<-function(iso = TRUE
              , check.validity = TRUE){
 
   if(check.validity){
-    blood_group_checker(dABO) &
-      age_checker(donor.age) &
-      dialysis_checker(donor.age) &
-      candidate_dataframe_check(data)
-      }
+    blood_group_checker(dABO) 
+    age_checker(donor.age) 
+    dialysis_checker(donor.age) 
+    candidate_dataframe_check(data)
+  }
 
   n <- max(1, n)
 
@@ -290,7 +290,7 @@ et<-function(iso = TRUE
                        abo(iso = iso, dABO = dABO, cABO = bg)
                        ),
 
-    pointsDial = et_dial(month = month, dial = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
+    pointsDial = et_dialysis(month = month, dialysis = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
     ),
     by = 'ID']
 

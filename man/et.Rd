@@ -74,7 +74,7 @@ a group of waitlisted transplant candidates.}
 
 \item{n}{A positive integer to slice the first candidates.}
 
-\item{check.validity}{A logical value, When TRUE, function's inputs are checked against valid options.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 An ordered data frame with columns cPRA, HI, pointsET, SP, AM

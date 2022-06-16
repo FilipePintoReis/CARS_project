@@ -74,10 +74,10 @@ test_that("mmHLA points from ET's algorithm", {
 
 
 test_that("ET points for time on dialysis (in months)", {
-  expect_equal(et_dial(dial = 0, month = 2.78), 0)
-  expect_equal(et_dial(dial = 1, month = 2.78), 2.78)
-  expect_equal(et_dial(dial = 10, month = 2.78), 27.8)
-  expect_equal(et_dial(dial = 100, month = 2.78), 278)
+  expect_equal(et_dialysis(dialysis = 0, month = 2.78), 0)
+  expect_equal(et_dialysis(dialysis = 1, month = 2.78), 2.78)
+  expect_equal(et_dialysis(dialysis = 10, month = 2.78), 27.8)
+  expect_equal(et_dialysis(dialysis = 100, month = 2.78), 278)
   })
 
 test_that("et algorithm", {

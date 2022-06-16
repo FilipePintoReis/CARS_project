@@ -20,5 +20,5 @@ utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
                          "MMP0","MMP2",
                          "MMP1","level",
                          "donors","dABO","dA","dB","dDR","donor.age",
-                         "algorithm"
+                         "algorithm", "recipient.dialysis", "donors.uk"
                          ))

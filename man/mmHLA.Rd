@@ -27,7 +27,7 @@ mmHLA(
 
 \item{cDR}{candidate's HLA-DR typing}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 mmA number of HLA-A mismatchs between \code{dA} and \code{cA};

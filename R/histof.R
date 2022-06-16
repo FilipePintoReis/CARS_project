@@ -4,7 +4,7 @@
 #' @param cABO A character from 'A', 'B', 'AB', 'O'
 #' @param dABO A character from 'A', 'B', 'AB', 'O'
 #' @param iso A logical value T/F
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A logical value T/F
 #' @examples
 #' abo(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE)
@@ -40,7 +40,7 @@ abo <- function(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE){
 #' @param cA candidate's HLA-A typing
 #' @param cB candidate's HLA-B typing
 #' @param cDR candidate's HLA-DR typing
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return mmA number of HLA-A mismatchs between \code{dA} and \code{cA};
 #' mmB number of HLA-B mismatchs between \code{dB} and \code{cB};
 #' mmDR number of HLA-DR mismatchs between \code{dA}DRand \code{cDR};
@@ -102,7 +102,7 @@ mmHLA <- function(dA = c('1','2'),
 #' @param dB donor's HLA-B typing
 #' @param dDR donor's HLA-DR typing
 #' @param df.abs data frame with candidates' antibodies
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A dataframe with candidates' ID and xm result POS/NEG
 #' @examples
 #' xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, check.validity = TRUE)
@@ -146,7 +146,7 @@ xmatch_r <- function(dA = c('1','2'),
 #' cutoff value
 #' @param cPRA candidate's cPRA value
 #' @param cutoff A value to compare candidate's cPRA
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A logical value T/F when cPRA >= cutoff
 #' @examples
 #' hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
@@ -165,6 +165,7 @@ hiper <- function(cPRA = 99, cutoff = 85, check.validity = TRUE){
 #' for younger donors, and for last the remaining patients.
 #' @param donor.age A numeric value with donor's age
 #' @param candidate.age A numeric value with candidate's age
+#' @param check.validity Logical to decide whether to validate input.
 #' @return The value 1 for a candidates older than 65 with also a donor
 #' older than 65
 #' @examples
@@ -187,7 +188,7 @@ sp <- function(donor.age, candidate.age, check.validity = TRUE){
 #' @param recipient.causeESRD A numeric value with recipient's cause of End-Stage Renal
 #' Disease, with options: 'Other', 'Diabetes', 'Hypertension',
 #' 'Glomerulonephritis', 'Cystic disease'
-#' @param recipient.timeD A numeric value with recipient's time on dialysis (months)
+#' @param recipient.dialysis A numeric value with recipient's time on dialysis (months)
 #' @param recipient.diabetes A logical value with recipient's diabetic status
 #' @param recipient.coronary A logical value with recipient's coronary artery disease status
 #' @param recipient.albumin A numeric value with recipient's albumin (g/dL)
@@ -199,13 +200,13 @@ sp <- function(donor.age, candidate.age, check.validity = TRUE){
 #' @param mmHLA_A A numeric value (0, 1, 2) with the number of HLA-A mismatchs
 #' @param mmHLA_B A numeric value (0, 1, 2) with the number of HLA-B mismatchs
 #' @param mmHLA_DR A numeric value (0, 1, 2) with the number of HLA-DR mismatchs
-#' @param check.validity Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return 5 year probability for combined outcome of mortality or graft failure
 #' @examples
 #' txscore(recipient.age = 20,
 #' recipient.race = "White", #insurance = 0,
 #' recipient.causeESRD = "Other",
-#' recipient.timeD = 12, recipient.diabetes = FALSE,
+#' recipient.dialysis = 12, recipient.diabetes = FALSE,
 #' recipient.coronary = FALSE, recipient.albumin = 1.5,
 #' recipient.hemoglobin = 10, donor.age = 30,
 #' donor.diabetes = "Absence",
@@ -217,7 +218,7 @@ txscore <- function(recipient.age = 20
                     , recipient.race = "White"
                     #, insurance = 0
                     , recipient.causeESRD = "Other"
-                    , recipient.timeD = 12 #
+                    , recipient.dialysis = 12
                     , recipient.diabetes = FALSE
                     , recipient.coronary = FALSE
                     , recipient.albumin = 1.5
@@ -234,7 +235,7 @@ txscore <- function(recipient.age = 20
     age_checker(recipient.age)
     if(!recipient.race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
     if(!recipient.causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
-    if(!is.numeric(recipient.timeD) | recipient.timeD < 0 | recipient.timeD > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
+    if(!is.numeric(recipient.dialysis) | recipient.dialysis < 0 | recipient.dialysis > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
     if(!is.logical(recipient.diabetes)){stop("Recipient's diabetes is not valid! Expected a logical value.")}
     if(!is.logical(recipient.coronary)){stop("Recipient's coronary disease is not valid! Expected a logical value.")}
     if(!is.numeric(recipient.albumin) | recipient.albumin < 1 | recipient.albumin > 5){stop("Recipient's Albumin is not valid! Expected a value between 1 and 5")}
@@ -261,9 +262,9 @@ txscore <- function(recipient.age = 20
                       ifelse(recipient.causeESRD == "Hypertension", 0.1541,
                              ifelse(recipient.causeESRD == "Glomerulonephritis", 0.1447,
                                     ifelse(recipient.causeESRD == "Cystic Disease", -0.1870, 0.3209))))
-  recipient.timeD <- ifelse(recipient.timeD < 12, 0,
-                  ifelse(recipient.timeD < 36, -0.2618,
-                         ifelse(recipient.timeD < 61, -0.3747, -0.1432)))
+  recipient.dialysis <- ifelse(recipient.dialysis < 12, 0,
+                  ifelse(recipient.dialysis < 36, -0.2618,
+                         ifelse(recipient.dialysis < 61, -0.3747, -0.1432)))
   recipient.diabetes <- ifelse(recipient.diabetes == TRUE, 0.3021, 0)
   recipient.coronary <- ifelse(recipient.coronary == TRUE, 0.2617, 0)
   recipient.albumin <- (recipient.albumin - 4)*(-0.2644)
@@ -275,7 +276,7 @@ txscore <- function(recipient.age = 20
   mmHLA <- ifelse(mmHLA == "0" , 0,
                   ifelse(mmHLA == "1-3", 0.3241, 0.3115))
 
-  LP <- recipient.age + recipient.race + recipient.causeESRD + recipient.timeD +
+  LP <- recipient.age + recipient.race + recipient.causeESRD + recipient.dialysis +
     recipient.diabetes + recipient.coronary + recipient.albumin +
     recipient.hemoglobin + donor.age + donor.diabetes + donor.ECD +
     mmHLA

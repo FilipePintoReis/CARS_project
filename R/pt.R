@@ -124,7 +124,7 @@ pts_HLA <- function(itemA = 12
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param pts.80 A numerical value for the points to a cPRA >= 80
 #' @param pts.50 A numerical value for the points to a cPRA >= 50
-#' @param pts.dial punctuaction for each month on dialysis
+#' @param pts.dialysis punctuaction for each month on dialysis
 #' @param pts.age A numerical value for the points to age difference
 #' @param n A positive integer to slice the first candidates.
 #' @return An ordered data frame with a column 'cp' (color priority),
@@ -145,7 +145,7 @@ pt <- function(iso = TRUE
                 , data = candidates
                 , pts.80 = 8
                 , pts.50 = 4
-                , pts.dial = 0.1
+                , pts.dialysis = 0.1
                 , pts.age = 4
                 , n = 2){
 
@@ -195,7 +195,7 @@ pt <- function(iso = TRUE
       ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
       ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
       ptsage = pts_age(donor.age = donor.age, candidate.age = age, age.difference.points = pts.age),
-      ptsdial = pts.dial * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
+      ptsdial = pts.dialysis * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
       ), by = 'ID']
 
     data[, `:=`(

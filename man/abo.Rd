@@ -13,7 +13,7 @@ abo(cABO = "A", dABO = "A", iso = TRUE, check.validity = TRUE)
 
 \item{iso}{A logical value T/F}
 
-\item{check.validity}{Bool to decide whether to validate input.}
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A logical value T/F

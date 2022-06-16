@@ -244,7 +244,7 @@ pt_several <- function(){
       iso = TRUE
       , pts.80 = 8
       , pts.50 = 4
-      , pts.dial = 0.1
+      , pts.dialysis = 0.1
       , pts.age = 4
       )
   )

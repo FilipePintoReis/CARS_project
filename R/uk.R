@@ -117,8 +117,8 @@ b_blood<-function(dABO = "B",
                   cABO = "O",
                   tier = "B",
                   pts = -1000){
-  if(!blood_group_checker(cABO)){stop("candidate's blood group is not valid!")}
-  if(!blood_group_checker(dABO)){stop("donor's blood group is not valid!")}
+  blood_group_checker(cABO)
+  blood_group_checker(dABO)
   if(!is.numeric(pts) | pts>=0){stop('pts must be a negative value!')}
 
   res=NULL

@@ -89,13 +89,9 @@ candidate_dataframe_check <- function(candidate.dataframe){
   }
 
   for (i in 1:nrow(candidate.dataframe)){
-    if (!blood_group_checker(candidate.dataframe$bg[i])){
-      stop(paste('Invalid blood group in line', i), paste('\nSupported groups are', paste(valid_blood_groups, collapse = ", ")))
-    }
+    blood_group_checker(candidate.dataframe$bg[i])
     
-    if (!age_checker(candidate.dataframe$age[i])){
-      stop('Negative age in line', i)
-    }
+    age_checker(candidate.dataframe$age[i])
   }
 
   return(TRUE)
@@ -153,21 +149,10 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
   }
 
   for (i in 1:nrow(candidate.dataframe)){
-    if (!blood_group_checker(candidate.dataframe$bg[i])){
-      stop(paste('Invalid blood group in line', i), paste('Supported groups are', paste(valid_blood_groups, collapse = ", ")))
-    }
-
-    if (!tier_checker(candidate.dataframe$Tier[i])){
-      stop(paste('Invalid tier in line', i), paste('Supported tiers are', paste(valid_tiers, collapse = ", ")))
-    }
-
-    if (!age_checker(candidate.dataframe$age[i])){
-      stop(paste('Negative age in line', i))
-    }
-
-    if (!rri_checker(candidate.dataframe$RRI[i])){
-      stop(paste('Invalid RRI in line', i), paste('Supported RRIs are', paste(valid_rris, collapse = ", ")))
-    }
+    blood_group_checker(candidate.dataframe$bg[i])
+    tier_checker(candidate.dataframe$Tier[i])
+    age_checker(candidate.dataframe$age[i])
+    rri_checker(candidate.dataframe$RRI[i])
   }
 
   return(TRUE)

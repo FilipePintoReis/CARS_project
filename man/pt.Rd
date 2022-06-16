@@ -10,7 +10,7 @@ pt(
   dA = c("1", "2"),
   dB = c("15", "44"),
   dDR = c("1", "4"),
-  dage = 65,
+  donor.age = 65,
   df.abs = cabs,
   data = candidates,
   pts.80 = 8,
@@ -31,7 +31,7 @@ pt(
 
 \item{dDR}{donor's HLA-DR typing.}
 
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
 \item{df.abs}{A data frame with candidates' antibodies.}
 
@@ -59,6 +59,6 @@ according to PT's algorithm.
 \examples{
 pt(iso = TRUE, dABO = "A",
 dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-dage = 65,  data = candidates,
+donor.age = 65,  data = candidates,
 df.abs = cabs, n = 2)
 }

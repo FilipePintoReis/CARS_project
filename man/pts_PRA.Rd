@@ -7,7 +7,7 @@
 pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4)
 }
 \arguments{
-\item{cPRA}{A numerical value (0-100) for cPRA}
+\item{cPRA}{Percentual value of cPRA}
 
 \item{pts.80}{A numerical value for the points to a cPRA >= 80}
 

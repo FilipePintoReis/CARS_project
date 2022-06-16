@@ -21,7 +21,8 @@ txscore(
   donor.ECD = FALSE,
   mmHLA_A = 0,
   mmHLA_B = 0,
-  mmHLA_DR = 0
+  mmHLA_DR = 0,
+  validation.required = TRUE
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ Disease, with options: 'Other', 'Diabetes', 'Hypertension',
 \item{mmHLA_B}{A numeric value (0, 1, 2) with the number of HLA-B mismatchs}
 
 \item{mmHLA_DR}{A numeric value (0, 1, 2) with the number of HLA-DR mismatchs}
+
+\item{validation.required}{Bool to decide whether to validate input.}
 }
 \value{
 5 year probability for combined outcome of mortality or graft failure

@@ -12,7 +12,8 @@ et_mmp(
   hlaA = hlaApt,
   hlaB = hlaBpt,
   hlaDR = hlaDRpt,
-  abo_freq = ABOpt
+  abo_freq = ABOpt,
+  validation.required = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ group of waitlisted transplant candidates.}
 \item{hlaDR}{A data frame with HLA-DR allele frequencies}
 
 \item{abo_freq}{A data frame with ABO blood group frequencies}
+
+\item{validation.required}{Bool to decide whether to validate input.}
 }
 \description{
 Mismatch Probability (MMP) is a calculation of the probability of
@@ -37,5 +40,5 @@ between 0-100 MMPs
 \examples{
 et_mmp(data = candidates,
 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-abo_freq = ABOpt)
+abo_freq = ABOpt, validation.required = TRUE)
 }

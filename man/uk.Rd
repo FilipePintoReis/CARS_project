@@ -10,7 +10,7 @@ uk(
   dB = c("15", "44"),
   dDR = c("1", "4"),
   dABO = "O",
-  dage = 65,
+  donor.age = 65,
   data = candidates.uk,
   D1R1 = 1000,
   D1R2 = 700,
@@ -56,7 +56,7 @@ uk(
 
 \item{dABO}{A character value with ABO blood group.}
 
-\item{dage}{A numeric value with donor's age.}
+\item{donor.age}{A numeric value with donor's age.}
 
 \item{data}{A data frame containing demographics and medical information for
 a group of waitlisted transplant for UK transplant.}
@@ -97,19 +97,19 @@ a group of waitlisted transplant for UK transplant.}
 on dialysis}
 
 \item{a1}{A numeric value for HLA match and age combined formula:
-b1*cos(age/18)+a1}
+b1*cos(age / env$adulthood.age)+a1}
 
 \item{a2}{A numeric value for HLA match and age combined formula:
-b2*cos(age/18)+a2}
+b2*cos(age / env$adulthood.age)+a2}
 
 \item{b1}{A numeric value for HLA match and age combined formula:
-b1*cos(age/18)+a1}
+b1*cos(age / env$adulthood.age)+a1}
 
 \item{b2}{A numeric value for HLA match and age combined formula:
-b2*cos(age/18)+a2}
+b2*cos(age / env$adulthood.age)+a2}
 
 \item{b3}{A numeric value for HLA match and age combined formula:
-b3*sin(age/50)}
+b3*sin(age / 50)}
 
 \item{m}{A numeric value for matchability formula: m * (1+(MS/nn)^o)}
 
@@ -135,7 +135,7 @@ to UK transplant algorithm.
 }
 \examples{
 uk(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-dABO = "O", dage = 65, data = candidates.uk,
+dABO = "O", donor.age = 65, data = candidates.uk,
 D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
 D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
 D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,

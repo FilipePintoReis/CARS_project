@@ -37,9 +37,9 @@ donor_recipient_pairs <- function(df.donors = donors,
                   dDR = purrr::map2(.x = DR1,
                                     .y = DR2,
                                     ~c(.x,.y)),
-                  dage = age
+                  donor.age = age
     ) %>%
-    dplyr::select(dABO, dA, dB, dDR, dage)
+    dplyr::select(dABO, dA, dB, dDR, donor.age)
 
   if(n == 0) n <- nrow(df.candidates)
 
@@ -67,6 +67,7 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param algorithm The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)
 #' @param n A positive integer to slice the first candidates.
+#' @param seed.number Seed for new random number. seed.number can be NA in which case no seed is applied.
 #' @param ... all the parameters used on the function algorithm
 #' @return Statistics related to all the times the function ran.
 #' @examples
@@ -75,14 +76,20 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' df.candidates = candidates,
 #' df.abs = cabs,
 #' algorithm = lima,
-#' n = 0)
+#' n = 0,
+#' seed.number = 123)
 #' @export
 several <- function(iteration.number = 10,
                        df.donors = donors,
                        df.candidates = candidates,
                        df.abs = cabs,
                        algorithm = lima,
-                       n = 0, ...){
+                       n = 0, 
+                       seed.number = 123, ...){
+                        
+  if(!is.na(seed.number)){
+    set.seed(seed.number)
+  }
 
   df.donors$nrow <- 1:nrow(df.donors)
 

@@ -48,7 +48,7 @@ cp <- function(data = candidates,
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
-#' @param dage A numeric value with donor's age.
+#' @param donor.age A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information
 #' for a group of waitlisted transplant candidates with
 #' color priority classification.
@@ -63,13 +63,13 @@ cp <- function(data = candidates,
 #' @examples
 #' lima(iso = TRUE, dABO = "O",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-#' dage = 60, df.abs = cabs,
+#' donor.age = 60, df.abs = cabs,
 #' data = candidates, n = 2)
 #' @export
 lima <- function(iso = TRUE
                   , dABO = "O"
                   , dA = c("1","2"), dB = c("15","44"), dDR = c("1","4")
-                  , dage = 60
+                  , donor.age = 60
                   , df.abs = cabs
                   , data = candidates
                   , n = 2
@@ -100,9 +100,9 @@ lima <- function(iso = TRUE
                 all.x=TRUE)
 
   data[, `:=`(
-    donor_age = dage,
-    SP = sp(cage = age, dage = dage),
-    HI = hiper(cPRA = cPRA), # Isto pode ser feito antes do for loop de candidato vs dador
+    donor_age = donor.age,
+    SP = sp(candidate.age = age, donor.age = donor.age),
+    HI = hiper(cPRA = cPRA, 85), # Isto pode ser feito antes do for loop de candidato vs dador
     compBlood = abo(iso = iso, dABO = dABO, cABO = bg)
     ), by = 'ID'][, row_n := 1:nrow(data)]
 

@@ -1,13 +1,13 @@
 test_that('Test Blood Group Checker', {
   valid_input = c('O', 'A', 'B', 'AB')
-  invalid_input = c('o', 'OA', 'Z', 1) #, c('A'))
+  invalid_input = c('o', 'OA', 'Z', 1)
   
   for (valid in valid_input){
-    expect_equal(blood_group_checker(valid), TRUE)
+    blood_group_checker(valid)
   }
   
   for (invalid in invalid_input){
-    expect_equal(blood_group_checker(invalid), FALSE)
+    expect_error(blood_group_checker(invalid))
   }
 })
 
@@ -16,37 +16,37 @@ test_that('Test Age Checker', {
   invalid_input = c(1, 99, '50', -1, c(10))
   
   for (valid in valid_input){
-    expect_equal(age_checker(valid), TRUE)
+    age_checker(valid)
   }
   
   for (invalid in invalid_input){
-    expect_equal(age_checker(invalid), FALSE)
+    expect_error(age_checker(invalid))
   }
 })
 
 test_that('Test Tier Checker', {
   valid_input = c('A', 'B')
-  invalid_input = c('a', 'AB', 'Z') #, c('A'))
+  invalid_input = c('a', 'AB', 'Z')
   
   for (valid in valid_input){
-    expect_equal(tier_checker(valid), TRUE)
+    tier_checker(valid)
   }
   
   for (invalid in invalid_input){
-    expect_equal(tier_checker(invalid), FALSE)
+    expect_error(tier_checker(invalid))
   }
 })
 
 test_that('Test RRI Checker', {
   valid_input = c('R1', 'R2', 'R3', 'R4')
-  invalid_input = c('r1', 'R1R2', 'Z1') #, c('R1'))
+  invalid_input = c('r1', 'R1R2', 'Z1')
   
   for (valid in valid_input){
-    expect_equal(rri_checker(valid), TRUE)
+    rri_checker(valid)
   }
   
   for (invalid in invalid_input){
-    expect_equal(rri_checker(invalid), FALSE)
+    expect_error(rri_checker(invalid))
   }
 })
 
@@ -104,11 +104,11 @@ test_that('Test Candidate Dataframe Checker', {
     age_checker = function(var) TRUE, 
     {
       for (valid in valid_input){
-        expect_equal(candidate_dataframe_check(valid), TRUE)
+        candidate_dataframe_check(valid)
       }
     
       for (invalid in invalid_input){
-        expect_equal(candidate_dataframe_check(invalid), FALSE)
+        expect_error(candidate_dataframe_check(invalid))
       }
     })
 })
@@ -182,7 +182,7 @@ test_that('Test UK Candidate Dataframe Checker', {
       }
     
       for (invalid in invalid_input){
-        expect_equal(uk_candidate_dataframe_check(invalid), FALSE)
+        expect_error(uk_candidate_dataframe_check(invalid))
       }
   })
 })

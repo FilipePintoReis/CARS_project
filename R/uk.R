@@ -82,21 +82,21 @@ ric<-function(DRI = 'D1',
 #' Donor recipient age difference
 #'
 #' @description computes punctuation according to donor-recipient age difference
-#' @param dage A numeric value with donor's age.
-#' @param cage A numeric value with candidate's age.
+#' @param donor.age A numeric value with donor's age.
+#' @param candidate.age A numeric value with candidate's age.
 #' @return A numeric value.
 #' @examples
-#' age_diff(dage = 60, cage = 50)
+#' age_diff(donor.age = 60, candidate.age = 50)
 #' @export
-age_diff<-function(dage = 60,
-                   cage = 50){
+age_diff<-function(donor.age = 60,
+                   candidate.age = 50){
   # verify ages
-  if(!is.numeric(dage) | dage < 18 | dage > 99) {stop("donor's age is not valid!\n")}
-  if(!is.numeric(cage) | cage < 18 | cage > 99) {stop("candidate's age is not valid!\n")}
+  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age) {stop("donor's age is not valid!\n")}
+  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age) {stop("candidate's age is not valid!\n")}
 
-  res<-NULL
+  res <-NULL
 
-  res<- (-1/2)*((dage-cage)^2)
+  res <- (-1 / 2) * ((donor.age - candidate.age) ^ 2)
 
   return(res)
 
@@ -117,8 +117,8 @@ b_blood<-function(dABO = "B",
                   cABO = "O",
                   tier = "B",
                   pts = -1000){
-  if(!blood_group_checker(cABO)){stop("candidate's blood group is not valid!")}
-  if(!blood_group_checker(dABO)){stop("donor's blood group is not valid!")}
+  blood_group_checker(cABO)
+  blood_group_checker(dABO)
   if(!is.numeric(pts) | pts>=0){stop('pts must be a negative value!')}
 
   res=NULL
@@ -178,7 +178,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
-#' @param dage A numeric value with donor's age.
+#' @param donor.age A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant for UK transplant.
 #' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
@@ -200,15 +200,15 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param ptsDial A numeric value for the points corresponding to each month
 #' on dialysis
 #' @param a1 A numeric value for HLA match and age combined formula:
-#' b1*cos(age/18)+a1
+#' b1*cos(age / env$adulthood.age)+a1
 #' @param a2 A numeric value for HLA match and age combined formula:
-#' b2*cos(age/18)+a2
+#' b2*cos(age / env$adulthood.age)+a2
 #' @param b1 A numeric value for HLA match and age combined formula:
-#' b1*cos(age/18)+a1
+#' b1*cos(age / env$adulthood.age)+a1
 #' @param b2 A numeric value for HLA match and age combined formula:
-#' b2*cos(age/18)+a2
+#' b2*cos(age / env$adulthood.age)+a2
 #' @param b3 A numeric value for HLA match and age combined formula:
-#' b3*sin(age/50)
+#' b3*sin(age / 50)
 #' @param m A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param nn A numeric value for matchability formula: m * (1+(MS/nn)^o)
 #' @param o A numeric value for matchability formula: m * (1+(MS/nn)^o)
@@ -220,7 +220,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' @param n A positive integer to slice the first candidates.
 #' @examples
 #' uk(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
-#' dABO = "O", dage = 65, data = candidates.uk,
+#' dABO = "O", donor.age = 65, data = candidates.uk,
 #' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
 #' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
 #' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
@@ -237,7 +237,7 @@ uk<-function(DRI = 'D1',
               dB = c("15","44"),
               dDR = c("1","4"),
               dABO = "O",
-              dage = 65,
+              donor.age = 65,
               data = candidates.uk,
               D1R1 = 1000,
               D1R2 = 700,
@@ -294,7 +294,7 @@ uk<-function(DRI = 'D1',
                  all.x=TRUE)
 
    data[, `:=`(
-      donor_age = dage,
+      donor_age = donor.age,
       compBlood = abo_uk(dABO = dABO, cABO = bg, tier = Tier)
       ),
     by = 'ID'][, row_n := 1:nrow(data)]
@@ -328,14 +328,14 @@ uk<-function(DRI = 'D1',
     by = 'ID']
 
   data[, `:=`(
-    pts.hla.age = ifelse(level == 1, b1 * cos(age / 18) + a1,
-                    ifelse(level == 2, b2 * cos(age / 18) + a2,  b3 * sin(age / 50))),
+    pts.hla.age = ifelse(level == 1, b1 * cos(age / env$adulthood.age) + a1,
+                    ifelse(level == 2, b2 * cos(age / env$adulthood.age) + a2,  b3 * sin(age / 50))),
     total.HLA = ifelse(mmA + mmB + mmDR == 0, 0,
                   ifelse(mmA + mmB + mmDR == 1, mm1,
                     ifelse(mmA + mmB + mmDR < 4, mm23, mm46))),
     # compute matchability points from Match Score
     matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
-    pts.age = age_diff(dage = dage, cage = age),
+    pts.age = age_diff(donor.age = donor.age, candidate.age = age),
     pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
     ),
     by = 'ID']

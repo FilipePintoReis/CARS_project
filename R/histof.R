@@ -17,15 +17,16 @@ abo <- function(cABO = 'A', dABO = 'A', iso = TRUE, validation.required = TRUE){
 
   if(iso == TRUE){
     value <- cABO == dABO
-    } else {
-      value <- ifelse(dABO == 'O', TRUE,
-                      ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
-                              ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
-                                    ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
-                                    )
-                              )
-      )
-      }
+    } 
+  else {
+    value <- ifelse(dABO == 'O', TRUE,
+              ifelse(dABO == 'A' & cABO %in% c('A','AB'),TRUE,
+                      ifelse(dABO == 'B' & cABO %in% c('B','AB'),TRUE,
+                            ifelse(dABO == 'AB' & cABO == 'AB', TRUE, FALSE)
+                            )
+                      )
+              )
+        }
   return(value)
     
 }
@@ -221,7 +222,7 @@ txscore <- function(ageR = 20
                     , mmHLA_DR = 0, 
                     validation.required = TRUE){
   if (validation.required){
-    if(!age_checker(ageR)){stop("Recipient's age is not valid!")}
+    age_checker(ageR)
     if(!race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
     if(!causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
     if(!is.numeric(timeD) | timeD < 0 | timeD > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
@@ -229,7 +230,7 @@ txscore <- function(ageR = 20
     if(!is.logical(coronary)){stop("Recipient's coronary disease is not valid! Expected a logical value.")}
     if(!is.numeric(albumin) | albumin < 1 | albumin > 5){stop("Recipient's Albumin is not valid! Expected a value between 1 and 5")}
     if(!is.numeric(hemoglobin) | hemoglobin < 3 | hemoglobin > 20){stop("Recipient's Hemoglobin is not valid! Expected a value between 3 and 20")}
-    if(!age_checker(ageD)){stop("Donor's age is not valid!")}
+    age_checker(ageD)
     if(!diabetesD %in% c('Absence','Presence','Unknown')){stop("Donor's diabetes is not valid! Valid options: 'Absence','Presence','Unknown'")}
     if(!is.logical(ECD)){stop("Recipient's ECD is not valid! Expected a logical value.")}
     if(!mmHLA_A %in% c(0,1,2)){stop("Number of mm HLA-A is not valid! Valid optios: 0, 1, 2")}

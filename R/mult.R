@@ -160,7 +160,7 @@ calculate_donor_to_candidate_matchability <- function(...){
 several <- function(iteration.number = 10, seed.number = 123, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-  if(is.na(seed.number)){
+  if(!is.na(seed.number)){
     set.seed(seed.number)
   }
 

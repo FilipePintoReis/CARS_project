@@ -145,9 +145,9 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 
   res = NULL
   # verify function parameters
-  if (!blood_group_checker(dABO)){stop("donor's group is not a valid option!\n")}
-  if (!blood_group_checker(cABO)){stop("candidate's group is not a valid option!\n")}
-  if (!tier %in% c('A','B')) {stop("candidate's Tier is not a valid option!\n")}
+  blood_group_checker(dABO)
+  blood_group_checker(cABO)
+  tier_checker(tier)
 
   if(tier == 'B'){
     res<-ifelse(dABO == "O" & (cABO == "O" | cABO == "B"), TRUE,

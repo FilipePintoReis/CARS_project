@@ -130,7 +130,7 @@ test_that("et algorithm", {
                   , dA = c("1","2")
                   , dB = c("15","44")
                   , dDR = c("1","4")
-                  , dage = 65
+                  , donor.age = 65
                   , data = cand_test
                   , month = 2.78
                   , mm0 = 400
@@ -151,7 +151,7 @@ test_that("et algorithm", {
                   , dA = c("1","2")
                   , dB = c("15","44")
                   , dDR = c("1","4")
-                  , dage = 40
+                  , donor.age = 40
                   , data = cand_test
                   , month = 2
                   , mm0 = 400
@@ -172,7 +172,7 @@ test_that("et algorithm", {
                   , dA = c("1","2")
                   , dB = c("7","28")
                   , dDR = c("1","14")
-                  , dage = 60
+                  , donor.age = 60
                   , data = cand_test
                   , month = 4
                   , mm0 = 400
@@ -193,7 +193,7 @@ test_that("et algorithm", {
                   , dA = c("1","2")
                   , dB = c("7","28")
                   , dDR = c("1","14")
-                  , dage = 60
+                  , donor.age = 60
                   , data = cand_test
                   , month = 3
                   , mm0 = 400

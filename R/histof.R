@@ -233,12 +233,12 @@ txscore <- function(recipient.age = 20
   if (check.validity){
     age_checker(recipient.age)
     if(!recipient.race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
-    if(!causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
+    if(!recipient.causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}
     if(!is.numeric(recipient.timeD) | recipient.timeD < 0 | recipient.timeD > 200){stop("Recipient's Time on dialysis is not valid! Expected a value between 0 and 200")}
     if(!is.logical(recipient.diabetes)){stop("Recipient's diabetes is not valid! Expected a logical value.")}
     if(!is.logical(recipient.coronary)){stop("Recipient's coronary disease is not valid! Expected a logical value.")}
     if(!is.numeric(recipient.albumin) | recipient.albumin < 1 | recipient.albumin > 5){stop("Recipient's Albumin is not valid! Expected a value between 1 and 5")}
-    if(!is.numeric(hemoglobin) | hemoglobin < 3 | hemoglobin > 20){stop("Recipient's Hemoglobin is not valid! Expected a value between 3 and 20")}
+    if(!is.numeric(recipient.hemoglobin) | recipient.hemoglobin < 3 | recipient.hemoglobin > 20){stop("Recipient's Hemoglobin is not valid! Expected a value between 3 and 20")}
     age_checker(donor.age)
     if(!donor.diabetes %in% c('Absence','Presence','Unknown')){stop("Donor's diabetes is not valid! Valid options: 'Absence','Presence','Unknown'")}
     if(!is.logical(donor.ECD)){stop("Recipient's ECD is not valid! Expected a logical value.")}

@@ -4,7 +4,7 @@
 \alias{abo}
 \title{test for ABO compatibility}
 \usage{
-abo(cABO = "A", dABO = "A", iso = TRUE, validation.required = TRUE)
+abo(cABO = "A", dABO = "A", iso = TRUE, check.validity = TRUE)
 }
 \arguments{
 \item{cABO}{A character from 'A', 'B', 'AB', 'O'}
@@ -13,7 +13,7 @@ abo(cABO = "A", dABO = "A", iso = TRUE, validation.required = TRUE)
 
 \item{iso}{A logical value T/F}
 
-\item{validation.required}{Bool to decide whether to validate input.}
+\item{check.validity}{Bool to decide whether to validate input.}
 }
 \value{
 A logical value T/F
@@ -22,5 +22,5 @@ A logical value T/F
 ABO compatibility test between donor and candidate
 }
 \examples{
-abo(cABO = 'A', dABO = 'A', iso = TRUE, validation.required = TRUE)
+abo(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE)
 }

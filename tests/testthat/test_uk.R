@@ -58,18 +58,18 @@ test_that("Donor-recipient Risk Index Combination", {
 })
 
 test_that("Donor recipient age difference", {
-  expect_equal(age_diff(dage = 60,
-                        cage = 50), -50)
-  expect_equal(age_diff(dage = 20,
-                        cage = 60), -800)
-  expect_equal(age_diff(dage = 20,
-                        cage = 20), 0)
-  expect_equal(age_diff(dage = 60,
-                        cage = 40), -200)
-  expect_equal(age_diff(dage = 60,
-                        cage = 20), -800)
-  expect_equal(age_diff(dage = 18,
-                        cage = 69), -1300.5)
+  expect_equal(age_diff(donor.age = 60,
+                        candidate.age = 50), -50)
+  expect_equal(age_diff(donor.age = 20,
+                        candidate.age = 60), -800)
+  expect_equal(age_diff(donor.age = 20,
+                        candidate.age = 20), 0)
+  expect_equal(age_diff(donor.age = 60,
+                        candidate.age = 40), -200)
+  expect_equal(age_diff(donor.age = 60,
+                        candidate.age = 20), -800)
+  expect_equal(age_diff(donor.age = 18,
+                        candidate.age = 69), -1300.5)
 })
 
 test_that("blood group B match points", {
@@ -184,7 +184,7 @@ test_that("uk algorithm", {
                   dB = c("15","44"),
                   dDR = c("1","4"),
                   dABO = "O",
-                  dage = 40,
+                  donor.age = 40,
                   data = cand_uk_test,
                   D1R1 = 1000,
                   D1R2 = 700,
@@ -222,7 +222,7 @@ test_that("uk algorithm", {
                   dB = c("7","44"),
                   dDR = c("7","14"),
                   dABO = "A",
-                  dage = 30,
+                  donor.age = 30,
                   data = cand_uk_test,
                   D1R1 = 1000,
                   D1R2 = 700,
@@ -260,7 +260,7 @@ test_that("uk algorithm", {
                   dB = c("27","44"),
                   dDR = c("11","14"),
                   dABO = "O",
-                  dage = 60,
+                  donor.age = 60,
                   data = cand_uk_test,
                   D1R1 = 1000,
                   D1R2 = 700,

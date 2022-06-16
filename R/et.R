@@ -26,7 +26,7 @@ et_mmp<-function(data = candidates,
                  check.validity = TRUE){
 
   if (check.validity){
-
+    candidate_dataframe_check(data)
   }
 
   # compute the sum of squared frequencies for each loci with PT frequencies
@@ -224,7 +224,7 @@ et_dial<-function(dial = 0, month = 2.78, check.validity = TRUE){
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 #' abo_freq = ABOpt,
 #' n = 2,
-#' check.validity = FALSE)
+#' check.validity = TRUE)
 #' @export
 et<-function(iso = TRUE
              , dABO = "A"
@@ -247,12 +247,12 @@ et<-function(iso = TRUE
              , hlaDR = hlaDRpt
              , abo_freq = ABOpt
              , n = 2
-             , check.validity = FALSE){
+             , check.validity = TRUE){
 
   if(check.validity){
     blood_group_checker(dABO) &
-      age_checker(dage) &
-      dial_checker(dage) &
+      age_checker(donor.age) &
+      dialysis_checker(donor.age) &
       candidate_dataframe_check(data)
       }
 

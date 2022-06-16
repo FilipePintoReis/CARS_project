@@ -11,6 +11,7 @@ several(
   df.abs = cabs,
   algorithm = lima,
   n = 0,
+  seed.number = 123,
   ...
 )
 }
@@ -29,6 +30,8 @@ for a group of waitlisted transplant candidates. For uk algorithm must have resp
 
 \item{n}{A positive integer to slice the first candidates.}
 
+\item{seed.number}{Seed for new random number. seed.number can be NA in which case no seed is applied.}
+
 \item{...}{all the parameters used on the function algorithm}
 }
 \value{
@@ -44,5 +47,6 @@ df.donors = donors,
 df.candidates = candidates,
 df.abs = cabs,
 algorithm = lima,
-n = 0)
+n = 0,
+seed.number = 123)
 }

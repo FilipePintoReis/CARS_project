@@ -9,7 +9,7 @@ xmatch_r(
   dB = c("5", "7"),
   dDR = c("1", "4"),
   df.abs = cabs,
-  validation.required = TRUE
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ xmatch_r(
 
 \item{df.abs}{data frame with candidates' antibodies}
 
-\item{validation.required}{Bool to decide whether to validate input.}
+\item{check.validity}{Bool to decide whether to validate input.}
 }
 \value{
 A dataframe with candidates' ID and xm result POS/NEG
@@ -30,5 +30,5 @@ A dataframe with candidates' ID and xm result POS/NEG
 returns candidates' virtual crossmatch againts donor's HLA typing
 }
 \examples{
-xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, validation.required = TRUE)
+xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, check.validity = TRUE)
 }

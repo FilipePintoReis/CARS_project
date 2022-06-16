@@ -26,7 +26,7 @@ et(
   hlaDR = hlaDRpt,
   abo_freq = ABOpt,
   n = 2,
-  check.validity = FALSE
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -95,5 +95,5 @@ df.abs = cabs,
 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 abo_freq = ABOpt,
 n = 2,
-check.validity = FALSE)
+check.validity = TRUE)
 }

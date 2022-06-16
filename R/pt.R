@@ -35,7 +35,7 @@ pts_age <- function(donor.age = 60
 #' Points for cPRA sensitization
 #'
 #' @description Punctuation given for sensitized patients according to cPRA value
-#' @param cPRA Percentual value of cPRA
+#' @param cPRA Percentual value of cPRA (Between 0 and 100)
 #' @param pts.80 A numerical value for the points to a cPRA >= 80
 #' @param pts.50 A numerical value for the points to a cPRA >= 50
 #' @return A numerical value for pre-defined points

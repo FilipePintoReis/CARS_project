@@ -1,5 +1,3 @@
-context("Histocompatibility")
-
 test_that("compatibility ABO", {
   expect_false(abo(cABO = 'A', dABO = 'O', iso = TRUE))
   expect_true(abo(cABO = 'A', dABO = 'O', iso = FALSE))

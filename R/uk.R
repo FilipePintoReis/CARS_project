@@ -273,9 +273,6 @@ uk<-function(DRI = 'D1',
 
   n <- max(1, n)
 
-  # data <- cp(data = data) %>%
-  #   as.data.frame()
-
   xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
 
   data.table::setDT(data, key = 'ID')
@@ -289,8 +286,8 @@ uk<-function(DRI = 'D1',
     data = data
   )
 
-   data[, ID := as.character(ID)] # forçar ID para character
-   xm[, ID := as.character(ID)] # forçar ID para character
+   data[, ID := as.character(ID)] # ensure ID as a character
+   xm[, ID := as.character(ID)] # ensure ID as a character
 
    data <- merge(data, xm,
                  by = 'ID',

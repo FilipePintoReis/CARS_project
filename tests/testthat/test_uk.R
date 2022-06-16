@@ -1,5 +1,3 @@
-context("UK-algortithm")
-
 test_that("Donor-recipient Risk Index Combination", {
 
   cand_uk_test <- data.frame(

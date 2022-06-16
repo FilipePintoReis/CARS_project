@@ -1,6 +1,3 @@
-context("Algorithms")
-library(histoc)
-
 test_that("Points cPRA PT's algorithm", {
   expect_equal(pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4), 0)
   expect_equal(pts_PRA(cPRA = 81, pts.80 = 8, pts.50 = 4), 8)

@@ -137,7 +137,6 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
   names(pts)<-'ptsHLA'
 
   res <- c(mm,pts)
-  #names(res) <- c('mmA','mmB','mmDR','mmHLA','ptsHLA')
 
   return(res)
 }

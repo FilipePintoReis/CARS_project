@@ -2,7 +2,7 @@
 % Please edit documentation in R/mult.R
 \name{several}
 \alias{several}
-\title{Runs several time the function donor_rec_pairs() for as bootstrap.}
+\title{Runs several time the function donor_recipient_pairs() for as bootstrap.}
 \usage{
 several(
   iteration.number = 10,

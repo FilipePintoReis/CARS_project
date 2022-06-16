@@ -1,6 +1,3 @@
-context("ET-algortithm")
-
-
 test_that(" Mismatch Probability (MMP) from ETKAS", {
 })
 

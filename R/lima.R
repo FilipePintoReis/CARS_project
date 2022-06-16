@@ -92,6 +92,9 @@ lima <- function(iso = TRUE
   data.table::setDT(data, key = 'ID')
   data.table::setDT(xm, key = 'ID')
 
+  data[, ID := as.character(ID)] # ensure ID as a character
+  xm[, ID := as.character(ID)] # ensure ID as a character
+
   data <- merge(data, xm,
                 by = 'ID',
                 all.x=TRUE)

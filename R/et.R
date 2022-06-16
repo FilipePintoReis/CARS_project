@@ -196,6 +196,7 @@ et_dial<-function(dial = 0, month = 2.78){
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity A logical value, When TRUE, function's inputs are checked against valid options.
 #' @return An ordered data frame with columns cPRA, HI, pointsET, SP, AM
 #' and 'mmHLA'.
 #' @examples
@@ -208,7 +209,8 @@ et_dial<-function(dial = 0, month = 2.78){
 #' df.abs = cabs,
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 #' abo_freq = ABOpt,
-#' n = 2)
+#' n = 2,
+#' check.validity = FALSE)
 #' @export
 et<-function(iso = TRUE
              , dABO = "A"
@@ -230,7 +232,17 @@ et<-function(iso = TRUE
              , hlaB = hlaBpt
              , hlaDR = hlaDRpt
              , abo_freq = ABOpt
-             , n = 2){
+             , n = 2
+             , check.validity = FALSE){
+
+
+  # check for input validity
+  if(check.validity){
+    blood_group_checker(dABO) &
+      age_checker(dage) &
+      dial_checker(dage) &
+      candidate_dataframe_check(data)
+      }
 
   n <- max(1, n)
 
@@ -244,8 +256,8 @@ et<-function(iso = TRUE
   data = data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
                   age, dialysis, cPRA, urgent, MMP)]
 
-  data[, ID := as.character(ID)] # forçar ID para character
-  xm[, ID := as.character(ID)] # forçar ID para character
+  data[, ID := as.character(ID)] # ensure ID as a character
+  xm[, ID := as.character(ID)] # ensure ID as a character
 
   data <- merge(data, xm, by = 'ID', all.x=TRUE)
 
@@ -337,6 +349,7 @@ et<-function(iso = TRUE
               SP,
               AM)]
     )
+
 }
 
 

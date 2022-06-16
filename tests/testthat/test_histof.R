@@ -1,5 +1,3 @@
-context("Histocompatibility")
-library(histoc)
 
 test_that("compatibility ABO", {
   expect_false(abo(cABO = 'A', dABO = 'O', iso = TRUE))
@@ -52,7 +50,7 @@ test_that("virtual crossmatch", {
          dDR = c('1','4'),
          df.abs = cabs)$xm %>% .[10] %>%
     expect_equal("POS")
-}) # O que raio se passa aqui?
+})
 
 
 test_that("Hiperimunized patients", {

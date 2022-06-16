@@ -150,8 +150,7 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' @description Generic function that runs the matchability between all combinations of donors and candidates.
 #' Runs an arbitrary number of times to provide statistics
 #' @param iteration.number Number of times the matchability runs.
-#' @param should.seed Bool to decide whether to set a seed number.
-#' @param seed Seed for new random number. It's only used when should.seed = TRUE
+#' @param seed.number Seed for new random number. seed.number can be NA in which case no seed is applied.
 #' @return Statistics related to all the times the function ran.
 #' @examples
 #' several(iteration.number = 10,
@@ -159,11 +158,11 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' seed = 123,
 #' ...)
 #' @export
-several <- function(iteration.number = 10, should.seed = FALSE, seed = 123, ...){
+several <- function(iteration.number = 10, seed.number = 123, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-  if(should.seed){
-    set.seed(seed)
+  if(is.na(seed.number)){
+    set.seed(seed.number)
   }
 
   df.donors <- ...[["df.donors"]]

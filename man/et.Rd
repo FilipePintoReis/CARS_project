@@ -25,7 +25,8 @@ et(
   hlaB = hlaBpt,
   hlaDR = hlaDRpt,
   abo_freq = ABOpt,
-  n = 2
+  n = 2,
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -72,6 +73,8 @@ a group of waitlisted transplant candidates.}
 \item{abo_freq}{A data frame with ABO blood group frequencies}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 An ordered data frame with columns cPRA, HI, pointsET, SP, AM
@@ -91,5 +94,6 @@ mm4 = 133.33, mm5 = 66.67, mm6 = 0,
 df.abs = cabs,
 hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 abo_freq = ABOpt,
-n = 2)
+n = 2,
+check.validity = TRUE)
 }

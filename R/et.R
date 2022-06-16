@@ -12,21 +12,21 @@
 #' @param hlaB A data frame with HLA-B allele frequencies
 #' @param hlaDR A data frame with HLA-DR allele frequencies
 #' @param abo_freq A data frame with ABO blood group frequencies
-#' @param validation.required Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmp(data = candidates,
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
-#' abo_freq = ABOpt, validation.required = TRUE)
+#' abo_freq = ABOpt, check.validity = TRUE)
 #' @export
 et_mmp<-function(data = candidates,
                  hlaA = hlaApt, 
                  hlaB = hlaBpt, 
                  hlaDR = hlaDRpt,
                  abo_freq = ABOpt,
-                 validation.required = TRUE){
+                 check.validity = TRUE){
 
-  if (validation.required){
-
+  if (check.validity){
+    candidate_dataframe_check(data)
   }
 
   # compute the sum of squared frequencies for each loci with PT frequencies
@@ -84,14 +84,13 @@ et_mmp<-function(data = candidates,
     by = 'ID'
   ]
 
-  return(data)
+  return(data[])
   }
-
 
 #' ET points for mmHLA
 #'
-#' @description Punctuation given for HLA mismatches within ET Kidney allocation
-#' system
+#' @description Computes HLA mismatches and the respective punctuation within ET
+#' Kidney allocation system
 #' @param dA donor's HLA-A typing
 #' @param dB donor's HLA-B typing
 #' @param dDR donor's HLA-DR typing
@@ -105,12 +104,12 @@ et_mmp<-function(data = candidates,
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
-#' @param validation.required Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-#' mm4 = 133.33, mm5 = 66.67, mm6 = 0, validation.required = TRUE)
+#' mm4 = 133.33, mm5 = 66.67, mm6 = 0, check.validity = TRUE)
 #' @export
 et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
@@ -121,9 +120,9 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    mm4 = 133.33,
                    mm5 = 66.67,
                    mm6 = 0,
-                   validation.required = TRUE){
+                   check.validity = TRUE){
   
-  if (validation.required){
+  if (check.validity){
     if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
       stop("points for 0 mmHLA (full match) is not valid!\n")}
     if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
@@ -144,13 +143,13 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
   mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
             cA = cA, cB = cB, cDR = cDR)
 
-  pts<-dplyr::if_else(sum(mm[4]) == 0, mm0,
-                      dplyr::if_else(sum(mm[4]) == 1, mm1,
-                                     dplyr::if_else(sum(mm[4]) == 2, mm2,
-                                                    dplyr::if_else(sum(mm[4]) == 3, mm3,
-                                                                   dplyr::if_else(sum(mm[4]) == 4, mm4,
-                                                                                  dplyr::if_else(sum(mm[4]) == 5, mm5,mm6))))))
-  return(pts)
+  pts <- switch(mm[[4]] +1,
+                mm0, mm1, mm2, mm3, mm4, mm5, mm6)
+  names(pts)<-'ptsHLA'
+
+  res <- c(mm,pts)
+
+  return(res)
 }
 
 
@@ -158,17 +157,17 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #'
 #' @description Punctuation given for each month on dialysis, within ET
 #' Kidney allocation system
-#' @param dial A numeric value with candidate's time on dialysis, in months
+#' @param dialysis A numeric value with candidate's time on dialysis, in months
 #' (between 0 and 500)
 #' @param month A numeric value with the punctuation for each month
 #' (between 0 and 10)
-#' @param validation.required Bool to decide whether to validate input.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
-#' et_dial(dial = 100, month = 2.78, validation.required = TRUE)
+#' et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
 #' @export
-et_dial<-function(dial = 0, month = 2.78, validation.required = TRUE){
-  if (validation.required){
-    if(!is.numeric(dial) | dial < 0 | dial > 499){
+et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
+  if (check.validity){
+    if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
       stop("value for time on dialysis is not valid!\n")
     }
 
@@ -177,11 +176,12 @@ et_dial<-function(dial = 0, month = 2.78, validation.required = TRUE){
     }
   }
 
-  pts <- dial * month
+  pts <- dialysis * month
 
   return(pts)
 
 }
+
 
 #' resume function for ET algorithm punctuation
 #'
@@ -210,6 +210,7 @@ et_dial<-function(dial = 0, month = 2.78, validation.required = TRUE){
 #' @param abo_freq A data frame with ABO blood group frequencies
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return An ordered data frame with columns cPRA, HI, pointsET, SP, AM
 #' and 'mmHLA'.
 #' @examples
@@ -222,29 +223,38 @@ et_dial<-function(dial = 0, month = 2.78, validation.required = TRUE){
 #' df.abs = cabs,
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 #' abo_freq = ABOpt,
-#' n = 2)
+#' n = 2,
+#' check.validity = TRUE)
 #' @export
 et<-function(iso = TRUE
-              , dABO = "A"
-              , dA = c("1","2")
-              , dB = c("15","44")
-              , dDR = c("1","4")
-              , donor.age = 65
-              , data = candidates 
-              , month = 2.78
-              , mm0 = 400
-              , mm1 = 333.33
-              , mm2 = 266.67
-              , mm3 = 200
-              , mm4 = 133.33
-              , mm5 = 66.67
-              , mm6 = 0
-              , df.abs = cabs
-              , hlaA = hlaApt
-              , hlaB = hlaBpt
-              , hlaDR = hlaDRpt
-              , abo_freq = ABOpt
-              , n = 2){
+             , dABO = "A"
+             , dA = c("1","2")
+             , dB = c("15","44")
+             , dDR = c("1","4")
+             , donor.age = 65
+             , data = candidates
+             , month = 2.78
+             , mm0 = 400
+             , mm1 = 333.33
+             , mm2 = 266.67
+             , mm3 = 200
+             , mm4 = 133.33
+             , mm5 = 66.67
+             , mm6 = 0
+             , df.abs = cabs
+             , hlaA = hlaApt
+             , hlaB = hlaBpt
+             , hlaDR = hlaDRpt
+             , abo_freq = ABOpt
+             , n = 2
+             , check.validity = TRUE){
+
+  if(check.validity){
+    blood_group_checker(dABO) 
+    age_checker(donor.age) 
+    dialysis_checker(donor.age) 
+    candidate_dataframe_check(data)
+  }
 
   n <- max(1, n)
 
@@ -252,109 +262,106 @@ et<-function(iso = TRUE
   data.table::setDT(xm, key = 'ID')
 
   data <- et_mmp(data = data, # Isto pode ser feito antes do for loop de candidato vs dador
-                    hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
-                    abo_freq = abo_freq)
+                 hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
+                 abo_freq = abo_freq)
 
   data = data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
                   age, dialysis, cPRA, urgent, MMP)]
 
+  data[, ID := as.character(ID)] # ensure ID as a character
+  xm[, ID := as.character(ID)] # ensure ID as a character
+
   data <- merge(data, xm, by = 'ID', all.x=TRUE)
 
   data[, `:=`(
-      donor_age = donor.age,
-      SP = ifelse(sp(donor.age = donor.age, candidate.age = age) == 1, 1, 0)
-      ),
-    by = 'ID'
-  ][, row_n := 1:nrow(data)]
+    donor_age = donor.age,
+    SP = ifelse(sp(donor.age = donor.age, candidate.age = age) == 1, 1, 0)
+    ),
+    by = 'ID'][, row_n := 1:nrow(data)]
 
   data[, `:=`(
-      AM = ifelse(SP == 0 & cPRA >= 85, 1, 0)
-      ),
-      by = 'ID'
-  ]
+    AM = ifelse(SP == 0 & cPRA >= 85, 1, 0)
+    ),
+    by = 'ID']
 
   data[, `:=`(
     compBlood = ifelse(AM == 1,
-                      abo(iso = FALSE, dABO = dABO, cABO = bg),
-                      abo(iso = iso, dABO = dABO, cABO = bg)
-                      ),
-    pointsHLA = et_mmHLA(dA = dA, dB = dB, dDR = dDR, # Pode-se chamar o mmHLA apenas uma vez aqui.
-                                      cA = c(A1,A2), cB = c(B1,B2), cDR = c(DR1,DR2),
-                                      mm0 = mm0,
-                                      mm1 = mm1,
-                                      mm2 = mm2,
-                                      mm3 = mm3,
-                                      mm4 = mm4,
-                                      mm5 = mm5,
-                                      mm6 = mm6)
+                       abo(iso = FALSE, dABO = dABO, cABO = bg),
+                       abo(iso = iso, dABO = dABO, cABO = bg)
+                       ),
+
+    pointsDial = et_dialysis(month = month, dialysis = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
+
 
   l <- list()
 
   for (i in 1:nrow(data)){
-    res <- mmHLA(dA = dA,
-                 dB = dB,
-                 dDR = dDR,
-                 cA = c(data$A1[i], data$A2[i]),
-                 cB = c(data$B1[i], data$B2[i]),
-                 cDR = c(data$DR1[i], data$DR2[i])
-    )
+    res <- et_mmHLA(dA = dA,
+                    dB = dB,
+                    dDR = dDR,
+                    cA = c(data$A1[i], data$A2[i]),
+                    cB = c(data$B1[i], data$B2[i]),
+                    cDR = c(data$DR1[i], data$DR2[i]),
+                    mm0 = mm0,
+                    mm1 = mm1,
+                    mm2 = mm2,
+                    mm3 = mm3,
+                    mm4 = mm4,
+                    mm5 = mm5,
+                    mm6 = mm6
+                    )
 
     l = append(l, res)
   }
 
   data[, `:=`(
-    mmA = unlist(l[(1 + (row_n - 1) * 4)]),
-    mmB = unlist(l[2 + (row_n - 1) * 4]),
-    mmDR = unlist(l[3 + (row_n - 1) * 4]),
-    mmHLA = unlist(l[4 + (row_n - 1) * 4])
-  )]
+    mmA = unlist(l[(1 + (row_n - 1) * 5)]),
+    mmB = unlist(l[2 + (row_n - 1) * 5]),
+    mmDR = unlist(l[3 + (row_n - 1) * 5]),
+    mmHLA = unlist(l[4 + (row_n - 1) * 5]),
+    pointsHLA = unlist(l[5 + (row_n - 1) * 5])
+    )]
 
   data[, `:=`(
     mm000 = ifelse(mmA + mmB + mmDR == 0, 1, 0),
-    pointsDial = et_dial(month = month, dial = dialysis) # Isto pode ser feito antes do for loop de candidato vs dador
-    ),
-    by = 'ID'
-  ]
-
-  data[, `:=`(
     pointsETx = round(pointsHLA + pointsDial + MMP)
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
 
-  data = data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
+  data <- data[compBlood == TRUE & (xm == 'NEG' | is.na(xm)),][, `:=`(
     pointsET = ifelse(SP == 1, dialysis, pointsETx),
     HI = hiper(cPRA = cPRA, cutoff = 85)
     ),
-    by = 'ID'
-  ]
+    by = 'ID']
 
+  return(
+    data[order(-SP, -AM, -mm000, -pointsET)]
+         [1:n]
+         [!is.na(ID),]
+         [, .(ID,
+              bg,
+              A1,
+              A2,
+              B1,
+              B2,
+              DR1,
+              DR2,
+              mmA,
+              mmB,
+              mmDR,
+              mmHLA,
+              age,
+              donor_age,
+              dialysis,
+              cPRA,
+              HI,
+              pointsET,
+              SP,
+              AM)]
+    )
 
-
-  return(data[order(-SP, -AM, -mm000, -pointsET)][
-      1:n][!is.na(ID),][, .(ID,
-                            bg,
-                            A1,
-                            A2,
-                            B1,
-                            B2,
-                            DR1,
-                            DR2,
-                            mmA,
-                            mmB,
-                            mmDR,
-                            mmHLA,
-                            age,
-                            donor_age,
-                            dialysis,
-                            cPRA,
-                            HI,
-                            pointsET,
-                            SP,
-                            AM)])
 }
 
 

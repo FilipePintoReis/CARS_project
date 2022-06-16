@@ -15,7 +15,7 @@ pt(
   data = candidates,
   pts.80 = 8,
   pts.50 = 4,
-  pts.dial = 0.1,
+  pts.dialysis = 0.1,
   pts.age = 4,
   n = 2
 )
@@ -42,7 +42,7 @@ a group of waitlisted transplant candidates with color priority classification.}
 
 \item{pts.50}{A numerical value for the points to a cPRA >= 50}
 
-\item{pts.dial}{punctuaction for each month on dialysis}
+\item{pts.dialysis}{punctuaction for each month on dialysis}
 
 \item{pts.age}{A numerical value for the points to age difference}
 

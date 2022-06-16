@@ -4,7 +4,13 @@
 \alias{xmatch_r}
 \title{virtual crossmatch (XM)}
 \usage{
-xmatch_r(dA = c("1", "2"), dB = c("5", "7"), dDR = c("1", "4"), df.abs = cabs)
+xmatch_r(
+  dA = c("1", "2"),
+  dB = c("5", "7"),
+  dDR = c("1", "4"),
+  df.abs = cabs,
+  validation.required = TRUE
+)
 }
 \arguments{
 \item{dA}{donor's HLA-A typing}
@@ -14,6 +20,8 @@ xmatch_r(dA = c("1", "2"), dB = c("5", "7"), dDR = c("1", "4"), df.abs = cabs)
 \item{dDR}{donor's HLA-DR typing}
 
 \item{df.abs}{data frame with candidates' antibodies}
+
+\item{validation.required}{Bool to decide whether to validate input.}
 }
 \value{
 A dataframe with candidates' ID and xm result POS/NEG
@@ -22,5 +30,5 @@ A dataframe with candidates' ID and xm result POS/NEG
 returns candidates' virtual crossmatch againts donor's HLA typing
 }
 \examples{
-xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs)
+xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, validation.required = TRUE)
 }

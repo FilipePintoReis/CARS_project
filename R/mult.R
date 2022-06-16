@@ -42,9 +42,9 @@ calculate_donor_to_candidate_matchability <- function(...){
                   dDR = purrr::map2(.x = DR1,
                              .y = DR2,
                              ~c(.x,.y)),
-                  dage = age
+                  donor.age = age
                   ) %>%
-    dplyr::select(dABO, dA, dB, dDR, dage)
+    dplyr::select(dABO, dA, dB, dDR, donor.age)
 
   if (...[["function_name"]] == "uk") {
     stopifnot(1 == 1)
@@ -150,15 +150,20 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' @description Generic function that runs the matchability between all combinations of donors and candidates.
 #' Runs an arbitrary number of times to provide statistics
 #' @param iteration.number Number of times the matchability runs.
+#' @param seed.number Seed for new random number. seed.number can be NA in which case no seed is applied.
 #' @return Statistics related to all the times the function ran.
 #' @examples
 #' several(iteration.number = 10,
+#' seed.number = 123,
 #' ...)
 #' @export
-several <- function(iteration.number = 10, ...){
+several <- function(iteration.number = 10, seed.number = 123, ...){
   # defenir condições de validação dos inputs
   # ver função stopifnot()
-  
+  if(!is.na(seed.number)){
+    set.seed(seed.number)
+  }
+
   df.donors <- ...[["df.donors"]]
   df.donors$nrow <- 1:nrow(df.donors)
 
@@ -176,12 +181,12 @@ several <- function(iteration.number = 10, ...){
         dplyr::filter(!ID %in% used.candidates) %>% # This can be optimized
         dplyr::slice(1:2)
 
-      rescurrent.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
+      current.iteration.statistics <- dplyr::bind_rows(current.iteration.statistics, tmp)
 
       used.candidates <- c(used.candidates, tmp$ID)
     }
 
-    all.statistics <- append(all.statistics, list(res))
+    all.statistics <- append(all.statistics, list(current.iteration.statistics))
   }
 
   mean_age <- all.statistics %>% purrr::map(., ~mean(.x$age)) %>% unlist()

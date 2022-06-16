@@ -4,7 +4,7 @@
 \alias{et_dial}
 \title{ET points for time on dialysis (in months)}
 \usage{
-et_dial(dial = 0, month = 2.78)
+et_dial(dial = 0, month = 2.78, validation.required = TRUE)
 }
 \arguments{
 \item{dial}{A numeric value with candidate's time on dialysis, in months
@@ -12,11 +12,13 @@ et_dial(dial = 0, month = 2.78)
 
 \item{month}{A numeric value with the punctuation for each month
 (between 0 and 10)}
+
+\item{validation.required}{Bool to decide whether to validate input.}
 }
 \description{
 Punctuation given for each month on dialysis, within ET
 Kidney allocation system
 }
 \examples{
-et_dial(dial = 100, month = 2.78)
+et_dial(dial = 100, month = 2.78, validation.required = TRUE)
 }

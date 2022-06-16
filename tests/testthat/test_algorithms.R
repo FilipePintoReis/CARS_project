@@ -1,6 +1,3 @@
-context("Algorithms")
-library(histoc)
-
 test_that("Points cPRA PT's algorithm", {
   expect_equal(pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4), 0)
   expect_equal(pts_PRA(cPRA = 81, pts.80 = 8, pts.50 = 4), 8)
@@ -33,9 +30,9 @@ test_that("Points mmHLA PT's algorithm", {
   })
 
 test_that("Points age differences PT's algorithm", {
-  expect_equal(pts_age(dage = 60, cage = 40, pts = 4), 4)
-  expect_equal(pts_age(dage = 60, cage = 40, pts = 6), 6)
-  expect_equal(pts_age(dage = 20, cage = 60, pts = 4), 0)
-  expect_equal(pts_age(dage = 20, cage = 20, pts = 4), 4)
-  expect_equal(pts_age(dage = 70, cage = 70, pts = 4), 4)
+  expect_equal(pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4), 4)
+  expect_equal(pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 6), 6)
+  expect_equal(pts_age(donor.age = 20, candidate.age = 60, age.difference.points = 4), 0)
+  expect_equal(pts_age(donor.age = 20, candidate.age = 20, age.difference.points = 4), 4)
+  expect_equal(pts_age(donor.age = 70, candidate.age = 70, age.difference.points = 4), 4)
 })

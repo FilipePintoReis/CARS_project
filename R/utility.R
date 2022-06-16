@@ -11,7 +11,7 @@ blood_group_checker <- function(input_string){
 }
 
 #' Validates that the age of a person is not negative.
-#' @param input_number A numeric value between 1 and 99 from 'A', 'B', 'AB', 'O'
+#' @param input_number A numeric value between env$person.minimum.age and env$person.maximum.age
 #' @noRd
 age_checker <- function(input_number){
   if (!is.numeric(input_number)){
@@ -24,6 +24,23 @@ age_checker <- function(input_number){
 
   if (input_number > env$person.maximum.age){
     stop("Invalid age: Age lower or equal to", env$person.maximum.age, ".")
+  }
+}
+
+#' Validates the time someone spent on dialysis.
+#' @param input_number A numeric value between 0 and 999
+#' @noRd
+dialysis_checker <- function(input_number){
+  if (!is.numeric(input_number)){
+    stop("Invalid dialysis: Dialysis should be a number.")
+  }
+
+  if (input_number < 0){
+    stop("Invalid dialysis: Dialysis higher or equal to", 0, ".")
+  }
+
+  if (input_number > 999){
+    stop("Invalid dialysis: Dialysis lower or equal to", 999, ".")
   }
 }
 

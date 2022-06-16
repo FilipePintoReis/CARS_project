@@ -154,8 +154,7 @@ calculate_donor_to_candidate_matchability <- function(...){
 #' @return Statistics related to all the times the function ran.
 #' @examples
 #' several(iteration.number = 10,
-#' should.seed = FALSE,
-#' seed = 123,
+#' seed.number = 123,
 #' ...)
 #' @export
 several <- function(iteration.number = 10, seed.number = 123, ...){

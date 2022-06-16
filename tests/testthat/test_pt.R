@@ -31,157 +31,117 @@ test_that("Test pts_age function", {
     }  
 })
 
-# test_that("Test pts_PRA function", {
-#     q2_ <- 60
-#     q3_ <- 100
-#     cPRA1_ <- 50
-#     cPRA2_ <- 85
+test_that("Test pts_PRA function", {
+    valid.cPRA <- c(1, 50, 51, 80, 81)
+    valid.pts.50 <- c(2, 2, 2, 2, 2)
+    valid.pts.80 <- c(4, 4, 4, 4, 4)
+    valid.results <- c(0, 2, 2, 4, 4)
 
-#     candids <- data.frame(
-#         ID = c(1, 1, 1, 1, 1, 1),
-#         bg = c('A', 'A', 'A', 'A', 'A', 'A'),
-#         A1 = c(1, 1, 1, 1, 1, 1),
-#         A2 = c(1, 1, 1, 1, 1, 1),
-#         B1 = c(1, 1, 1, 1, 1, 1),
-#         B2 = c(1, 1, 1, 1, 1, 1),
-#         DR1 = c(1, 1, 1, 1, 1, 1),
-#         DR2 = c(1, 1, 1, 1, 1, 1),
-#         age = c(1, 1, 1, 1, 1, 1),
-#         dialysis = c(1, 1, 101, 1, 61, 1),
-#         cPRA = c(1, 86, 1, 51, 1, 1),
-#         urgent = c(1, 0, 0, 0, 0, 0)
-#     )
 
-#     results <- factor(
-#         list(1, 2, 2, 3, 3, 4), 
-#         levels = 1:4,
-#         labels = c('Red', 'Orange', 'Yellow', 'Green')
-#     )
+    for (i in 1:length(valid.cPRA)){
+        expect_equal(
+            pts_PRA(
+                cPRA <- valid.cPRA[i],
+                pts.50 <- valid.pts.80[i], # ????????????
+                pts.80 <- valid.pts.50[i]  # ????????????
+            ),
+            valid.results[i]
+        )
+    }  
+    
+    invalid.cPRA <- c('1', -1, 101, 4, 4, 4)
+    invalid.pts.50 <- c(4, 4, 4, 4, 4, 4, '1', -1, 101)
+    invalid.pts.80 <- c(4, 4, 4, '1', -1, 101, 4, 4, 4)
 
-#     expect_equal(
-#         cp(
-#             data = candids,
-#             q2 = q2_,
-#             q3 = q3_,
-#             cPRA1 = cPRA1_,
-#             cPRA2 = cPRA2_
-#         )$cp,
-#         results
-#     )
-# })
+    for (i in 1:length(invalid.cPRA)){
+        expect_error(
+            pts_PRA(
+                cPRA <- invalid.cPRA[i],
+                pts.50 <- invalid.pts.50[i],
+                pts.80 <- invalid.pts.80[i]
+            )
+        )
+    }  
+})
 
-# test_that("Test pts_HLA function", {
-#     q2_ <- 60
-#     q3_ <- 100
-#     cPRA1_ <- 50
-#     cPRA2_ <- 85
 
-#     candids <- data.frame(
-#         ID = c(1, 1, 1, 1, 1, 1),
-#         bg = c('A', 'A', 'A', 'A', 'A', 'A'),
-#         A1 = c(1, 1, 1, 1, 1, 1),
-#         A2 = c(1, 1, 1, 1, 1, 1),
-#         B1 = c(1, 1, 1, 1, 1, 1),
-#         B2 = c(1, 1, 1, 1, 1, 1),
-#         DR1 = c(1, 1, 1, 1, 1, 1),
-#         DR2 = c(1, 1, 1, 1, 1, 1),
-#         age = c(1, 1, 1, 1, 1, 1),
-#         dialysis = c(1, 1, 101, 1, 61, 1),
-#         cPRA = c(1, 86, 1, 51, 1, 1),
-#         urgent = c(1, 0, 0, 0, 0, 0)
-#     )
+test_that("Test pt algorithm", {
+    iso = TRUE
+    dABO = "O"
+    dA = c("1","2")
+    dB = c("15","44")
+    dDR = c("1","4")
+    donor.age = 65
+    df.abs = cabs
+    pts.80 = 8
+    pts.50 = 4
+    pts.dial = 0.1
+    pts.age = 4
+    n = 2
 
-#     results <- factor(
-#         list(1, 2, 2, 3, 3, 4), 
-#         levels = 1:4,
-#         labels = c('Red', 'Orange', 'Yellow', 'Green')
-#     )
+    candidates_test <- data.frame(
+        ID = c(1, 2, 3, 4, 5, 6),
+        bg = c('O', 'O', 'A', 'B', 'AB', 'O'),
+        A1 = c('2', '2', '2', '2', '2', '2'),
+        A2 = c('29', '33', '33', '33', '33', '33'),
+        B1 = c('44', '15', '15', '15', '15', '15'),
+        B2 = c('44', '27', '27', '27', '27', '27'),
+        DR1 = c('4', '11', '11', '11', '11', '11'),
+        DR2 = c('12', '7', '7', '7', '7', '7'),
+        age = c(58, 55, 50, 65, 65, 65),
+        dialysis = c(104, 103, 0, 0, 0, 0),
+        cPRA = c(0, 0, 0, 0, 0, 0),
+        urgent = c(0, 0, 0, 0, 0, 0)
+    )
 
-#     expect_equal(
-#         cp(
-#             data = candids,
-#             q2 = q2_,
-#             q3 = q3_,
-#             cPRA1 = cPRA1_,
-#             cPRA2 = cPRA2_
-#         )$cp,
-#         results
-#     )
-# })
+#   ID bg A1 A2 B1 B2 DR1 DR2 mmA mmB mmDR mmHLA age donor_age dialysis cPRA    HI ptsPT SP ptsHLA ptsPRA ptsage ptsdial
+# 1: 1  O  2 29 44 44   4  12   1   1    1     3  58        65      104    0 FALSE  16.4  3      2      0      4    10.4
+# 2: 2  O  2 33 15 27  11   7   1   1    2     4  55        65      103    0 FALSE  15.3  3      1      0      4    10.3
 
-# test_that("Test pt algorithm", {
-#     iso = TRUE
-#     dABO = "O"
-#     dA = c("1","2")
-#     dB = c("15","44")
-#     dDR = c("1","4")
-#     donor.age = 60
-#     df.abs = cabs
-#     n = 2
-#     q2 = 60
-#     q3 = 100
-#     cPRA1 = 50
-#     cPRA2 = 85
-
-#     candidates <- data.frame(
-#         ID = c(112, 487, 112, 487, 112, 487),
-#         bg = c('O', 'O', 'A', 'B', 'AB', 'O'),
-#         A1 = c('2', '2', '2', '2', '2', '2'),
-#         A2 = c('29', '33', '33', '33', '33', '33'),
-#         B1 = c('44', '15', '15', '15', '15', '15'),
-#         B2 = c('44', '27', '27', '27', '27', '27'),
-#         DR1 = c('4', '11', '11', '11', '11', '11'),
-#         DR2 = c('12', '7', '7', '7', '7', '7'),
-#         age = c(58, 55, 50, 65, 65, 65),
-#         dialysis = c(0, 0, 0, 0, 0, 0),
-#         cPRA = c(86, 86, 51, 51, 51, 51),
-#         urgent = c(0, 0, 0, 0, 0, 0)
-#     )
-
-# #     ID bg A1 A2 B1 B2 DR1 DR2 mmA mmB mmDR mmHLA age donor_age dialysis cPRA    HI     cp SP
-# # 1: 112  O  2 29 44 44   4  12   1   1    1     3  58        60      104    0 FALSE Orange  2
-# # 2: 487  O  2 33 15 27  11   7   1   1    2     4  55        60      103    0 FALSE Orange  2
-
-#     results <- data.frame(
-#         ID = c(112, 487),
-#         bg = c('O', 'O'),
-#         A1 = c('2', '2'),
-#         A2 = c('29', '33'),
-#         B1 = c('44', '15'),
-#         B2 = c('44', '27'),
-#         DR1 = c('4', '11'),
-#         DR2 = c('12', '7'),
-#         mmA = c(1, 1),
-#         mmB = c(1, 1),
-#         mmDR = c(1, 2),
-#         mmHLA = c(3, 4),
-#         age = c(58, 55),
-#         donor_age = c(60, 60),
-#         dialysis = c(0, 0),
-#         cPRA = c(86, 86),
-#         HI = c(TRUE, TRUE),
-#         cp = factor( list(2, 2), levels = 1:4, labels = c('Red', 'Orange', 'Yellow', 'Green') ),
-#         SP = c(2, 2)
-#     )
-
-#     expect_equal(
-#         as.data.frame(
-#             lima(
-#                 iso = iso,
-#                 dABO = dABO,
-#                 dA = dA,
-#                 dB = dB,
-#                 dDR = dDR,
-#                 donor.age = donor.age,
-#                 df.abs = cabs,
-#                 data = candidates,
-#                 n = n,
-#                 q2 = q2,
-#                 q3 = q3,
-#                 cPRA1 = cPRA1,
-#                 cPRA2 = cPRA2
-#             )
-#         ),
-#         results
-#     )
-# })
+    results <- data.frame(
+        ID = c(1, 2),
+        bg = c('O', 'O'),
+        A1 = c('2', '2'),
+        A2 = c('29', '33'),
+        B1 = c('44', '15'),
+        B2 = c('44', '27'),
+        DR1 = c('4', '11'),
+        DR2 = c('12', '7'),
+        mmA = c(1, 1),
+        mmB = c(1, 1),
+        mmDR = c(1, 2),
+        mmHLA = c(3, 4),
+        age = c(58, 55),
+        donor_age = c(65, 65),
+        dialysis = c(104, 103),
+        cPRA = c(0, 0),
+        HI = c(FALSE, FALSE),
+        ptsPT = c(16.4, 15.3),
+        SP = c(3, 3),
+        ptsHLA = c(2, 1),
+        ptsPRA = c(0, 0),
+        ptsage = c(4, 4),
+        ptsdial = c(10.4, 10.3)
+    )
+    
+    expect_equal(
+        as.data.frame(
+            pt(
+                iso = TRUE
+                , dABO = "O"
+                , dA = c("1","2")
+                , dB = c("15","44")
+                , dDR = c("1","4")
+                , donor.age = 65
+                , df.abs = cabs
+                , data = candidates_test
+                , pts.80 = 8
+                , pts.50 = 4
+                , pts.dial = 0.1
+                , pts.age = 4
+                , n = 2
+            )
+        ),
+        results
+    )
+})

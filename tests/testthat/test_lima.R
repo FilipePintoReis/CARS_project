@@ -52,7 +52,7 @@ test_that("Test lima algorithm", {
     cPRA2 = 85
 
     candidates <- data.frame(
-        ID = c(112, 487, 112, 487, 112, 487),
+        ID = c(1, 2, 3, 4, 5, 6),
         bg = c('O', 'O', 'A', 'B', 'AB', 'O'),
         A1 = c('2', '2', '2', '2', '2', '2'),
         A2 = c('29', '33', '33', '33', '33', '33'),
@@ -71,7 +71,7 @@ test_that("Test lima algorithm", {
 # 2: 487  O  2 33 15 27  11   7   1   1    2     4  55        60      103    0 FALSE Orange  2
 
     results <- data.frame(
-        ID = c(112, 487),
+        ID = c(1, 2),
         bg = c('O', 'O'),
         A1 = c('2', '2'),
         A2 = c('29', '33'),

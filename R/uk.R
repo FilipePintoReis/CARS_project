@@ -273,7 +273,7 @@ uk<-function(DRI = 'D1',
 
   n <- max(1, n)
 
-  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+  xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
 
   data.table::setDT(data, key = 'ID')
   data.table::setDT(xm, key = 'ID')

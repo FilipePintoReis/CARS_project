@@ -13,6 +13,7 @@ abo <- function(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE){
   if (check.validity){
     blood_group_checker(cABO) 
     blood_group_checker(dABO)
+    is.logical(iso)
   }
 
   if(iso == TRUE){
@@ -57,10 +58,6 @@ mmHLA <- function(dA = c('1','2'),
                   cDR = c('4','7'), 
                   check.validity = TRUE){
 
-  mmA = NULL
-  mmB = NULL
-  mmDR = NULL
-
   if (check.validity){
     if(!is.character(dA)){stop("donor's HLA-A typing is not valid!\n")}
     if(!is.character(dB)){stop("donor's HLA-B typing is not valid!\n")}
@@ -70,6 +67,9 @@ mmHLA <- function(dA = c('1','2'),
     if(!is.character(cDR)){stop("candidate's HLA-DR typing is not valid!\n")}
   }
   
+  mmA = NULL
+  mmB = NULL
+  mmDR = NULL
 
   # compute missmatches
   mmA<-dplyr::if_else((dA[1] %in% cA & dA[2] %in% cA) | (dA[1] %in% cA & (is.na(dA[2]) | dA[2] == "")), 0,
@@ -105,20 +105,33 @@ mmHLA <- function(dA = c('1','2'),
 #' @param check.validity Logical to decide whether to validate input.
 #' @return A dataframe with candidates' ID and xm result POS/NEG
 #' @examples
-#' xmatch_r(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, check.validity = TRUE)
+#' xmatch(dA = c('1','2'), dB = c('5','7'), dDR = c('1','4'), df.abs = cabs, check.validity = TRUE)
 #' @export
-xmatch_r <- function(dA = c('1','2'),
+xmatch <- function(dA = c('1','2'),
                    dB = c('5','7'),
                    dDR = c('1','4'),
                    df.abs = cabs, 
                    check.validity = TRUE){
-  if (check.validity){}
+  if (check.validity){
+    if (!requireNamespace("dplyr", quietly = TRUE)) {
+      stop(
+        "Package \"dplyr\" must be installed to use this function.",
+        call. = FALSE
+      )
+    }
 
-  if (!requireNamespace("dplyr", quietly = TRUE)) {
-    stop(
-      "Package \"dplyr\" must be installed to use this function.",
-      call. = FALSE
-    )
+    elements.are.chars <- function(array){
+      for (element in array){
+        print(element)
+        if (!is.character(element)){
+          stop("xmatch got a non-character HLA typing.")
+        }
+      }
+    }
+
+    elements.are.chars(dA)
+    elements.are.chars(dB)
+    elements.are.chars(dDR)
   }
 
   dhla <- c(paste0('A',dA[1]),
@@ -137,8 +150,9 @@ xmatch_r <- function(dA = c('1','2'),
                            by = 'ID']
 
   data.table::setnames(res, 'V1', 'xm')
-  res[]
-  }
+
+  return(res[])
+}
 
 #' Hiperimunized classification
 #'

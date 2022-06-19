@@ -258,7 +258,7 @@ et<-function(iso = TRUE
 
   n <- max(1, n)
 
-  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+  xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
   data.table::setDT(xm, key = 'ID')
 
   data <- et_mmp(data = data, # Isto pode ser feito antes do for loop de candidato vs dador

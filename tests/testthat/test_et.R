@@ -211,7 +211,7 @@ test_that("et algorithm", {
                   , n = 2), result4)
 })
 
-xmatch_r(dA = c("1","2")
+xmatch(dA = c("1","2")
          , dB = c("15","44")
          , dDR = c("1","4")
          , df.abs = cabs)

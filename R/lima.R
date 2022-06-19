@@ -87,7 +87,7 @@ lima <- function(iso = TRUE
             , cPRA2 = cPRA2) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
-  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+  xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
 
   data.table::setDT(data, key = 'ID')
   data.table::setDT(xm, key = 'ID')

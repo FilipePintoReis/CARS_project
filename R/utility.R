@@ -1,12 +1,9 @@
 #' Tests if element is a valid Blood Group character
-#' @param input_string A character from 'A', 'B', 'AB', 'O'
+#' @param input_string A character from env$valid.blood.groups
 #' @noRd
 blood_group_checker <- function(input_string){
-
-  valid_blood_groups = c('O', 'A', 'B', 'AB')
-
-  if (!input_string %in% valid_blood_groups){
-      stop("Invalid blood group.")
+  if (!input_string %in% env$valid.blood.groups){
+      stop("Invalid blood group. Accepted values:", env$valid.blood.groups)
   }
 }
 
@@ -18,54 +15,66 @@ age_checker <- function(input_number){
     stop("Invalid age: Age should be a number.")
   }
 
-  if (input_number < env$person.minimum.age){
-    stop("Invalid age: Age higher or equal to", env$person.minimum.age, ".")
+  if (input_number <= env$person.minimum.age){
+    stop("Invalid age: Age should be higher or equal to", env$person.minimum.age, ".")
   }
 
-  if (input_number > env$person.maximum.age){
-    stop("Invalid age: Age lower or equal to", env$person.maximum.age, ".")
+  if (input_number >= env$person.maximum.age){
+    stop("Invalid age: Age should be lower or equal to", env$person.maximum.age, ".")
   }
 }
 
 #' Validates the time someone spent on dialysis.
-#' @param input_number A numeric value between 0 and 999
+#' @param input_number A numeric value between env$dialysis.minimum and env$dialysis.maximum
 #' @noRd
 dialysis_checker <- function(input_number){
   if (!is.numeric(input_number)){
     stop("Invalid dialysis: Dialysis should be a number.")
   }
 
-  if (input_number < 0){
-    stop("Invalid dialysis: Dialysis higher or equal to", 0, ".")
+  if (input_number <= env$dialysis.minimum){
+    stop("Invalid dialysis: Dialysis should be higher or equal to", env$dialysis.minimum, ".")
   }
 
-  if (input_number > 999){
-    stop("Invalid dialysis: Dialysis lower or equal to", 999, ".")
+  if (input_number >= env$dialysis.maximum){
+    stop("Invalid dialysis: Dialysis should be lower or equal to", env$dialysis.maximum, ".")
   }
 }
 
 #' Tests if element is a valid Tier character
-#' @param input_string A character from 'A', 'B'
+#' @param input_string A character from env$valid.tiers
 #' @noRd
 tier_checker <- function(input_string){
-  valid_tiers = c('A', 'B')
-
-  if (!input_string %in% valid_tiers){
-    stop("Invalid tier. Accepted values:", valid_tiers)
+  if (!input_string %in% env$valid.tiers){
+    stop("Invalid tier. Accepted values:", env$valid.tiers)
   }
 }
 
 #' Validates that the RRI is within the correct range of values
-#' @param input_string A character from 'R1', 'R2', 'R3', 'R4'
+#' @param input_string A character from env$valid.rris
 #' @noRd
 rri_checker <- function(input_string){
-  valid_rris = c('R1', 'R2', 'R3', 'R4')
-
-  if (!input_string %in% valid_rris){
-    stop("Invalid rris. Accepted values:", valid_rris)
+  if (!input_string %in% env$valid.rris){
+    stop("Invalid rris. Accepted values:", env$valid.rris)
   }
 }
 
+#' Validates that cPRA is within the correct range of values
+#' @param input_number A numeric value between env$cPRA.minimum and env$cPRA.maximum
+#' @noRd
+cPRA_checker <- function(input_number){
+  if (!is.numeric(input_number)){
+    stop("Invalid cPRA: cPRA should be a number.")
+  }
+
+  if (input_number <= env$cPRA.minimum){
+    stop("Invalid cPRA: cPRA should be higher or equal to", env$cPRA.minimum, ".")
+  }
+
+  if (input_number >= env$cPRA.maximum){
+    stop("Invalid age: cPRA should be lower or equal to", env$cPRA.maximum, ".")
+  }
+}
 
 #' Validates the Candid file.
 #' Makes sure the header matches the header that a candid file should have.
@@ -117,10 +126,11 @@ candidate_dataframe_check <- function(candidate.dataframe){
 #' Validates the Candids
 #' @param file_name name of the file
 #' @param file_type type of the file
+#' @param csv_separator character sequence separating columns in csv
 #' @return A logical value T/F
 #' @noRd
-validate_candid <- function(file_name, file_type){
-  candidate.dataframe <- read.csv(file_name, sep = ";")
+validate_candid <- function(file_name, file_type, csv_separator = ";"){
+  candidate.dataframe <- read.csv(file_name, sep = csv_separator)
   candidate_dataframe_check(candidate.dataframe)
 }
 
@@ -178,10 +188,11 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
 #' Validates the CandidUK file.
 #' @param file_name name of the file
 #' @param file_type type of the file
+#' @param csv_separator character sequence separating columns in csv
 #' @return A logical value T/F
 #' @noRd
-validate_candid_uk <- function(file_name, file_type){
-  file <- read.csv(file_name, sep = ";")
+validate_candid_uk <- function(file_name, file_type, csv_separator = ";"){
+  file <- read.csv(file_name, sep = csv_separator)
   uk_candidate_dataframe_check(file)
 }
 

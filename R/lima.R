@@ -23,7 +23,7 @@ cp <- function(data = candidates,
     stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
   } else if (q2 >= q3){
     stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
-    }
+  }
 
   data <- data %>%
     dplyr::mutate(cp = ifelse(urgent == 1, 1,
@@ -37,7 +37,7 @@ cp <- function(data = candidates,
                   )
 
   return(data)
-  }
+}
 
 #' Candidates' ordering according to Lima's algorithm 'USING data.table'
 #'

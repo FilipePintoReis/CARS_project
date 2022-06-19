@@ -38,20 +38,24 @@ pts_age <- function(donor.age = 60
 #' @param cPRA Percentual value of cPRA (Between 0 and 100)
 #' @param pts.80 A numerical value for the points to a cPRA >= 80
 #' @param pts.50 A numerical value for the points to a cPRA >= 50
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4)
 #' @export
 pts_PRA <- function(cPRA = 0
                     , pts.80 = 8
-                    , pts.50 = 4){
-  # verify function parameters
-  if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
-    stop("PRA value is not valid!\n")}
-  if(!is.numeric(pts.80) | pts.80 < 0 | pts.80 > 100){
-    stop("attributed points for a PRA >= 80% is not valid!\n")}
-  if(!is.numeric(pts.50) | pts.50 < 0 | pts.50 > 100){
-    stop("attributed points for a PRA >= 50% is not valid!\n")}
+                    , pts.50 = 4
+                    , check.validity = TRUE){
+
+  if(check.validity){
+    if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
+      stop("PRA value is not valid!\n")}
+    if(!is.numeric(pts.80) | pts.80 < 0 | pts.80 > 100){
+      stop("attributed points for a PRA >= 80% is not valid!\n")}
+    if(!is.numeric(pts.50) | pts.50 < 0 | pts.50 > 100){
+      stop("attributed points for a PRA >= 50% is not valid!\n")}
+  }
 
   pts<-dplyr::if_else(cPRA >= 80, pts.80,
                       dplyr::if_else(cPRA >= 50, pts.50, 0))
@@ -71,6 +75,7 @@ pts_PRA <- function(cPRA = 0
 #' @param mm.A Number of HLA-A mismatchs(0 to 2)
 #' @param mm.B Number of HLA-B mismatchs(0 to 2)
 #' @param mm.DR Number of HLA-DR mismatchs(0 to 2)
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1
@@ -83,18 +88,21 @@ pts_HLA <- function(itemA = 12
                     , itemE = 1
                     , mm.A = 0
                     , mm.B = 0
-                    , mm.DR = 0){
-  # verify function parameters
-  if(!is.numeric(itemA) | itemA < 0 | itemA > 99){
-    stop("points for 0 mmHLA (full match) is not valid!\n")}
-  if(!is.numeric(itemB) | itemB < 0 | itemB > 99){
-    stop("points for 0 mmB and mmDR is not valid!\n")}
-  if(!is.numeric(itemC) | itemC < 0 | itemC > 99){
-    stop("points for 1 mmB or mmDR is not valid!\n")}
-  if(!is.numeric(itemD) | itemD < 0 | itemD > 99){
-    stop("points for 1 mmB and 1 mmDR is not valid!\n")}
-  if(!is.numeric(itemE) | itemE < 0 | itemE > 99){
-    stop("points for more than 2 mmB and mmDR is not valid!\n")}
+                    , mm.DR = 0
+                    , check.validity = TRUE){
+  
+  if(check.validity){
+    if(!is.numeric(itemA) | itemA < 0 | itemA > 99){
+      stop("points for 0 mmHLA (full match) is not valid!\n")}
+    if(!is.numeric(itemB) | itemB < 0 | itemB > 99){
+      stop("points for 0 mmB and mmDR is not valid!\n")}
+    if(!is.numeric(itemC) | itemC < 0 | itemC > 99){
+      stop("points for 1 mmB or mmDR is not valid!\n")}
+    if(!is.numeric(itemD) | itemD < 0 | itemD > 99){
+      stop("points for 1 mmB and 1 mmDR is not valid!\n")}
+    if(!is.numeric(itemE) | itemE < 0 | itemE > 99){
+      stop("points for more than 2 mmB and mmDR is not valid!\n")}
+  }
 
   mm <- list('mmA' = mm.A,
              'mmB' = mm.B,
@@ -127,6 +135,7 @@ pts_HLA <- function(itemA = 12
 #' @param pts.dialysis punctuaction for each month on dialysis
 #' @param pts.age A numerical value for the points to age difference
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
 #' @examples
@@ -147,7 +156,12 @@ pt <- function(iso = TRUE
                 , pts.50 = 4
                 , pts.dialysis = 0.1
                 , pts.age = 4
-                , n = 2){
+                , n = 2
+                , check.validity = TRUE){
+  
+  if(check.validity){
+    candidate_dataframe_check(candidates)
+  }
 
   n <- max(1, n)
 

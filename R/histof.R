@@ -10,7 +10,7 @@
 #' abo(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE)
 #' @export
 abo <- function(cABO = 'A', dABO = 'A', iso = TRUE, check.validity = TRUE){
-  if (check.validity){
+  if(check.validity){
     blood_group_checker(cABO) 
     blood_group_checker(dABO)
     is.logical(iso)
@@ -58,7 +58,7 @@ mmHLA <- function(dA = c('1','2'),
                   cDR = c('4','7'), 
                   check.validity = TRUE){
 
-  if (check.validity){
+  if(check.validity){
     if(!is.character(dA)){stop("donor's HLA-A typing is not valid!\n")}
     if(!is.character(dB)){stop("donor's HLA-B typing is not valid!\n")}
     if(!is.character(dDR)){stop("donor's HLA-DR typing is not valid!\n")}
@@ -112,8 +112,8 @@ xmatch <- function(dA = c('1','2'),
                    dDR = c('1','4'),
                    df.abs = cabs, 
                    check.validity = TRUE){
-  if (check.validity){
-    if (!requireNamespace("dplyr", quietly = TRUE)) {
+  if(check.validity){
+    if(!requireNamespace("dplyr", quietly = TRUE)) {
       stop(
         "Package \"dplyr\" must be installed to use this function.",
         call. = FALSE
@@ -123,7 +123,7 @@ xmatch <- function(dA = c('1','2'),
     elements.are.chars <- function(array){
       for (element in array){
         print(element)
-        if (!is.character(element)){
+        if(!is.character(element)){
           stop("xmatch got a non-character HLA typing.")
         }
       }
@@ -166,7 +166,7 @@ xmatch <- function(dA = c('1','2'),
 #' hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
 #' @export
 hiper <- function(cPRA = 99, cutoff = 85, check.validity = TRUE){
-  if (check.validity){
+  if(check.validity){
     cPRA_checker(cPRA)
   }
 
@@ -188,7 +188,7 @@ hiper <- function(cPRA = 99, cutoff = 85, check.validity = TRUE){
 #' sp(donor.age = 66, candidate.age = 70, check.validity = TRUE)
 #' @export
 sp <- function(donor.age, candidate.age, check.validity = TRUE){
-  if (check.validity){}
+  if(check.validity){}
   value <- ifelse(donor.age >= 65 & candidate.age >= 65, 1,
                   ifelse(donor.age < 65 & candidate.age < 65, 2,3))
   return(value)
@@ -247,7 +247,7 @@ txscore <- function(recipient.age = 20
                     , mmHLA_B = 0
                     , mmHLA_DR = 0, 
                     check.validity = TRUE){
-  if (check.validity){
+  if(check.validity){
     age_checker(recipient.age)
     if(!recipient.race %in% c('White','Black','Hispanic','Other')){stop("Recipient's race is not valid! Valid options: 'White','Black','Hispanic','Other'")}
     if(!recipient.causeESRD %in% c('Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other')){stop("Recipient's cause of ESRD is not valid! Valid options: 'Diabetes','Hypertension','Glomerulonephritis','Cystic Disease','Other'")}

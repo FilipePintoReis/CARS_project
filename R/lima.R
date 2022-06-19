@@ -40,7 +40,7 @@ lima <- function(iso = TRUE
                   , check.validity = TRUE){
   
   if(check.validity){
-
+    candidate_dataframe_check(candidates)
   }
 
   n <- max(1, n)

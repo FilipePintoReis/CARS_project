@@ -37,35 +37,35 @@ ric<-function(DRI = 'D1',
 
   # verify function parameters
   if(!DRI %in% c('D1','D2','D3','D4')){stop("DRI is not a valid option! Select of 'D1','D2','D3','D4' \n")
-  } else if (D1R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if (D1R2 < 0 | D1R2 > 1000){stop("D1R2 is not between 0 and 1000!\n")
-  } else if (D1R3 < 0 | D1R3 > 1000){stop("D1R3 is not between 0 and 1000!\n")
-  } else if (D1R4 < 0 | D1R4 > 1000){stop("D1R4 is not between 0 and 1000!\n")
-  } else if (D2R1 < 0 | D2R1 > 1000){stop("D2R1 is not between 0 and 1000!\n")
-  } else if (D2R2 < 0 | D2R2 > 1000){stop("D2R2 is not between 0 and 1000!\n")
-  } else if (D2R3 < 0 | D2R3 > 1000){stop("D2R3 is not between 0 and 1000!\n")
-  } else if (D2R4 < 0 | D2R4 > 1000){stop("D2R4 is not between 0 and 1000!\n")
-  } else if (D3R1 < 0 | D3R1 > 1000){stop("D3R1 is not between 0 and 1000!\n")
-  } else if (D3R2 < 0 | D3R2 > 1000){stop("D3R2 is not between 0 and 1000!\n")
-  } else if (D3R3 < 0 | D3R3 > 1000){stop("D3R3 is not between 0 and 1000!\n")
-  } else if (D3R4 < 0 | D3R4 > 1000){stop("D3R4 is not between 0 and 1000!\n")
-  } else if (D4R1 < 0 | D4R1 > 1000){stop("D4R1 is not between 0 and 1000!\n")
-  } else if (D4R2 < 0 | D4R2 > 1000){stop("D4R2 is not between 0 and 1000!\n")
-  } else if (D4R3 < 0 | D4R3 > 1000){stop("D4R3 is not between 0 and 1000!\n")
-  } else if (D4R4 < 0 | D4R4 > 1000){stop("D4R4 is not between 0 and 1000!\n")
+  } else if(D1R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
+  } else if(D1R2 < 0 | D1R2 > 1000){stop("D1R2 is not between 0 and 1000!\n")
+  } else if(D1R3 < 0 | D1R3 > 1000){stop("D1R3 is not between 0 and 1000!\n")
+  } else if(D1R4 < 0 | D1R4 > 1000){stop("D1R4 is not between 0 and 1000!\n")
+  } else if(D2R1 < 0 | D2R1 > 1000){stop("D2R1 is not between 0 and 1000!\n")
+  } else if(D2R2 < 0 | D2R2 > 1000){stop("D2R2 is not between 0 and 1000!\n")
+  } else if(D2R3 < 0 | D2R3 > 1000){stop("D2R3 is not between 0 and 1000!\n")
+  } else if(D2R4 < 0 | D2R4 > 1000){stop("D2R4 is not between 0 and 1000!\n")
+  } else if(D3R1 < 0 | D3R1 > 1000){stop("D3R1 is not between 0 and 1000!\n")
+  } else if(D3R2 < 0 | D3R2 > 1000){stop("D3R2 is not between 0 and 1000!\n")
+  } else if(D3R3 < 0 | D3R3 > 1000){stop("D3R3 is not between 0 and 1000!\n")
+  } else if(D3R4 < 0 | D3R4 > 1000){stop("D3R4 is not between 0 and 1000!\n")
+  } else if(D4R1 < 0 | D4R1 > 1000){stop("D4R1 is not between 0 and 1000!\n")
+  } else if(D4R2 < 0 | D4R2 > 1000){stop("D4R2 is not between 0 and 1000!\n")
+  } else if(D4R3 < 0 | D4R3 > 1000){stop("D4R3 is not between 0 and 1000!\n")
+  } else if(D4R4 < 0 | D4R4 > 1000){stop("D4R4 is not between 0 and 1000!\n")
   }
 
-  if (DRI == 'D1') {
+  if(DRI == 'D1') {
     data <- data %>% dplyr::mutate(ric = dplyr::case_when(RRI == 'R1' ~ D1R1,
                                                           RRI == 'R2' ~ D1R2,
                                                           RRI == 'R3' ~ D1R3,
                                                           RRI == 'R4' ~ D1R4))
-  } else if (DRI == 'D2') {
+  } else if(DRI == 'D2') {
     data <- data %>% dplyr::mutate(ric = dplyr::case_when(RRI == 'R1' ~ D2R1,
                                                           RRI == 'R2' ~ D2R2,
                                                           RRI == 'R3' ~ D2R3,
                                                           RRI == 'R4' ~ D2R4))
-  } else if (DRI == 'D3') {
+  } else if(DRI == 'D3') {
     data <- data %>% dplyr::mutate(ric = dplyr::case_when(RRI == 'R1' ~ D3R1,
                                                           RRI == 'R2' ~ D3R2,
                                                           RRI == 'R3' ~ D3R3,

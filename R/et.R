@@ -25,7 +25,7 @@ et_mmp<-function(data = candidates,
                  abo_freq = ABOpt,
                  check.validity = TRUE){
 
-  if (check.validity){
+  if(check.validity){
     candidate_dataframe_check(data)
   }
 
@@ -122,7 +122,7 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    mm6 = 0,
                    check.validity = TRUE){
   
-  if (check.validity){
+  if(check.validity){
     if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
       stop("points for 0 mmHLA (full match) is not valid!\n")}
     if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
@@ -166,7 +166,7 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
 #' @export
 et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
-  if (check.validity){
+  if(check.validity){
     if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
       stop("value for time on dialysis is not valid!\n")
     }

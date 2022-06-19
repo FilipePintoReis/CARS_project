@@ -4,7 +4,7 @@
 #' @param input_string A character from env$valid.blood.groups
 #' @noRd
 blood_group_checker <- function(input_string){
-  if (!input_string %in% env$valid.blood.groups){
+  if(!input_string %in% env$valid.blood.groups){
       stop("Invalid blood group. Accepted values:", env$valid.blood.groups)
   }
 }
@@ -13,15 +13,15 @@ blood_group_checker <- function(input_string){
 #' @param input_number A numeric value between env$person.minimum.age and env$person.maximum.age
 #' @noRd
 age_checker <- function(input_number){
-  if (!is.numeric(input_number)){
+  if(!is.numeric(input_number)){
     stop("Invalid age: Age should be a number.")
   }
 
-  if (input_number < env$person.minimum.age){
+  if(input_number < env$person.minimum.age){
     stop("Invalid age: Age should be higher or equal to ", env$person.minimum.age, ".")
   }
 
-  if (input_number > env$person.maximum.age){
+  if(input_number > env$person.maximum.age){
     stop("Invalid age: Age should be lower or equal to ", env$person.maximum.age, ".")
   }
 }
@@ -30,15 +30,15 @@ age_checker <- function(input_number){
 #' @param input_number A numeric value between env$dialysis.minimum and env$dialysis.maximum
 #' @noRd
 dialysis_checker <- function(input_number){
-  if (!is.numeric(input_number)){
+  if(!is.numeric(input_number)){
     stop("Invalid dialysis: Dialysis should be a number.")
   }
 
-  if (input_number < env$dialysis.minimum){
+  if(input_number < env$dialysis.minimum){
     stop("Invalid dialysis: Dialysis should be higher or equal to ", env$dialysis.minimum, ".")
   }
 
-  if (input_number > env$dialysis.maximum){
+  if(input_number > env$dialysis.maximum){
     stop("Invalid dialysis: Dialysis should be lower or equal to ", env$dialysis.maximum, ".")
   }
 }
@@ -47,7 +47,7 @@ dialysis_checker <- function(input_number){
 #' @param input_string A character from env$valid.tiers
 #' @noRd
 tier_checker <- function(input_string){
-  if (!input_string %in% env$valid.tiers){
+  if(!input_string %in% env$valid.tiers){
     stop("Invalid tier. Accepted values: ", env$valid.tiers)
   }
 }
@@ -56,7 +56,7 @@ tier_checker <- function(input_string){
 #' @param input_string A character from env$valid.rris
 #' @noRd
 rri_checker <- function(input_string){
-  if (!input_string %in% env$valid.rris){
+  if(!input_string %in% env$valid.rris){
     stop("Invalid rris. Accepted values: ", env$valid.rris)
   }
 }
@@ -65,7 +65,7 @@ rri_checker <- function(input_string){
 #' @param input_number A character from env$valid.urgent
 #' @noRd
 urgent_checker <- function(input_number){
-  if (!input_number %in% env$valid.urgent){
+  if(!input_number %in% env$valid.urgent){
     stop("Invalid urgent. Accepted values: ", env$valid.urgent)
   }
 }
@@ -74,15 +74,15 @@ urgent_checker <- function(input_number){
 #' @param input_number A numeric value between env$cPRA.minimum and env$cPRA.maximum
 #' @noRd
 cPRA_checker <- function(input_number){
-  if (!is.numeric(input_number)){
+  if(!is.numeric(input_number)){
     stop("Invalid cPRA: cPRA should be a number.")
   }
 
-  if (input_number < env$cPRA.minimum){
+  if(input_number < env$cPRA.minimum){
     stop("Invalid cPRA: cPRA should be higher or equal to ", env$cPRA.minimum, ".")
   }
 
-  if (input_number > env$cPRA.maximum){
+  if(input_number > env$cPRA.maximum){
     stop("Invalid age: cPRA should be lower or equal to ", env$cPRA.maximum, ".")
   }
 }
@@ -113,12 +113,12 @@ candidate_dataframe_check <- function(candidate.dataframe){
     'urgent')
 
   for (i in 1:length(candidate.fields)){
-    if (!candidate.fields[i] %in% colnames(candidate.dataframe)){
+    if(!candidate.fields[i] %in% colnames(candidate.dataframe)){
       stop('Column ', candidate.fields[i], ' is not present in the file.')
     }
   }
 
-  if (length(candidate.fields) != length(colnames(candidate.dataframe))){
+  if(length(candidate.fields) != length(colnames(candidate.dataframe))){
     stop('There are unexpected columns in the file. Expected: ', candidate.fields, ' ', collapse = ", ")
   }
 
@@ -176,12 +176,12 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
     'urgent')
 
   for (i in 1:length(candid_uk_columns)){
-    if (!candid_uk_columns[i] %in% colnames(candidate.dataframe)){
+    if(!candid_uk_columns[i] %in% colnames(candidate.dataframe)){
       stop(paste('Column', candid_uk_columns[i], 'is not present in the file.'))
     }
   }
 
-  if (length(candid_uk_columns) != length(colnames(candidate.dataframe))){
+  if(length(candid_uk_columns) != length(colnames(candidate.dataframe))){
     stop('There are unexpected columns in the file. Expected:\n', paste(candid_uk_columns, collapse = ", "))
   }
 
@@ -245,7 +245,7 @@ cp <- function(data = candidates,
   if(check.validity){
     if(cPRA2 < cPRA1){
       stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
-    } else if (q2 >= q3){
+    } else if(q2 >= q3){
       stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
     }
   }

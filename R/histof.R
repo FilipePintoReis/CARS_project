@@ -67,29 +67,29 @@ mmHLA <- function(dA = c('1','2'),
     if(!is.character(cDR)){stop("candidate's HLA-DR typing is not valid!\n")}
   }
   
-  mmA = NULL
-  mmB = NULL
-  mmDR = NULL
+  mmA <- NULL
+  mmB <- NULL
+  mmDR <- NULL
 
   # compute missmatches
-  mmA<-dplyr::if_else((dA[1] %in% cA & dA[2] %in% cA) | (dA[1] %in% cA & (is.na(dA[2]) | dA[2] == "")), 0,
+  mmA <- dplyr::if_else((dA[1] %in% cA & dA[2] %in% cA) | (dA[1] %in% cA & (is.na(dA[2]) | dA[2] == "")), 0,
                       dplyr::if_else(dA[1] %in% cA | dA[2] %in% cA, 1,
                                      dplyr::if_else(!dA[1] %in% cA & (is.na(dA[2]) | dA[2] == ""), 1,
                                                     dplyr::if_else(dA[1] == dA[2], 1,2))))
 
-  mmB<-dplyr::if_else((dB[1] %in% cB & dB[2] %in% cB) | (dB[1] %in% cB & (is.na(dB[2]) | dB[2] == "")), 0,
+  mmB <- dplyr::if_else((dB[1] %in% cB & dB[2] %in% cB) | (dB[1] %in% cB & (is.na(dB[2]) | dB[2] == "")), 0,
                       dplyr::if_else(dB[1] %in% cB | dB[2] %in% cB, 1,
                                      dplyr::if_else(!dB[1] %in% cB & (is.na(dB[2]) | dB[2] == ""), 1,
                                                     dplyr::if_else(dB[1] == dB[2], 1,2))))
 
-  mmDR<-dplyr::if_else((dDR[1] %in% cDR & dDR[2] %in% cDR) | (dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == "")), 0,
+  mmDR <- dplyr::if_else((dDR[1] %in% cDR & dDR[2] %in% cDR) | (dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == "")), 0,
                        dplyr::if_else(dDR[1] %in% cDR | dDR[2] %in% cDR, 1,
                                       dplyr::if_else(!dDR[1] %in% cDR & (is.na(dDR[2]) | dDR[2] == ""), 1,
                                                      dplyr::if_else(dDR[1] == dDR[2],1,2))))
 
   # resume results
-  mmHLA = mmA + mmB + mmDR
-  mm = c(mmA,mmB,mmDR,mmHLA)
+  mmHLA <- mmA + mmB + mmDR
+  mm <- c(mmA,mmB,mmDR,mmHLA)
   names(mm) <- c("mmA","mmB","mmDR","mmHLA")
 
   return(mm)
@@ -299,7 +299,7 @@ txscore <- function(recipient.age = 20
 
   gamma <- 0.916
 
-  PS = gamma * LP
+  PS <- gamma * LP
 
   prob5y <- round((1-0.752292^exp(PS))*100,2)
 

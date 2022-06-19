@@ -47,7 +47,7 @@ donor_recipient_pairs <- function(df.donors = donors,
                      data = df.candidates,
                      df.abs = df.abs,
                      algorithm,
-                     n=n,
+                     n = n,
                      ...)
 
   names(lst) <- df.donors$ID

@@ -4,20 +4,24 @@
 #' @param donor.age A numeric value with donor's age.
 #' @param candidate.age A numeric value with candidate's age.
 #' @param age.difference.points A numerical value for the points to age difference
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4)
 #' @export
 pts_age <- function(donor.age = 60
                     , candidate.age = 40
-                    , age.difference.points = 4){
-  # verify function parameters
-  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age){
-    stop("Donor's age is not valid!\n")}
-  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
-    stop("Candidate's age is not valid!\n")}
-  if(!is.numeric(age.difference.points) | age.difference.points < env$minimum.age.difference.points | age.difference.points > env$maximum.age.difference.points){
-    stop("Age points are not valid!\n")}
+                    , age.difference.points = 4
+                    , check.validity = TRUE){
+  
+  if(check.validity){
+    if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age){
+      stop("Donor's age is not valid!\n")}
+    if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
+      stop("Candidate's age is not valid!\n")}
+    if(!is.numeric(age.difference.points) | age.difference.points < env$minimum.age.difference.points | age.difference.points > env$maximum.age.difference.points){
+      stop("Age points are not valid!\n")}
+  }
 
   age.difference.points <- ifelse(
     (
@@ -29,7 +33,6 @@ pts_age <- function(donor.age = 60
   )
 
   return(age.difference.points)
-
 }
 
 #' Points for cPRA sensitization
@@ -57,11 +60,10 @@ pts_PRA <- function(cPRA = 0
       stop("attributed points for a PRA >= 50% is not valid!\n")}
   }
 
-  pts<-dplyr::if_else(cPRA >= 80, pts.80,
+  pts <- dplyr::if_else(cPRA >= 80, pts.80,
                       dplyr::if_else(cPRA >= 50, pts.50, 0))
 
   return(pts)
-
 }
 
 #' Points for HLA mismatches
@@ -109,7 +111,7 @@ pts_HLA <- function(itemA = 12
              'mmDR' = mm.DR,
              'mmHLA' = mm.A + mm.B + mm.DR)
 
-  pts<-dplyr::if_else(mm[["mmHLA"]] == 0, itemA,
+  pts <- dplyr::if_else(mm[["mmHLA"]] == 0, itemA,
                       dplyr::if_else(mm[["mmB"]]+mm[["mmDR"]] == 0, itemB,
                                      dplyr::if_else(mm[["mmB"]]+mm[["mmDR"]] == 1, itemC,
                                                     dplyr::if_else(mm[["mmB"]] == 1 & mm[["mmDR"]] == 1, itemD,
@@ -175,7 +177,7 @@ pt <- function(iso = TRUE
 
   data <- merge(data, xm,
                 by = 'ID',
-                all.x=TRUE)
+                all.x = TRUE)
 
     data[, `:=`(
       donor_age = donor.age,

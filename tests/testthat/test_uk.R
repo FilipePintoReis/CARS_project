@@ -73,23 +73,23 @@ test_that("Donor recipient age difference", {
 })
 
 test_that("blood group B match points", {
-  expect_equal(b_blood(dABO = "B",
+  expect_equal(b_blood_penalization(dABO = "B",
                        cABO = "O",
                        tier = "B",
                        pts = -1000), 0)
-  expect_equal(b_blood(dABO = "O",
+  expect_equal(b_blood_penalization(dABO = "O",
                        cABO = "B",
                        tier = "B",
                        pts = -1000), -1000)
-  expect_equal(b_blood(dABO = "A",
+  expect_equal(b_blood_penalization(dABO = "A",
                        cABO = "A",
                        tier = "A",
                        pts = -1000), 0)
-  expect_equal(b_blood(dABO = "O",
+  expect_equal(b_blood_penalization(dABO = "O",
                        cABO = "B",
                        tier = "B",
                        pts = -2000), -2000)
-  expect_equal(b_blood(dABO = "O",
+  expect_equal(b_blood_penalization(dABO = "O",
                        cABO = "AB",
                        tier = "B",
                        pts = -2000), 0)

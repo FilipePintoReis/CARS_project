@@ -62,7 +62,7 @@ lima <- function(iso = TRUE
 
   data <- merge(data, xm,
                 by = 'ID',
-                all.x=TRUE)
+                all.x = TRUE)
 
   data[, `:=`(
     donor_age = donor.age,
@@ -82,7 +82,7 @@ lima <- function(iso = TRUE
                  cDR = c(data$DR1[i], data$DR2[i])
     )
 
-    l = append(l, res)
+    l <- append(l, res)
   }
 
   data[, `:=`(

@@ -4,7 +4,7 @@ Version: 0.0.0.9999
 Authors@R: c(
     person("Bruno", "Lima", , "balima78@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9090-4457")),
-    person("Filipe", "Reis", "filipepintodosreis_a_gmail.com", role= "aut"))
+    person("Filipe", "Reis", "filipepintodosreis_a_gmail.com", role = "aut"))
 Description: This package contains functions to use on organ transplantation. Histocompatibility analysis are possible with information from donors and candidates.
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8

@@ -3,56 +3,77 @@
 #' @description computes Risk Index Combination for each pair donor-recipient
 #' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
 #' @param data A data file with candidates information for UK transplant
-#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R1
+#' @param D1R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R2
+#' @param D1R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R3
+#' @param D1R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R4
+#' @param D2R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R1
+#' @param D2R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R2
+#' @param D2R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R3
+#' @param D2R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R4
+#' @param D3R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R1
+#' @param D3R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R2
+#' @param D3R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R3
+#' @param D3R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R4
+#' @param D4R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R1
+#' @param D4R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R2
+#' @param D4R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R3
+#' @param D4R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R4
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
 #' @examples
-#' ric(DRI = 'D1', data =candidates.uk,
+#' ric(DRI = 'D1', data = candidates.uk,
 #' D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
 #' D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
 #' D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
 #' D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
 #' @export
-ric<-function(DRI = 'D1',
-              data =candidates.uk,
+ric <- function(DRI = 'D1',
+              data = candidates.uk,
               D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
               D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
               D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-              D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000
+              D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000, check.validity = TRUE
 ) {
 
-  # verify function parameters
-  if(!DRI %in% c('D1','D2','D3','D4')){stop("DRI is not a valid option! Select of 'D1','D2','D3','D4' \n")
-  } else if(D1R1 < 0 | D1R1 > 1000){stop("D1R1 is not between 0 and 1000!\n")
-  } else if(D1R2 < 0 | D1R2 > 1000){stop("D1R2 is not between 0 and 1000!\n")
-  } else if(D1R3 < 0 | D1R3 > 1000){stop("D1R3 is not between 0 and 1000!\n")
-  } else if(D1R4 < 0 | D1R4 > 1000){stop("D1R4 is not between 0 and 1000!\n")
-  } else if(D2R1 < 0 | D2R1 > 1000){stop("D2R1 is not between 0 and 1000!\n")
-  } else if(D2R2 < 0 | D2R2 > 1000){stop("D2R2 is not between 0 and 1000!\n")
-  } else if(D2R3 < 0 | D2R3 > 1000){stop("D2R3 is not between 0 and 1000!\n")
-  } else if(D2R4 < 0 | D2R4 > 1000){stop("D2R4 is not between 0 and 1000!\n")
-  } else if(D3R1 < 0 | D3R1 > 1000){stop("D3R1 is not between 0 and 1000!\n")
-  } else if(D3R2 < 0 | D3R2 > 1000){stop("D3R2 is not between 0 and 1000!\n")
-  } else if(D3R3 < 0 | D3R3 > 1000){stop("D3R3 is not between 0 and 1000!\n")
-  } else if(D3R4 < 0 | D3R4 > 1000){stop("D3R4 is not between 0 and 1000!\n")
-  } else if(D4R1 < 0 | D4R1 > 1000){stop("D4R1 is not between 0 and 1000!\n")
-  } else if(D4R2 < 0 | D4R2 > 1000){stop("D4R2 is not between 0 and 1000!\n")
-  } else if(D4R3 < 0 | D4R3 > 1000){stop("D4R3 is not between 0 and 1000!\n")
-  } else if(D4R4 < 0 | D4R4 > 1000){stop("D4R4 is not between 0 and 1000!\n")
+  if(check.validity){
+    uk_candidate_dataframe_check(data)
+
+    if(!DRI %in% env$valid.dris){
+      stop("Invalid DRI. Accepted values: ", env$valid.dris, ". \n")
+    } else if(D1R1 < env$dirj.minimum | D1R1 > env$dirj.maximum){
+      stop("D1R1 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D1R2 < env$dirj.minimum | D1R2 > env$dirj.maximum){
+      stop("D1R2 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D1R3 < env$dirj.minimum | D1R3 > env$dirj.maximum){
+      stop("D1R3 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D1R4 < env$dirj.minimum | D1R4 > env$dirj.maximum){
+      stop("D1R4 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D2R1 < env$dirj.minimum | D2R1 > env$dirj.maximum){
+      stop("D2R1 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D2R2 < env$dirj.minimum | D2R2 > env$dirj.maximum){
+      stop("D2R2 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D2R3 < env$dirj.minimum | D2R3 > env$dirj.maximum){
+      stop("D2R3 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D2R4 < env$dirj.minimum | D2R4 > env$dirj.maximum){
+      stop("D2R4 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D3R1 < env$dirj.minimum | D3R1 > env$dirj.maximum){
+      stop("D3R1 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D3R2 < env$dirj.minimum | D3R2 > env$dirj.maximum){
+      stop("D3R2 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D3R3 < env$dirj.minimum | D3R3 > env$dirj.maximum){
+      stop("D3R3 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D3R4 < env$dirj.minimum | D3R4 > env$dirj.maximum){
+      stop("D3R4 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D4R1 < env$dirj.minimum | D4R1 > env$dirj.maximum){
+      stop("D4R1 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D4R2 < env$dirj.minimum | D4R2 > env$dirj.maximum){
+      stop("D4R2 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D4R3 < env$dirj.minimum | D4R3 > env$dirj.maximum){
+      stop("D4R3 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    } else if(D4R4 < env$dirj.minimum | D4R4 > env$dirj.maximum){
+      stop("D4R4 is not between ", env$dirj.minimum, " and " , env$dirj.maximum, "!\n")
+    }
   }
 
   if(DRI == 'D1') {
@@ -84,46 +105,47 @@ ric<-function(DRI = 'D1',
 #' @description computes punctuation according to donor-recipient age difference
 #' @param donor.age A numeric value with donor's age.
 #' @param candidate.age A numeric value with candidate's age.
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A numeric value.
 #' @examples
 #' age_diff(donor.age = 60, candidate.age = 50)
 #' @export
-age_diff<-function(donor.age = 60,
-                   candidate.age = 50){
+age_diff <- function(donor.age = 60,
+                   candidate.age = 50,
+                   check.validity = TRUE){
   # verify ages
   if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age) {stop("donor's age is not valid!\n")}
   if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age) {stop("candidate's age is not valid!\n")}
 
-  res <-NULL
+  res <- NULL
 
   res <- (-1 / 2) * ((donor.age - candidate.age) ^ 2)
 
   return(res)
-
 }
 
 #' blood group B match points
 #'
-#' @description computes penalization when donor's group O and  candidate's group B
+#' @description computes penalization when donor's group O and candidate's group B
 #' @param cABO A character from 'A', 'B', 'AB', 'O'
 #' @param dABO A character from 'A', 'B', 'AB', 'O'
 #' @param tier A character value for UK transplant TIER classification
 #' @param pts A negative value with penalization for B candidates
 #' @return A numeric value.
 #' @examples
-#' b_blood(dABO = "B", cABO = "O", tier = "B", pts = -1000)
+#' b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)
 #' @export
-b_blood<-function(dABO = "B",
+b_blood_penalization <- function(dABO = "B",
                   cABO = "O",
                   tier = "B",
                   pts = -1000){
   blood_group_checker(cABO)
   blood_group_checker(dABO)
-  if(!is.numeric(pts) | pts>=0){stop('pts must be a negative value!')}
+  if(!is.numeric(pts) | pts >= 0){stop('pts must be a negative value!')}
 
-  res=NULL
+  res <- NULL
 
-  res<-ifelse(cABO == 'B' & dABO == 'O' & tier == 'B', pts, 0)
+  res <- ifelse(cABO == 'B' & dABO == 'O' & tier == 'B', pts, 0)
 
   return(res)
 }
@@ -141,7 +163,7 @@ b_blood<-function(dABO = "B",
 #' @examples
 #' abo_uk(dABO = "A", cABO = "A", tier = "B")
 #' @export
-abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
+abo_uk <- function(dABO = "A", cABO = "A", tier = "B"){
 
   res = NULL
   # verify function parameters
@@ -150,14 +172,14 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
   tier_checker(tier)
 
   if(tier == 'B'){
-    res<-ifelse(dABO == "O" & (cABO == "O" | cABO == "B"), TRUE,
+    res <- ifelse(dABO == "O" & (cABO == "O" | cABO == "B"), TRUE,
                 ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
                        ifelse(dABO == "B" & cABO == "B", TRUE,
                               ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
                        )
                 )
     )
-  } else {res<-ifelse(dABO == "O", TRUE,
+  } else {res <- ifelse(dABO == "O", TRUE,
                       ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
                              ifelse(dABO == "B" & cABO == "B", TRUE,
                                     ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
@@ -232,7 +254,7 @@ abo_uk<-function(dABO = "A", cABO = "A", tier = "B"){
 #' pts = -1000,
 #' df.abs = cabs, n = 2)
 #' @export
-uk<-function(DRI = 'D1',
+uk <- function(DRI = 'D1',
               dA = c("1","2"),
               dB = c("15","44"),
               dDR = c("1","4"),
@@ -291,7 +313,7 @@ uk<-function(DRI = 'D1',
 
    data <- merge(data, xm,
                  by = 'ID',
-                 all.x=TRUE)
+                 all.x = TRUE)
 
    data[, `:=`(
       donor_age = donor.age,
@@ -310,7 +332,7 @@ uk<-function(DRI = 'D1',
                  cDR = c(data$DR1[i], data$DR2[i])
     )
 
-    l = append(l, res)
+    l <- append(l, res)
   }
 
   data[, `:=`(
@@ -336,7 +358,7 @@ uk<-function(DRI = 'D1',
     # compute matchability points from Match Score
     matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
     pts.age = age_diff(donor.age = donor.age, candidate.age = age),
-    pts.abo = b_blood(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
+    pts.abo = b_blood_penalization(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
     ),
     by = 'ID']
 

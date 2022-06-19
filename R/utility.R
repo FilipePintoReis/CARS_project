@@ -15,12 +15,12 @@ age_checker <- function(input_number){
     stop("Invalid age: Age should be a number.")
   }
 
-  if (input_number <= env$person.minimum.age){
-    stop("Invalid age: Age should be higher or equal to", env$person.minimum.age, ".")
+  if (input_number < env$person.minimum.age){
+    stop("Invalid age: Age should be higher or equal to ", env$person.minimum.age, ".")
   }
 
-  if (input_number >= env$person.maximum.age){
-    stop("Invalid age: Age should be lower or equal to", env$person.maximum.age, ".")
+  if (input_number > env$person.maximum.age){
+    stop("Invalid age: Age should be lower or equal to ", env$person.maximum.age, ".")
   }
 }
 
@@ -32,12 +32,12 @@ dialysis_checker <- function(input_number){
     stop("Invalid dialysis: Dialysis should be a number.")
   }
 
-  if (input_number <= env$dialysis.minimum){
-    stop("Invalid dialysis: Dialysis should be higher or equal to", env$dialysis.minimum, ".")
+  if (input_number < env$dialysis.minimum){
+    stop("Invalid dialysis: Dialysis should be higher or equal to ", env$dialysis.minimum, ".")
   }
 
-  if (input_number >= env$dialysis.maximum){
-    stop("Invalid dialysis: Dialysis should be lower or equal to", env$dialysis.maximum, ".")
+  if (input_number > env$dialysis.maximum){
+    stop("Invalid dialysis: Dialysis should be lower or equal to ", env$dialysis.maximum, ".")
   }
 }
 
@@ -46,7 +46,7 @@ dialysis_checker <- function(input_number){
 #' @noRd
 tier_checker <- function(input_string){
   if (!input_string %in% env$valid.tiers){
-    stop("Invalid tier. Accepted values:", env$valid.tiers)
+    stop("Invalid tier. Accepted values: ", env$valid.tiers)
   }
 }
 
@@ -55,7 +55,16 @@ tier_checker <- function(input_string){
 #' @noRd
 rri_checker <- function(input_string){
   if (!input_string %in% env$valid.rris){
-    stop("Invalid rris. Accepted values:", env$valid.rris)
+    stop("Invalid rris. Accepted values: ", env$valid.rris)
+  }
+}
+
+#' Validates that the urgent is within the correct range of values
+#' @param input_number A character from env$valid.urgent
+#' @noRd
+urgent_checker <- function(input_number){
+  if (!input_number %in% env$valid.urgent){
+    stop("Invalid urgent. Accepted values: ", env$valid.urgent)
   }
 }
 
@@ -67,12 +76,12 @@ cPRA_checker <- function(input_number){
     stop("Invalid cPRA: cPRA should be a number.")
   }
 
-  if (input_number <= env$cPRA.minimum){
-    stop("Invalid cPRA: cPRA should be higher or equal to", env$cPRA.minimum, ".")
+  if (input_number < env$cPRA.minimum){
+    stop("Invalid cPRA: cPRA should be higher or equal to ", env$cPRA.minimum, ".")
   }
 
-  if (input_number >= env$cPRA.maximum){
-    stop("Invalid age: cPRA should be lower or equal to", env$cPRA.maximum, ".")
+  if (input_number > env$cPRA.maximum){
+    stop("Invalid age: cPRA should be lower or equal to ", env$cPRA.maximum, ".")
   }
 }
 
@@ -116,8 +125,10 @@ candidate_dataframe_check <- function(candidate.dataframe){
 
   for (i in 1:nrow(candidate.dataframe)){
     blood_group_checker(candidate.dataframe$bg[i])
-    
     age_checker(candidate.dataframe$age[i])
+    cPRA_checker(candidate.dataframe$cPRA[i])
+    dialysis_checker(candidate.dataframe$cPRA[i])
+    urgent_checker(candidate.dataframe$urgent[i])
   }
 
   return(TRUE)
@@ -180,6 +191,9 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
     tier_checker(candidate.dataframe$Tier[i])
     age_checker(candidate.dataframe$age[i])
     rri_checker(candidate.dataframe$RRI[i])
+    cPRA_checker(candidate.dataframe$cPRA[i])
+    dialysis_checker(candidate.dataframe$cPRA[i])
+    urgent_checker(candidate.dataframe$urgent[i])
   }
 
   return(TRUE)

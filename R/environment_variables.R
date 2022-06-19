@@ -13,3 +13,4 @@ env$dialysis.maximum <- 999
 env$valid.tiers = c('A', 'B')
 env$valid.rris = c('R1', 'R2', 'R3', 'R4')
 env$valid.blood.groups = c('O', 'A', 'B', 'AB')
+env$valid.urgent = c(0, 1)

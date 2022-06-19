@@ -166,10 +166,12 @@ xmatch <- function(dA = c('1','2'),
 #' hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
 #' @export
 hiper <- function(cPRA = 99, cutoff = 85, check.validity = TRUE){
-  if (check.validity){}
+  if (check.validity){
+    cPRA_checker(cPRA)
+  }
 
-  value <- cPRA >= cutoff
-  return(value)
+  is.hiperimunized <- cPRA >= cutoff
+  return(is.hiperimunized)
 }
 
 #' Senior Program classification

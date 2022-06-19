@@ -122,7 +122,6 @@ xmatch <- function(dA = c('1','2'),
 
     elements.are.chars <- function(array){
       for (element in array){
-        print(element)
         if(!is.character(element)){
           stop("xmatch got a non-character HLA typing.")
         }

@@ -113,12 +113,17 @@ ric <- function(DRI = 'D1',
 age_diff <- function(donor.age = 60,
                    candidate.age = 50,
                    check.validity = TRUE){
-  # verify ages
-  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age) {stop("donor's age is not valid!\n")}
-  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age) {stop("candidate's age is not valid!\n")}
-
+  
+  if(check.validity){
+    if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age) {
+      stop("Donor's age is not valid!\n")
+    }
+    if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age) {
+      stop("Candidate's age is not valid!\n")
+    }
+  }
+  
   res <- NULL
-
   res <- (-1 / 2) * ((donor.age - candidate.age) ^ 2)
 
   return(res)
@@ -131,6 +136,7 @@ age_diff <- function(donor.age = 60,
 #' @param dABO A character from 'A', 'B', 'AB', 'O'
 #' @param tier A character value for UK transplant TIER classification
 #' @param pts A negative value with penalization for B candidates
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A numeric value.
 #' @examples
 #' b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)
@@ -138,13 +144,19 @@ age_diff <- function(donor.age = 60,
 b_blood_penalization <- function(dABO = "B",
                   cABO = "O",
                   tier = "B",
-                  pts = -1000){
-  blood_group_checker(cABO)
-  blood_group_checker(dABO)
-  if(!is.numeric(pts) | pts >= 0){stop('pts must be a negative value!')}
-
+                  pts = -1000,
+                  check.validity = TRUE){
+  
+  if(check.validity){
+    blood_group_checker(cABO)
+    blood_group_checker(dABO)
+    tier_checker(tier)
+    if(!is.numeric(pts) | pts >= 0){
+      stop('pts must be a negative value!')
+    }
+  }
+  
   res <- NULL
-
   res <- ifelse(cABO == 'B' & dABO == 'O' & tier == 'B', pts, 0)
 
   return(res)
@@ -159,33 +171,39 @@ b_blood_penalization <- function(dABO = "B",
 #' @param dABO A character from 'A', 'B', 'AB', 'O', for donor ABO group
 #' @param tier A character value for UK transplant candidate's TIER classification
 #' (options A and B)
+#' @param check.validity Logical to decide whether to validate input.
 #' @return A logical value T/F
 #' @examples
 #' abo_uk(dABO = "A", cABO = "A", tier = "B")
 #' @export
-abo_uk <- function(dABO = "A", cABO = "A", tier = "B"){
+abo_uk <- function(dABO = "A", 
+                   cABO = "A", 
+                   tier = "B",
+                   check.validity = TRUE){
+  
+  if(check.validity){
+    blood_group_checker(dABO)
+    blood_group_checker(cABO)
+    tier_checker(tier)
+  }
 
   res = NULL
-  # verify function parameters
-  blood_group_checker(dABO)
-  blood_group_checker(cABO)
-  tier_checker(tier)
-
   if(tier == 'B'){
     res <- ifelse(dABO == "O" & (cABO == "O" | cABO == "B"), TRUE,
-                ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
-                       ifelse(dABO == "B" & cABO == "B", TRUE,
-                              ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
-                       )
+              ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
+                ifelse(dABO == "B" & cABO == "B", TRUE,
+                  ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
                 )
-    )
-  } else {res <- ifelse(dABO == "O", TRUE,
-                      ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
-                             ifelse(dABO == "B" & cABO == "B", TRUE,
-                                    ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
-                             )
-                      )
-  )
+              )
+            )
+  } else {
+    res <- ifelse(dABO == "O", TRUE,
+              ifelse(dABO == "A" & (cABO == "A" | cABO == "AB"), TRUE,
+                ifelse(dABO == "B" & cABO == "B", TRUE,
+                  ifelse(dABO == "AB" & cABO == "AB", TRUE, FALSE)
+                )
+              )
+            )
   }
 
   return(res)
@@ -240,6 +258,7 @@ abo_uk <- function(dABO = "A", cABO = "A", tier = "B"){
 #' @param pts A negative value with penalization for B candidates
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' uk(DRI = 'D1', dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' dABO = "O", donor.age = 65, data = candidates.uk,
@@ -291,7 +310,14 @@ uk <- function(DRI = 'D1',
               mm46 = -250,
               pts = -1000,
               df.abs = cabs,
-              n = 2){
+              n = 2,
+              check.validity = TRUE){
+  
+  if(check.validity){
+    blood_group_checker(dABO)
+    age_checker(donor.age)
+    uk_candidate_dataframe_check(data)
+  }
 
   n <- max(1, n)
 

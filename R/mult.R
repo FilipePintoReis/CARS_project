@@ -9,6 +9,7 @@
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param algorithm The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity Logical to decide whether to validate input.
 #' @param ... all the parameters used on the function algorithm
 #' @return A list with the number of elements equal to the number of rows on donors data frame.
 #' Each element have a data frame with select candidates by donor.
@@ -23,8 +24,26 @@ donor_recipient_pairs <- function(df.donors = donors,
                             df.candidates = candidates,
                             df.abs = cabs,
                             algorithm = lima,
-                            n = 2, ...){
-  if(!is.numeric(n))stop("'n' is not a valid numeric value!")
+                            n = 2, 
+                            check.validity = TRUE, ...){
+
+  if(check.validity){
+    if(!is.numeric(n)){
+      stop("'n' is not a valid numeric value!")
+    }
+    
+    if(!substitute(algorithm) %in% env$list.of.algorithms){
+      stop("Algorithm doesn't exist.")
+    }
+
+    if(algorithm == uk){
+      uk_candidate_dataframe_check(df.candidates)
+    }
+    else{
+      candidate_dataframe_check(df.candidates)
+    }
+  }
+  
 
   df.donors <- df.donors %>%
     dplyr::mutate(dABO = bg,
@@ -68,6 +87,7 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' @param algorithm The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)
 #' @param n A positive integer to slice the first candidates.
 #' @param seed.number Seed for new random number. seed.number can be NA in which case no seed is applied.
+#' @param check.validity Logical to decide whether to validate input.
 #' @param ... all the parameters used on the function algorithm
 #' @return Statistics related to all the times the function ran.
 #' @examples
@@ -85,8 +105,22 @@ several <- function(iteration.number = 10,
                        df.abs = cabs,
                        algorithm = lima,
                        n = 0, 
-                       seed.number = 123, ...){
-                        
+                       seed.number = 123, 
+                       check.validity = TRUE, ...){
+  
+  if(check.validity){
+    if(algorithm == uk){
+      uk_candidate_dataframe_check(df.candidates)
+    }
+    else{
+      candidate_dataframe_check(df.candidates)
+    }
+
+    if(!is.na(seed.number) && !is.integer(seed.number)){
+      stop("seed.number must either be na or an integer.")
+    }
+  }
+
   if(!is.na(seed.number)){
     set.seed(seed.number)
   }

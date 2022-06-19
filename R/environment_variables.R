@@ -11,6 +11,8 @@ env$dialysis.minimum <- 0
 env$dialysis.maximum <- 999
 env$dirj.minimum <- 0
 env$dirj.maximum <- 1000
+env$percentage.minimum <- 0
+env$percentage.maximum <- 100
 
 env$valid.dris <- c('D1','D2','D3','D4')
 env$valid.tiers <- c('A', 'B')

@@ -15,8 +15,8 @@
 #' @param n A positive integer to slice the first candidates.
 #' @param q2 A numerical value for the median of candidates' waiting list.
 #' @param q3 A numerical value for the third quartile of candidates' waiting list.
-#' @param cPRA1 A numerical value (0-100) for the lower cPRA cutoff.
-#' @param cPRA2 A numerical value (0-100) for the higher cPRA cutoff. cPRA2
+#' @param cPRA1 A numerical value (env$percentage.minimum - env$percentage.maximum) for the lower cPRA cutoff.
+#' @param cPRA2 A numerical value (env$percentage.minimum - env$percentage.maximum) for the higher cPRA cutoff.
 #' @param check.validity Logical to decide whether to validate input.
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.
@@ -41,6 +41,24 @@ lima <- function(iso = TRUE
   
   if(check.validity){
     candidate_dataframe_check(candidates)
+    
+    if(cPRA2 < cPRA1){
+      stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
+    }
+
+    if(cPRA1 > env$percentage.maximum || cPRA1 < env$percentage.minimum){
+      stop("cPRA1 corresponds to a percetage. Values should be between ", 
+           env$percentage.maximum, " and ", env$percentage.minimum, ".")
+    }
+
+    if(cPRA2 > env$percentage.maximum || cPRA2 < env$percentage.minimum){
+      stop("cPRA2 corresponds to a percetage. Values should be between ", 
+           env$percentage.maximum, " and ", env$percentage.minimum, ".")
+    }
+    
+    if(q2 >= q3){
+      stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
+    }
   }
 
   n <- max(1, n)

@@ -227,8 +227,8 @@ validate_candid_uk <- function(file_name, file_type, csv_separator = ";"){
 #' @param data A data frame with information for candidates' waiting list.
 #' @param q2 A numerical value for the median of candidates' waiting list.
 #' @param q3 A numerical value for the third quartile of candidates' waiting list.
-#' @param cPRA1 A numerical value (0-100) for the lower cPRA cutoff.
-#' @param cPRA2 A numerical value (0-100) for the higher cPRA cutoff. cPRA2
+#' @param cPRA1 A numerical value (env$percentage.maximum - env$percentage.maximum) for the lower cPRA cutoff.
+#' @param cPRA2 A numerical value (env$percentage.maximum - env$percentage.maximum) for the higher cPRA cutoff. cPRA2
 #' must be greater than cPRA1.
 #' @param check.validity Logical to decide whether to validate input.
 #' @return A data frame with a new column 'cp' (color priority)
@@ -245,7 +245,19 @@ cp <- function(data = candidates,
   if(check.validity){
     if(cPRA2 < cPRA1){
       stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
-    } else if(q2 >= q3){
+    }
+
+    if(cPRA1 > env$percentage.maximum || cPRA1 < env$percentage.minimum){
+      stop("cPRA1 corresponds to a percetage. Values should be between ", 
+           env$percentage.maximum, " and ", env$percentage.minimum, ".")
+    }
+
+    if(cPRA2 > env$percentage.maximum || cPRA2 < env$percentage.minimum){
+      stop("cPRA2 corresponds to a percetage. Values should be between ", 
+           env$percentage.maximum, " and ", env$percentage.minimum, ".")
+    }
+    
+    if(q2 >= q3){
       stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
     }
   }

@@ -176,7 +176,8 @@ several <- function(iteration.number = 10,
               ABO = freq_ABO,
               HI = freq_HI,
               color = freq_color,
-              SP = freq_SP))
+              SP = freq_SP)
+        )
 }
 
 uk_several <- function(){
@@ -216,7 +217,7 @@ uk_several <- function(){
             mm23 = -150,
             mm46 = -250,
             pts = -1000
-            )
+          )
     )
 }
 
@@ -229,14 +230,14 @@ lima_several <- function(){
       df.candidates = candidates,
       df.abs = cabs,
       algorithm = lima,
-      n = 0
-      , function_name = "lima"
-      , q2 = 60
-      , q3 = 100
-      , cPRA1 = 50
-      , cPRA2 = 85)
+      n = 0, 
+      function_name = "lima", 
+      q2 = 60, 
+      q3 = 100, 
+      cPRA1 = 50, 
+      cPRA2 = 85)
   )
-  }
+}
 
 # No export, testing purposes
 et_several <- function(){
@@ -248,22 +249,22 @@ et_several <- function(){
       df.abs = cabs,
       algorithm = et,
       n = 0,
-      iso = TRUE
-      , month = 2
-      , mm0 = 400
-      , mm1 = 333.33
-      , mm2 = 266.67
-      , mm3 = 200
-      , mm4 = 133.33
-      , mm5 = 66.67
-      , mm6 = 0
-      , hlaA = hlaApt
-      , hlaB = hlaBpt
-      , hlaDR = hlaDRpt
-      , abo_freq = ABOpt
-      )
+      iso = TRUE, 
+      month = 2, 
+      mm0 = 400, 
+      mm1 = 333.33, 
+      mm2 = 266.67, 
+      mm3 = 200, 
+      mm4 = 133.33, 
+      mm5 = 66.67, 
+      mm6 = 0, 
+      hlaA = hlaApt, 
+      hlaB = hlaBpt, 
+      hlaDR = hlaDRpt, 
+      abo_freq = ABOpt
+    )
   )
-  }
+}
 
 # No export, testing purposes
 pt_several <- function(){
@@ -275,12 +276,11 @@ pt_several <- function(){
       df.abs = cabs,
       algorithm = pt,
       n = 0,
-      iso = TRUE
-      , pts.80 = 8
-      , pts.50 = 4
-      , pts.dialysis = 0.1
-      , points.age = 4
-      )
+      iso = TRUE, 
+      points.80 = 8, 
+      points.50 = 4, 
+      points.dialysis = 0.1, 
+      points.age = 4)
   )
-  }
+}
 

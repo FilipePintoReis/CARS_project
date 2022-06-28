@@ -39,29 +39,29 @@ pts_age <- function(donor.age = 60
 #'
 #' @description Punctuation given for sensitized patients according to cPRA value
 #' @param cPRA Percentual value of cPRA (Between 0 and 100)
-#' @param pts.80 A numerical value for the points to a cPRA >= 80
-#' @param pts.50 A numerical value for the points to a cPRA >= 50
+#' @param points.80 A numerical value for the points to a cPRA >= 80
+#' @param points.50 A numerical value for the points to a cPRA >= 50
 #' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
-#' pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4)
+#' pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
 #' @export
 pts_PRA <- function(cPRA = 0
-                    , pts.80 = 8
-                    , pts.50 = 4
+                    , points.80 = 8
+                    , points.50 = 4
                     , check.validity = TRUE){
 
   if(check.validity){
     if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
       stop("PRA value is not valid!\n")}
-    if(!is.numeric(pts.80) | pts.80 < 0 | pts.80 > 100){
+    if(!is.numeric(points.80) | points.80 < 0 | points.80 > 100){
       stop("attributed points for a PRA >= 80% is not valid!\n")}
-    if(!is.numeric(pts.50) | pts.50 < 0 | pts.50 > 100){
+    if(!is.numeric(points.50) | points.50 < 0 | points.50 > 100){
       stop("attributed points for a PRA >= 50% is not valid!\n")}
   }
 
-  pts <- dplyr::if_else(cPRA >= 80, pts.80,
-                      dplyr::if_else(cPRA >= 50, pts.50, 0))
+  pts <- dplyr::if_else(cPRA >= 80, points.80,
+                      dplyr::if_else(cPRA >= 50, points.50, 0))
 
   return(pts)
 }
@@ -132,9 +132,9 @@ pts_HLA <- function(itemA = 12
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates with color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
-#' @param pts.80 A numerical value for the points to a cPRA >= 80
-#' @param pts.50 A numerical value for the points to a cPRA >= 50
-#' @param pts.dialysis punctuaction for each month on dialysis
+#' @param points.80 A numerical value for the points to a cPRA >= 80
+#' @param points.50 A numerical value for the points to a cPRA >= 50
+#' @param points.dialysis punctuaction for each month on dialysis
 #' @param points.age A numerical value for the points to age difference
 #' @param n A positive integer to slice the first candidates.
 #' @param check.validity Logical to decide whether to validate input.
@@ -154,9 +154,9 @@ pt <- function(iso = TRUE
                 , donor.age = 65
                 , df.abs = cabs
                 , data = candidates
-                , pts.80 = 8
-                , pts.50 = 4
-                , pts.dialysis = 0.1
+                , points.80 = 8
+                , points.50 = 4
+                , points.dialysis = 0.1
                 , points.age = 4
                 , n = 2
                 , check.validity = TRUE){
@@ -209,9 +209,9 @@ pt <- function(iso = TRUE
 
   data[, `:=`(
       ptsHLA = pts_HLA(mm.A = mmA, mm.B = mmB, mm.DR = mmDR),
-      ptsPRA = pts_PRA(cPRA = cPRA, pts.80 = pts.80, pts.50 = pts.50), # Isto pode ser feito antes do for loop de candidato vs dador
+      ptsPRA = pts_PRA(cPRA = cPRA, points.80 = points.80, points.50 = points.50), # Isto pode ser feito antes do for loop de candidato vs dador
       ptsage = pts_age(donor.age = donor.age, candidate.age = age, age.difference.points = points.age),
-      ptsdial = pts.dialysis * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
+      ptsdial = points.dialysis * dialysis # Isto pode ser feito antes do for loop de candidato vs dador
       ), by = 'ID']
 
     data[, `:=`(

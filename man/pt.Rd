@@ -13,9 +13,9 @@ pt(
   donor.age = 65,
   df.abs = cabs,
   data = candidates,
-  pts.80 = 8,
-  pts.50 = 4,
-  pts.dialysis = 0.1,
+  points.80 = 8,
+  points.50 = 4,
+  points.dialysis = 0.1,
   points.age = 4,
   n = 2
 )
@@ -38,11 +38,11 @@ pt(
 \item{data}{A data frame containing demographics and medical information for
 a group of waitlisted transplant candidates with color priority classification.}
 
-\item{pts.80}{A numerical value for the points to a cPRA >= 80}
+\item{points.80}{A numerical value for the points to a cPRA >= 80}
 
-\item{pts.50}{A numerical value for the points to a cPRA >= 50}
+\item{points.50}{A numerical value for the points to a cPRA >= 50}
 
-\item{pts.dialysis}{punctuaction for each month on dialysis}
+\item{points.dialysis}{punctuaction for each month on dialysis}
 
 \item{points.age}{A numerical value for the points to age difference}
 

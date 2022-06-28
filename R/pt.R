@@ -54,9 +54,9 @@ pts_PRA <- function(cPRA = 0
   if(check.validity){
     if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
       stop("PRA value is not valid!\n")}
-    if(!is.numeric(points.80) | points.80 < 0 | points.80 > 100){
+    if(!is.numeric(points.80) | points.80 < 0 | points.80 > 20){
       stop("attributed points for a PRA >= 80% is not valid!\n")}
-    if(!is.numeric(points.50) | points.50 < 0 | points.50 > 100){
+    if(!is.numeric(points.50) | points.50 < 0 | points.50 > 20){
       stop("attributed points for a PRA >= 50% is not valid!\n")}
   }
 
@@ -163,6 +163,19 @@ pt <- function(iso = TRUE
   
   if(check.validity){
     candidate_dataframe_check(candidates)
+
+    if(points.80 < 0 || points.80 > 20){
+      stop("points.80 should be between 0 and 20")
+    }
+    if(points.50 < 0 || points.50 > 20){
+      stop("points.50 should be between 0 and 20")
+    }
+    if(points.dialysis < 0 || points.dialysis > 2){
+      stop("points.dialysis should be between 0 and 2")
+    }
+    if(points.age < 0 || points.age > 20){
+      stop("(points.age should be between 0 and 20")
+    }
   }
 
   n <- max(1, n)

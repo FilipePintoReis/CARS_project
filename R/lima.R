@@ -41,25 +41,9 @@ lima <- function(iso = TRUE
   
   if(check.validity){
     candidate_dataframe_check(candidates)
-    
-    if(cPRA2 < cPRA1){
-      stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
-    }
-
-    if(cPRA1 > env$percentage.maximum || cPRA1 < env$percentage.minimum){
-      stop("cPRA1 corresponds to a percetage. Values should be between ", 
-           env$percentage.maximum, " and ", env$percentage.minimum, ".")
-    }
-
-    if(cPRA2 > env$percentage.maximum || cPRA2 < env$percentage.minimum){
-      stop("cPRA2 corresponds to a percetage. Values should be between ", 
-           env$percentage.maximum, " and ", env$percentage.minimum, ".")
-    }
-    
-    if(q2 >= q3){
-      stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
-    }
   }
+
+  age_checker(donor.age)
 
   n <- max(1, n)
 
@@ -67,7 +51,8 @@ lima <- function(iso = TRUE
             , q2 = q2
             , q3 = q3
             , cPRA1 = cPRA1
-            , cPRA2 = cPRA2) %>% # Isto pode ser feito antes do for loop de candidato vs dador
+            , cPRA2 = cPRA2
+            , check.validity = FALSE) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
   xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)

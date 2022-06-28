@@ -76,7 +76,7 @@ test_that("Test pt algorithm", {
     pts.80 = 8
     pts.50 = 4
     pts.dialysis = 0.1
-    pts.age = 4
+    points.age = 4
     n = 2
 
     candidates_test <- data.frame(
@@ -138,7 +138,7 @@ test_that("Test pt algorithm", {
                 , pts.80 = 8
                 , pts.50 = 4
                 , pts.dialysis = 0.1
-                , pts.age = 4
+                , points.age = 4
                 , n = 2
             )
         ),

@@ -376,15 +376,15 @@ uk <- function(DRI = 'D1',
     by = 'ID']
 
   data[, `:=`(
-    pts.hla.age = ifelse(level == 1, b1 * cos(age / env$adulthood.age) + a1,
+    points.hla.age = ifelse(level == 1, b1 * cos(age / env$adulthood.age) + a1,
                     ifelse(level == 2, b2 * cos(age / env$adulthood.age) + a2,  b3 * sin(age / 50))),
     total.HLA = ifelse(mmA + mmB + mmDR == 0, 0,
                   ifelse(mmA + mmB + mmDR == 1, mm1,
                     ifelse(mmA + mmB + mmDR < 4, mm23, mm46))),
     # compute matchability points from Match Score
     matchability = round(m * (1 + (MS / nn) ^ o), 1), # Isto pode ser feito antes do for loop de candidato vs dador
-    pts.age = age_diff(donor.age = donor.age, candidate.age = age),
-    pts.abo = b_blood_penalization(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
+    points.age = age_diff(donor.age = donor.age, candidate.age = age),
+    points.abo = b_blood_penalization(dABO = dABO, cABO = bg, tier = Tier, pts = pts)
     ),
     by = 'ID']
 
@@ -392,7 +392,7 @@ uk <- function(DRI = 'D1',
     pointsUK = round(
         ifelse(Tier == "A",
                9999,
-               ric + pts.hla.age + matchability + pts.age + total.HLA + pts.abo)
+               ric + points.hla.age + matchability + points.age + total.HLA + points.abo)
         , 1)
     ),
     by = 'ID']

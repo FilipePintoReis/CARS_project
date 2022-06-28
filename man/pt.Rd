@@ -16,7 +16,7 @@ pt(
   pts.80 = 8,
   pts.50 = 4,
   pts.dialysis = 0.1,
-  pts.age = 4,
+  points.age = 4,
   n = 2
 )
 }
@@ -44,7 +44,7 @@ a group of waitlisted transplant candidates with color priority classification.}
 
 \item{pts.dialysis}{punctuaction for each month on dialysis}
 
-\item{pts.age}{A numerical value for the points to age difference}
+\item{points.age}{A numerical value for the points to age difference}
 
 \item{n}{A positive integer to slice the first candidates.}
 }

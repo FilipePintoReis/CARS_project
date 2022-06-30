@@ -4,7 +4,12 @@
 \alias{pts_age}
 \title{Points for age differences}
 \usage{
-pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4)
+pts_age(
+  donor.age = 60,
+  candidate.age = 40,
+  age.difference.points = 4,
+  check.validity = TRUE
+)
 }
 \arguments{
 \item{donor.age}{A numeric value with donor's age.}
@@ -12,6 +17,8 @@ pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4)
 \item{candidate.age}{A numeric value with candidate's age.}
 
 \item{age.difference.points}{A numerical value for the points to age difference}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A numerical value for pre-defined points

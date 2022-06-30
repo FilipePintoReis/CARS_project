@@ -42,7 +42,8 @@ uk(
   mm46 = -250,
   pts = -1000,
   df.abs = cabs,
-  n = 2
+  n = 2,
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -128,6 +129,8 @@ b3*sin(age / 50)}
 \item{df.abs}{A data frame with candidates' antibodies.}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \description{
 Ordering of waitlisted candidates for a given donor and according

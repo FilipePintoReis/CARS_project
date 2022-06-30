@@ -17,7 +17,8 @@ pt(
   points.50 = 4,
   points.dialysis = 0.1,
   points.age = 4,
-  n = 2
+  n = 2,
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -47,6 +48,8 @@ a group of waitlisted transplant candidates with color priority classification.}
 \item{points.age}{A numerical value for the points to age difference}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 An ordered data frame with a column 'cp' (color priority),

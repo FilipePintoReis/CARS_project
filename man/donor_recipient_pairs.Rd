@@ -10,6 +10,7 @@ donor_recipient_pairs(
   df.abs = cabs,
   algorithm = lima,
   n = 2,
+  check.validity = TRUE,
   ...
 )
 }
@@ -25,6 +26,8 @@ for a group of waitlisted transplant candidates. For uk algorithm must have resp
 \item{algorithm}{The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 
 \item{...}{all the parameters used on the function algorithm}
 }

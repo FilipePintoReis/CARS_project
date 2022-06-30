@@ -12,6 +12,7 @@ several(
   algorithm = lima,
   n = 0,
   seed.number = 123,
+  check.validity = TRUE,
   ...
 )
 }
@@ -31,6 +32,8 @@ for a group of waitlisted transplant candidates. For uk algorithm must have resp
 \item{n}{A positive integer to slice the first candidates.}
 
 \item{seed.number}{Seed for new random number. seed.number can be NA in which case no seed is applied.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 
 \item{...}{all the parameters used on the function algorithm}
 }

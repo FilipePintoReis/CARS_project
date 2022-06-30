@@ -17,7 +17,8 @@ lima(
   q2 = 60,
   q3 = 100,
   cPRA1 = 50,
-  cPRA2 = 85
+  cPRA2 = 85,
+  check.validity = TRUE
 )
 }
 \arguments{
@@ -45,9 +46,11 @@ color priority classification.}
 
 \item{q3}{A numerical value for the third quartile of candidates' waiting list.}
 
-\item{cPRA1}{A numerical value (0-100) for the lower cPRA cutoff.}
+\item{cPRA1}{A numerical value (env$percentage.minimum - env$percentage.maximum) for the lower cPRA cutoff.}
 
-\item{cPRA2}{A numerical value (0-100) for the higher cPRA cutoff. cPRA2}
+\item{cPRA2}{A numerical value (env$percentage.minimum - env$percentage.maximum) for the higher cPRA cutoff.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 An ordered data frame with a column 'cp' (color priority),

@@ -14,8 +14,8 @@ test_that("Donor-recipient Risk Index Combination", {
     cPRA = c(86, 86, 51, 51, 0, 0),
     Tier = c('A','B','B','B','B','B'),
     MS = c(3,5,7,8,1,8),
-    RRI = c('R2','R1','R3','R2','R4','R1')
-    #urgent = c(0, 0, 0, 0, 0, 0)
+    RRI = c('R2','R1','R3','R2','R4','R1'),
+    urgent = c(0, 0, 0, 0, 0, 0)
   )
 
   result1 <- cand_uk_test %>%
@@ -154,8 +154,8 @@ test_that("uk algorithm", {
     cPRA = c(86, 86, 51, 51, 0, 0),
     Tier = c('A','B','B','B','B','B'),
     MS = c(3,5,7,8,1,8),
-    RRI = c('R2','R1','R3','R2','R2','R1')
-    #urgent = c(0, 0, 0, 0, 0, 0)
+    RRI = c('R2','R1','R3','R2','R2','R1'),
+    urgent = c(0, 0, 0, 0, 0, 0)
   )
 
   result1 <- tibble::tribble(

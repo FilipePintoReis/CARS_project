@@ -4,7 +4,7 @@
 \alias{pts_PRA}
 \title{Points for cPRA sensitization}
 \usage{
-pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
+pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4, check.validity = TRUE)
 }
 \arguments{
 \item{cPRA}{Percentual value of cPRA (Between 0 and 100)}
@@ -12,6 +12,8 @@ pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
 \item{points.80}{A numerical value for the points to a cPRA >= 80}
 
 \item{points.50}{A numerical value for the points to a cPRA >= 50}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A numerical value for pre-defined points

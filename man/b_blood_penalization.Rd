@@ -4,7 +4,13 @@
 \alias{b_blood_penalization}
 \title{blood group B match points}
 \usage{
-b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)
+b_blood_penalization(
+  dABO = "B",
+  cABO = "O",
+  tier = "B",
+  pts = -1000,
+  check.validity = TRUE
+)
 }
 \arguments{
 \item{dABO}{A character from 'A', 'B', 'AB', 'O'}
@@ -14,12 +20,14 @@ b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)
 \item{tier}{A character value for UK transplant TIER classification}
 
 \item{pts}{A negative value with penalization for B candidates}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A numeric value.
 }
 \description{
-computes penalization when donor's group O and  candidate's group B
+computes penalization when donor's group O and candidate's group B
 }
 \examples{
 b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)

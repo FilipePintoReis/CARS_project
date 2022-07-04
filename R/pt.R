@@ -4,24 +4,19 @@
 #' @param donor.age A numeric value with donor's age.
 #' @param candidate.age A numeric value with candidate's age.
 #' @param age.difference.points A numerical value for the points to age difference
-#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_age(donor.age = 60, candidate.age = 40, age.difference.points = 4)
 #' @export
 pts_age <- function(donor.age = 60
                     , candidate.age = 40
-                    , age.difference.points = 4
-                    , check.validity = TRUE){
-  
-  if(check.validity){
-    if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age){
-      stop("Donor's age is not valid!\n")}
-    if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
-      stop("Candidate's age is not valid!\n")}
-    if(!is.numeric(age.difference.points) | age.difference.points < env$minimum.age.difference.points | age.difference.points > env$maximum.age.difference.points){
-      stop("Age points are not valid!\n")}
-  }
+                    , age.difference.points = 4){
+  if(!is.numeric(donor.age) | donor.age < env$adulthood.age | donor.age > env$person.maximum.age){
+    stop("Donor's age is not valid!\n")}
+  if(!is.numeric(candidate.age) | candidate.age < env$adulthood.age | candidate.age > env$person.maximum.age){
+    stop("Candidate's age is not valid!\n")}
+  if(!is.numeric(age.difference.points) | age.difference.points < env$minimum.age.difference.points | age.difference.points > env$maximum.age.difference.points){
+    stop("Age points are not valid!\n")}
 
   age.difference.points <- ifelse(
     (
@@ -41,7 +36,6 @@ pts_age <- function(donor.age = 60
 #' @param cPRA Percentual value of cPRA (Between 0 and 100)
 #' @param points.80 A numerical value for the points to a cPRA >= 80
 #' @param points.50 A numerical value for the points to a cPRA >= 50
-#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
@@ -50,15 +44,12 @@ pts_PRA <- function(cPRA = 0
                     , points.80 = 8
                     , points.50 = 4
                     , check.validity = TRUE){
-
-  if(check.validity){
-    if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
-      stop("PRA value is not valid!\n")}
-    if(!is.numeric(points.80) | points.80 < 0 | points.80 > 20){
-      stop("attributed points for a PRA >= 80% is not valid!\n")}
-    if(!is.numeric(points.50) | points.50 < 0 | points.50 > 20){
-      stop("attributed points for a PRA >= 50% is not valid!\n")}
-  }
+  if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
+    stop("PRA value is not valid!\n")}
+  if(!is.numeric(points.80) | points.80 < 0 | points.80 > 20){
+    stop("attributed points for a PRA >= 80% is not valid!\n")}
+  if(!is.numeric(points.50) | points.50 < 0 | points.50 > 20){
+    stop("attributed points for a PRA >= 50% is not valid!\n")}
 
   pts <- dplyr::if_else(cPRA >= 80, points.80,
                       dplyr::if_else(cPRA >= 50, points.50, 0))
@@ -77,7 +68,6 @@ pts_PRA <- function(cPRA = 0
 #' @param mm.A Number of HLA-A mismatchs(0 to 2)
 #' @param mm.B Number of HLA-B mismatchs(0 to 2)
 #' @param mm.DR Number of HLA-DR mismatchs(0 to 2)
-#' @param check.validity Logical to decide whether to validate input.
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_HLA(itemA = 12, itemB = 8, itemC = 4, itemD = 2, itemE = 1
@@ -90,21 +80,18 @@ pts_HLA <- function(itemA = 12
                     , itemE = 1
                     , mm.A = 0
                     , mm.B = 0
-                    , mm.DR = 0
-                    , check.validity = TRUE){
-  
-  if(check.validity){
-    if(!is.numeric(itemA) | itemA < 0 | itemA > 99){
-      stop("points for 0 mmHLA (full match) is not valid!\n")}
-    if(!is.numeric(itemB) | itemB < 0 | itemB > 99){
-      stop("points for 0 mmB and mmDR is not valid!\n")}
-    if(!is.numeric(itemC) | itemC < 0 | itemC > 99){
-      stop("points for 1 mmB or mmDR is not valid!\n")}
-    if(!is.numeric(itemD) | itemD < 0 | itemD > 99){
-      stop("points for 1 mmB and 1 mmDR is not valid!\n")}
-    if(!is.numeric(itemE) | itemE < 0 | itemE > 99){
-      stop("points for more than 2 mmB and mmDR is not valid!\n")}
-  }
+                    , mm.DR = 0){
+  if(!is.numeric(itemA) | itemA < 0 | itemA > 99){
+    stop("points for 0 mmHLA (full match) is not valid!\n")}
+  if(!is.numeric(itemB) | itemB < 0 | itemB > 99){
+    stop("points for 0 mmB and mmDR is not valid!\n")}
+  if(!is.numeric(itemC) | itemC < 0 | itemC > 99){
+    stop("points for 1 mmB or mmDR is not valid!\n")}
+  if(!is.numeric(itemD) | itemD < 0 | itemD > 99){
+    stop("points for 1 mmB and 1 mmDR is not valid!\n")}
+  if(!is.numeric(itemE) | itemE < 0 | itemE > 99){
+    stop("points for more than 2 mmB and mmDR is not valid!\n")}
+
 
   mm <- list('mmA' = mm.A,
              'mmB' = mm.B,
@@ -163,19 +150,19 @@ pt <- function(iso = TRUE
   
   if(check.validity){
     candidate_dataframe_check(candidates)
+  }
 
-    if(points.80 < 0 || points.80 > 20){
-      stop("points.80 should be between 0 and 20")
-    }
-    if(points.50 < 0 || points.50 > 20){
-      stop("points.50 should be between 0 and 20")
-    }
-    if(points.dialysis < 0 || points.dialysis > 2){
-      stop("points.dialysis should be between 0 and 2")
-    }
-    if(points.age < 0 || points.age > 20){
-      stop("(points.age should be between 0 and 20")
-    }
+  if(points.80 < env$pt.points.minimum || points.80 > env$pt.points.maximum){
+    stop("points.80 should be between ", env$pt.points.minimum, " and ", env$pt.points.maximum)
+  }
+  if(points.50 < env$pt.points.minimum || points.50 > env$pt.points.maximum){
+    stop("points.50 should be between ", env$pt.points.minimum, " and ", env$pt.points.maximum)
+  }
+  if(points.dialysis < env$points.dialysis.minimum || points.dialysis > env$points.dialysis.maximum){
+    stop("points.dialysis should be between ", env$points.dialysis.minimum, " and ", env$points.dialysis.maximum)
+  }
+  if(points.age < env$points.age.minimum || points.age > env$points.age.maximum){
+    stop("points.age should be between ", env$points.age.minimum, " and ", env$points.age.maximum)
   }
 
   n <- max(1, n)

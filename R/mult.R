@@ -28,14 +28,6 @@ donor_recipient_pairs <- function(df.donors = donors,
                             check.validity = TRUE, ...){
 
   if(check.validity){
-    if(!is.numeric(n)){
-      stop("'n' is not a valid numeric value!")
-    }
-    
-    if(!substitute(algorithm) %in% env$list.of.algorithms){
-      stop("Algorithm doesn't exist.")
-    }
-
     if(algorithm == uk){
       uk_candidate_dataframe_check(df.candidates)
     }
@@ -43,7 +35,13 @@ donor_recipient_pairs <- function(df.donors = donors,
       candidate_dataframe_check(df.candidates)
     }
   }
-  
+
+  if(!is.numeric(n)){
+    stop("'n' is not a valid numeric value!")
+  }
+  if(!substitute(algorithm) %in% env$list.of.algorithms){
+    stop("Algorithm doesn't exist.")
+  }
 
   df.donors <- df.donors %>%
     dplyr::mutate(dABO = bg,

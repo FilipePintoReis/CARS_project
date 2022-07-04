@@ -102,12 +102,11 @@ et_mmp <- function(data = candidates,
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
-#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-#' mm4 = 133.33, mm5 = 66.67, mm6 = 0, check.validity = TRUE)
+#' mm4 = 133.33, mm5 = 66.67, mm6 = 0)
 #' @export
 et_mmHLA <- function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
@@ -117,25 +116,21 @@ et_mmHLA <- function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    mm3 = 200,
                    mm4 = 133.33,
                    mm5 = 66.67,
-                   mm6 = 0,
-                   check.validity = TRUE){
-  
-  if(check.validity){
-    if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
-      stop("points for 0 mmHLA (full match) is not valid!\n")}
-    if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
-      stop("points for 1 mmHLA is not valid!\n")}
-    if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
-      stop("points for 2 mmHLA is not valid!\n")}
-    if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
-      stop("points for 3 mmHLA is not valid!\n")}
-    if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
-      stop("points for 4 mmHLA is not valid!\n")}
-    if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
-      stop("points for 5 mmHLA is not valid!\n")}
-    if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
-      stop("points for 6 mmHLA is not valid!\n")}
-  }
+                   mm6 = 0){
+  if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
+    stop("points for 0 mmHLA (full match) is not valid!\n")}
+  if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
+    stop("points for 1 mmHLA is not valid!\n")}
+  if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
+    stop("points for 2 mmHLA is not valid!\n")}
+  if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
+    stop("points for 3 mmHLA is not valid!\n")}
+  if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
+    stop("points for 4 mmHLA is not valid!\n")}
+  if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
+    stop("points for 5 mmHLA is not valid!\n")}
+  if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
+    stop("points for 6 mmHLA is not valid!\n")}
 
   # apply mmHLA function
   mm <- mmHLA(dA = dA, dB = dB, dDR = dDR,
@@ -159,19 +154,16 @@ et_mmHLA <- function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' (between 0 and 500)
 #' @param month A numeric value with the punctuation for each month
 #' (between 0 and 10)
-#' @param check.validity Logical to decide whether to validate input.
 #' @examples
-#' et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
+#' et_dialysis(dialysis = 100, month = 2.78)
 #' @export
-et_dialysis <- function(dialysis = 0, month = 2.78, check.validity = TRUE){
-  if(check.validity){
-    if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
-      stop("value for time on dialysis is not valid!\n")
-    }
+et_dialysis <- function(dialysis = 0, month = 2.78){
+  if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
+    stop("value for time on dialysis is not valid!\n")
+  }
 
-    if(!is.numeric(month) | month < 0 | month > 10){
-      stop("attributed points for each month on dialysis is not valid!\n")
-    }
+  if(!is.numeric(month) | month < 0 | month > 10){
+    stop("attributed points for each month on dialysis is not valid!\n")
   }
 
   pts <- dialysis * month
@@ -247,11 +239,12 @@ et <- function(iso = TRUE
              , check.validity = TRUE){
 
   if(check.validity){
-    blood_group_checker(dABO) 
-    age_checker(donor.age) 
-    dialysis_checker(donor.age) 
     candidate_dataframe_check(data)
   }
+
+  blood_group_checker(dABO) 
+  age_checker(donor.age) 
+  dialysis_checker(donor.age) 
 
   n <- max(1, n)
 

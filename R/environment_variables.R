@@ -13,11 +13,19 @@ env$dirj.minimum <- 0
 env$dirj.maximum <- 1000
 env$percentage.minimum <- 0
 env$percentage.maximum <- 100
+env$q.minimum <- 0
+env$q.maximum <- 120
+env$pt.points.minimum <- 0
+env$pt.points.maximum <- 20
+env$points.dialysis.minimum <- 0
+env$points.dialysis.maximum <- 2
+env$points.age.minimum <- 0
+env$points.age.maximum <- 20
 
 env$valid.dris <- c('D1','D2','D3','D4')
 env$valid.tiers <- c('A', 'B')
 env$valid.rris <- c('R1', 'R2', 'R3', 'R4')
 env$valid.blood.groups <- c('O', 'A', 'B', 'AB')
 env$valid.urgent <- c(0, 1)
-
 env$list.of.algorithms <- c('uk', 'pt', 'lima', 'et')
+env$color.priority.labels <- c('Red', 'Orange', 'Yellow', 'Green')

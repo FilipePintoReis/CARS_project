@@ -24,7 +24,7 @@
 #' lima(iso = TRUE, dABO = "O",
 #' dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 #' donor.age = 60, df.abs = cabs,
-#' data = candidates, n = 2)
+#' data = candidates, n = 2, check.validity = TRUE)
 #' @export
 lima <- function(iso = TRUE
                   , dABO = "O"
@@ -44,6 +44,12 @@ lima <- function(iso = TRUE
   }
 
   age_checker(donor.age)
+  if(q2 < q3){
+    stop("q2 should be smaller than q3")
+  }
+  if(q2 < env$q.minimum || q3 < env$q.minimum || q2 > env$q.maximum || q3 > env$q.maximum){
+    stop("q2 and q3 should be bigger or equal to ", env$q.minimum, " an smaller or equal to ", env$q.maximum)
+  }
 
   n <- max(1, n)
 

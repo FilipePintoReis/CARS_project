@@ -230,7 +230,6 @@ validate_candid_uk <- function(file_name, file_type, csv_separator = ";"){
 #' @param cPRA1 A numerical value (env$percentage.maximum - env$percentage.maximum) for the lower cPRA cutoff.
 #' @param cPRA2 A numerical value (env$percentage.maximum - env$percentage.maximum) for the higher cPRA cutoff. cPRA2
 #' must be greater than cPRA1.
-#' @param check.validity Logical to decide whether to validate input.
 #' @return A data frame with a new column 'cp' (color priority)
 #' @examples
 #' cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)
@@ -239,27 +238,20 @@ cp <- function(data = candidates,
                q2 = 60,
                q3 = 100,
                cPRA1 = 50,
-               cPRA2 = 85,
-               check.validity = TRUE){
-
-  if(check.validity){
-    if(cPRA2 < cPRA1){
-      stop("higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
-    }
-
-    if(cPRA1 > env$percentage.maximum || cPRA1 < env$percentage.minimum){
-      stop("cPRA1 corresponds to a percetage. Values should be between ", 
-           env$percentage.maximum, " and ", env$percentage.minimum, ".")
-    }
-
-    if(cPRA2 > env$percentage.maximum || cPRA2 < env$percentage.minimum){
-      stop("cPRA2 corresponds to a percetage. Values should be between ", 
-           env$percentage.maximum, " and ", env$percentage.minimum, ".")
-    }
-    
-    if(q2 >= q3){
-      stop("median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
-    }
+               cPRA2 = 85){
+  if(cPRA2 < cPRA1){
+    stop("Higher cPRA cutoff value (cPRA2) must be greater than lower cPRA cutoff (cPRA1)!\n")
+  }
+  if(cPRA1 > env$percentage.maximum || cPRA1 < env$percentage.minimum){
+    stop("cPRA1 corresponds to a percetage. Values should be between ", 
+          env$percentage.maximum, " and ", env$percentage.minimum, ".")
+  }
+  if(cPRA2 > env$percentage.maximum || cPRA2 < env$percentage.minimum){
+    stop("cPRA2 corresponds to a percetage. Values should be between ", 
+          env$percentage.maximum, " and ", env$percentage.minimum, ".")
+  }
+  if(q2 >= q3){
+    stop("Median time on dialysis quartiles must be lower than third quartile: q2 < q3!\n")
   }
 
   data <- data %>%
@@ -269,7 +261,7 @@ cp <- function(data = candidates,
                                    )
                             ),
                   cp = factor(cp, levels = 1:4,
-                              labels = c('Red', 'Orange', 'Yellow', 'Green')
+                              labels = env$color.priority.labels
                               )
                   )
 

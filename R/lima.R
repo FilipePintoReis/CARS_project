@@ -44,8 +44,8 @@ lima <- function(iso = TRUE
   }
 
   age_checker(donor.age)
-  if(q2 < q3){
-    stop("q2 should be smaller than q3")
+  if(q2 >= q3){
+    stop("q2 should be smaller than q3. q2 was ", q2, " and q3 was ", q3)
   }
   if(q2 < env$q.minimum || q3 < env$q.minimum || q2 > env$q.maximum || q3 > env$q.maximum){
     stop("q2 and q3 should be bigger or equal to ", env$q.minimum, " an smaller or equal to ", env$q.maximum)
@@ -57,8 +57,7 @@ lima <- function(iso = TRUE
             , q2 = q2
             , q3 = q3
             , cPRA1 = cPRA1
-            , cPRA2 = cPRA2
-            , check.validity = FALSE) %>% # Isto pode ser feito antes do for loop de candidato vs dador
+            , cPRA2 = cPRA2) %>% # Isto pode ser feito antes do for loop de candidato vs dador
     as.data.frame()
 
   xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)

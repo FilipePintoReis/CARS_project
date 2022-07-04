@@ -9,11 +9,9 @@
 #' abo(cABO = 'A', dABO = 'A', iso = TRUE)
 #' @export
 abo <- function(cABO = 'A', dABO = 'A', iso = TRUE){
-  if(check.validity){
-    blood_group_checker(cABO) 
-    blood_group_checker(dABO)
-    is.logical(iso)
-  }
+  blood_group_checker(cABO) 
+  blood_group_checker(dABO)
+  is.logical(iso)
 
   if(iso == TRUE){
     value <- cABO == dABO
@@ -179,7 +177,6 @@ hiper <- function(cPRA = 99, cutoff = 85){
 #' sp(donor.age = 66, candidate.age = 70)
 #' @export
 sp <- function(donor.age, candidate.age){
-  if(check.validity){}
   value <- ifelse(donor.age >= 65 & candidate.age >= 65, 1,
                   ifelse(donor.age < 65 & candidate.age < 65, 2,3))
   return(value)

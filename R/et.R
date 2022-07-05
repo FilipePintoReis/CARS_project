@@ -151,19 +151,17 @@ et_mmHLA <- function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' @description Punctuation given for each month on dialysis, within ET
 #' Kidney allocation system
 #' @param dialysis A numeric value with candidate's time on dialysis, in months
-#' (between 0 and 500)
+#' (between `env$dialysis.minimum` and `env$dialysis.maximum`)
 #' @param month A numeric value with the punctuation for each month
-#' (between 0 and 10)
+#' (between env$month.points.minimum and env$month.points.maximum)
 #' @examples
 #' et_dialysis(dialysis = 100, month = 2.78)
 #' @export
 et_dialysis <- function(dialysis = 0, month = 2.78){
-  if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
-    stop("value for time on dialysis is not valid!\n")
-  }
+  dialysis_checker(dialysis)
 
-  if(!is.numeric(month) | month < 0 | month > 10){
-    stop("attributed points for each month on dialysis is not valid!\n")
+  if(!is.numeric(month) | month < env$month.points.minimum | month > env$month.points.maximum){
+    stop("Attributed points for each month on dialysis is not valid!\n")
   }
 
   pts <- dialysis * month
@@ -177,7 +175,7 @@ et_dialysis <- function(dialysis = 0, month = 2.78){
 #' @description Ordering of waitlisted candidates for a given donor and
 #' according to ETKAS algorithm.
 #' @param iso A logical value for isogroupal compatibility.
-#' @param dABO A character value with ABO blood group.
+#' @param dABO A character value with ABO blood group (`env$valid.blood.groups`).
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
@@ -185,7 +183,7 @@ et_dialysis <- function(dialysis = 0, month = 2.78){
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates.
 #' @param month A numeric value with the punctuation for each month
-#' (between 0 and 10)
+#' (between env$month.points.minimum and env$month.points.maximum)
 #' @param mm0 A numeric value with points for 0 HLA mm on ETKAS points table
 #' @param mm1 A numeric value with points for 1 HLA mm on ETKAS points table
 #' @param mm2 A numeric value with points for 2 HLA mm on ETKAS points table

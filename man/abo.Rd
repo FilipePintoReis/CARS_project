@@ -7,9 +7,9 @@
 abo(cABO = "A", dABO = "A", iso = TRUE)
 }
 \arguments{
-\item{cABO}{A character from 'A', 'B', 'AB', 'O'}
+\item{cABO}{A character from (\code{env$valid.blood.groups})}
 
-\item{dABO}{A character from 'A', 'B', 'AB', 'O'}
+\item{dABO}{A character from (\code{env$valid.blood.groups})}
 
 \item{iso}{A logical value T/F}
 }

@@ -24,7 +24,7 @@ pt(
 \arguments{
 \item{iso}{A logical value for isogroupal compatibility.}
 
-\item{dABO}{A character value with ABO blood group.}
+\item{dABO}{A character value with ABO blood group (\code{env$valid.blood.groups}).}
 
 \item{dA}{donor's HLA-A typing.}
 
@@ -39,9 +39,9 @@ pt(
 \item{data}{A data frame containing demographics and medical information for
 a group of waitlisted transplant candidates with color priority classification.}
 
-\item{points.80}{A numerical value for the points to a cPRA >= 80}
+\item{points.80}{A numerical value (\code{env$pt.points.minimum} - \code{env$pt.points.maximum}) for the points to a cPRA >= 80}
 
-\item{points.50}{A numerical value for the points to a cPRA >= 50}
+\item{points.50}{A numerical value (\code{env$pt.points.minimum} - \code{env$pt.points.maximum}) for the points to a cPRA >= 50}
 
 \item{points.dialysis}{punctuaction for each month on dialysis}
 

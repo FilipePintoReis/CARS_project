@@ -3,7 +3,7 @@
 #' @description Ordering of waitlisted candidates for a given donor and
 #' according to to Lima's algorithm.
 #' @param iso A logical value for isogroupal compatibility.
-#' @param dABO A character value with ABO blood group.
+#' @param dABO A character value with ABO blood group (`env$valid.blood.groups`).
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
@@ -13,10 +13,10 @@
 #' color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param n A positive integer to slice the first candidates.
-#' @param q2 A numerical value for the median of candidates' waiting list.
-#' @param q3 A numerical value for the third quartile of candidates' waiting list.
-#' @param cPRA1 A numerical value (env$percentage.minimum - env$percentage.maximum) for the lower cPRA cutoff.
-#' @param cPRA2 A numerical value (env$percentage.minimum - env$percentage.maximum) for the higher cPRA cutoff.
+#' @param q2 A numerical value for the median of candidates' waiting list (`env$q.minimum` - `env$q.maximum`).
+#' @param q3 A numerical value for the third quartile of candidates' waiting list (`env$q.minimum` - `env$q.maximum`).
+#' @param cPRA1 A numerical value (`env$percentage.minimum` - `env$percentage.maximum`) for the lower cPRA cutoff.
+#' @param cPRA2 A numerical value (`env$percentage.minimum` - `env$percentage.maximum`) for the higher cPRA cutoff.
 #' @param check.validity Logical to decide whether to validate input.
 #' @return An ordered data frame with a column 'cp' (color priority),
 #' 'sp', 'hi' and 'mmHLA'.

@@ -7,11 +7,11 @@
 b_blood_penalization(dABO = "B", cABO = "O", tier = "B", pts = -1000)
 }
 \arguments{
-\item{dABO}{A character from 'A', 'B', 'AB', 'O'}
+\item{dABO}{A character from (\code{env$valid.blood.groups})}
 
-\item{cABO}{A character from 'A', 'B', 'AB', 'O'}
+\item{cABO}{A character from (\code{env$valid.blood.groups})}
 
-\item{tier}{A character value for UK transplant TIER classification}
+\item{tier}{A character value for UK transplant TIER classification (\code{env$valid.tiers})}
 
 \item{pts}{A negative value with penalization for B candidates}
 }

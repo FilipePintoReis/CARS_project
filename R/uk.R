@@ -1,24 +1,24 @@
 #' donor-recipient Risk Index Combination
 #'
 #' @description computes Risk Index Combination for each pair donor-recipient
-#' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
+#' @param DRI Donor RisK Index group (env$valid.dris)
 #' @param data A data file with candidates information for UK transplant
-#' @param D1R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R1
-#' @param D1R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R2
-#' @param D1R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R3
-#' @param D1R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D1R4
-#' @param D2R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R1
-#' @param D2R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R2
-#' @param D2R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R3
-#' @param D2R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D2R4
-#' @param D3R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R1
-#' @param D3R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R2
-#' @param D3R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R3
-#' @param D3R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D3R4
-#' @param D4R1 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R1
-#' @param D4R2 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R2
-#' @param D4R3 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R3
-#' @param D4R4 A numeric value (env$dirj.minimum-env$dirj.maximum) for the combination of indexes D4R4
+#' @param D1R1 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D1R1
+#' @param D1R2 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D1R2
+#' @param D1R3 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D1R3
+#' @param D1R4 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D1R4
+#' @param D2R1 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D2R1
+#' @param D2R2 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D2R2
+#' @param D2R3 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D2R3
+#' @param D2R4 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D2R4
+#' @param D3R1 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D3R1
+#' @param D3R2 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D3R2
+#' @param D3R3 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D3R3
+#' @param D3R4 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D3R4
+#' @param D4R1 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D4R1
+#' @param D4R2 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D4R2
+#' @param D4R3 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D4R3
+#' @param D4R4 A numeric value (`env$dirj.minimum` - `env$dirj.maximum`) for the combination of indexes D4R4
 #' @param check.validity Logical to decide whether to validate input.
 #' @return A tibble with a new column 'ric' that gives the  Risk Index Combination.
 #' @examples
@@ -125,9 +125,9 @@ age_diff <- function(donor.age = 60,
 #' blood group B match points
 #'
 #' @description computes penalization when donor's group O and candidate's group B
-#' @param cABO A character from 'A', 'B', 'AB', 'O'
-#' @param dABO A character from 'A', 'B', 'AB', 'O'
-#' @param tier A character value for UK transplant TIER classification
+#' @param cABO A character from (`env$valid.blood.groups`)
+#' @param dABO A character from (`env$valid.blood.groups`)
+#' @param tier A character value for UK transplant TIER classification (`env$valid.tiers`)
 #' @param pts A negative value with penalization for B candidates
 #' @return A numeric value.
 #' @examples
@@ -154,9 +154,9 @@ b_blood_penalization <- function(dABO = "B",
 #'
 #' @description ABO compatibility test between donor and candidate according to
 #' TIER classification
-#' @param cABO A character from 'A', 'B', 'AB', 'O', for candidate ABO group
-#' @param dABO A character from 'A', 'B', 'AB', 'O', for donor ABO group
-#' @param tier A character value for UK transplant candidate's TIER classification
+#' @param cABO A character from (`env$valid.blood.groups`), for candidate ABO group
+#' @param dABO A character from (`env$valid.blood.groups`), for donor ABO group
+#' @param tier A character value for UK transplant candidate's TIER classification (`env$valid.tiers`)
 #' (options A and B)
 #' @return A logical value T/F
 #' @examples
@@ -194,30 +194,30 @@ abo_uk <- function(dABO = "A",
 #'
 #' @description Ordering of waitlisted candidates for a given donor and according
 #' to UK transplant algorithm.
-#' @param DRI Donor RisK Index group from options: 'D1','D2','D3','D4'
-#' @param dABO A character value with ABO blood group.
+#' @param DRI Donor RisK Index group (env$valid.dris)
+#' @param dABO A character value with ABO blood group (`env$valid.blood.groups`).
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
 #' @param donor.age A numeric value with donor's age.
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant for UK transplant.
-#' @param D1R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D1R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D2R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D3R4 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R1 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R2 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R3 A numeric value (0-1000) for the combination of indexes DiRj
-#' @param D4R4 A numeric value (0-1000) for the combination of indexes DiRj
+#' @param D1R1 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D1R2 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D1R3 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D1R4 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D2R1 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D2R2 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D2R3 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D2R4 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D3R1 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D3R2 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D3R3 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D3R4 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D4R1 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D4R2 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D4R3 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
+#' @param D4R4 A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj
 #' @param ptsDial A numeric value for the points corresponding to each month
 #' on dialysis
 #' @param a1 A numeric value for HLA match and age combined formula:
@@ -230,9 +230,9 @@ abo_uk <- function(dABO = "A",
 #' b2*cos(age / env$adulthood.age)+a2
 #' @param b3 A numeric value for HLA match and age combined formula:
 #' b3*sin(age / 50)
-#' @param m A numeric value for matchability formula: m * (1+(MS/nn)^o)
-#' @param nn A numeric value for matchability formula: m * (1+(MS/nn)^o)
-#' @param o A numeric value for matchability formula: m * (1+(MS/nn)^o)
+#' @param m A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)
+#' @param nn A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)
+#' @param o A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)
 #' @param mm1 A numeric value to penalize 1 mm
 #' @param mm23 A numeric value to penalize 2-3 mm
 #' @param mm46 A numeric value to penalize 4-6 mm
@@ -252,7 +252,7 @@ abo_uk <- function(dABO = "A",
 #' m = 40, nn = 4.5, o = 4.7,
 #' mm1 = -100, mm23 = -150, mm46 = -250,
 #' pts = -1000,
-#' df.abs = cabs, n = 2)
+#' df.abs = cabs, n = 2, check.validity = TRUE)
 #' @export
 uk <- function(DRI = 'D1',
               dA = c("1","2"),

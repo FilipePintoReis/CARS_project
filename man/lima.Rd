@@ -24,7 +24,7 @@ lima(
 \arguments{
 \item{iso}{A logical value for isogroupal compatibility.}
 
-\item{dABO}{A character value with ABO blood group.}
+\item{dABO}{A character value with ABO blood group (\code{env$valid.blood.groups}).}
 
 \item{dA}{donor's HLA-A typing.}
 
@@ -42,13 +42,13 @@ color priority classification.}
 
 \item{n}{A positive integer to slice the first candidates.}
 
-\item{q2}{A numerical value for the median of candidates' waiting list.}
+\item{q2}{A numerical value for the median of candidates' waiting list (\code{env$q.minimum} - \code{env$q.maximum}).}
 
-\item{q3}{A numerical value for the third quartile of candidates' waiting list.}
+\item{q3}{A numerical value for the third quartile of candidates' waiting list (\code{env$q.minimum} - \code{env$q.maximum}).}
 
-\item{cPRA1}{A numerical value (env$percentage.minimum - env$percentage.maximum) for the lower cPRA cutoff.}
+\item{cPRA1}{A numerical value (\code{env$percentage.minimum} - \code{env$percentage.maximum}) for the lower cPRA cutoff.}
 
-\item{cPRA2}{A numerical value (env$percentage.minimum - env$percentage.maximum) for the higher cPRA cutoff.}
+\item{cPRA2}{A numerical value (\code{env$percentage.minimum} - \code{env$percentage.maximum}) for the higher cPRA cutoff.}
 
 \item{check.validity}{Logical to decide whether to validate input.}
 }

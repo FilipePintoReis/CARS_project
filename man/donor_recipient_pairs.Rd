@@ -44,5 +44,6 @@ donor_recipient_pairs(df.donors = donors,
 df.candidates = candidates,
 df.abs = cabs,
 algorithm = lima,
-n = 2)
+n = 2,
+check.validity = TRUE)
 }

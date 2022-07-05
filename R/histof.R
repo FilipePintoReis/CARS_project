@@ -1,8 +1,8 @@
 #' test for ABO compatibility
 #'
 #' @description ABO compatibility test between donor and candidate
-#' @param cABO A character from 'A', 'B', 'AB', 'O'
-#' @param dABO A character from 'A', 'B', 'AB', 'O'
+#' @param cABO A character from (`env$valid.blood.groups`)
+#' @param dABO A character from (`env$valid.blood.groups`)
 #' @param iso A logical value T/F
 #' @return A logical value T/F
 #' @examples

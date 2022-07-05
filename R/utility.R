@@ -1,7 +1,7 @@
 ################# Field validation functions #################
 
 #' Tests if element is a valid Blood Group character
-#' @param input_string A character from env$valid.blood.groups
+#' @param input_string A character from `env$valid.blood.groups`
 #' @noRd
 blood_group_checker <- function(input_string){
   if(!input_string %in% env$valid.blood.groups){
@@ -10,7 +10,7 @@ blood_group_checker <- function(input_string){
 }
 
 #' Validates that the age of a person is not negative.
-#' @param input_number A numeric value between env$person.minimum.age and env$person.maximum.age
+#' @param input_number A numeric value between `env$person.minimum.age` and `env$person.maximum.age`
 #' @noRd
 age_checker <- function(input_number){
   if(!is.numeric(input_number)){
@@ -27,7 +27,7 @@ age_checker <- function(input_number){
 }
 
 #' Validates the time someone spent on dialysis.
-#' @param input_number A numeric value between env$dialysis.minimum and env$dialysis.maximum
+#' @param input_number A numeric value between `env$dialysis.minimum` and `env$dialysis.maximum`
 #' @noRd
 dialysis_checker <- function(input_number){
   if(!is.numeric(input_number)){
@@ -44,7 +44,7 @@ dialysis_checker <- function(input_number){
 }
 
 #' Tests if element is a valid Tier character
-#' @param input_string A character from env$valid.tiers
+#' @param input_string A character from `env$valid.tiers`
 #' @noRd
 tier_checker <- function(input_string){
   if(!input_string %in% env$valid.tiers){
@@ -53,7 +53,7 @@ tier_checker <- function(input_string){
 }
 
 #' Validates that the RRI is within the correct range of values
-#' @param input_string A character from env$valid.rris
+#' @param input_string A character from `env$valid.rris`
 #' @noRd
 rri_checker <- function(input_string){
   if(!input_string %in% env$valid.rris){
@@ -62,7 +62,7 @@ rri_checker <- function(input_string){
 }
 
 #' Validates that the urgent is within the correct range of values
-#' @param input_number A character from env$valid.urgent
+#' @param input_number A character from `env$valid.urgent`
 #' @noRd
 urgent_checker <- function(input_number){
   if(!input_number %in% env$valid.urgent){
@@ -71,7 +71,7 @@ urgent_checker <- function(input_number){
 }
 
 #' Validates that cPRA is within the correct range of values
-#' @param input_number A numeric value between env$cPRA.minimum and env$cPRA.maximum
+#' @param input_number A numeric value between `env$cPRA.minimum` and `env$cPRA.maximum`
 #' @noRd
 cPRA_checker <- function(input_number){
   if(!is.numeric(input_number)){
@@ -225,10 +225,10 @@ validate_candid_uk <- function(file_name, file_type, csv_separator = ";"){
 #' @description Classification of candidates according to waiting list
 #' time on dialysis' quartiles and two cPRA cutoff values.
 #' @param data A data frame with information for candidates' waiting list.
-#' @param q2 A numerical value for the median of candidates' waiting list.
-#' @param q3 A numerical value for the third quartile of candidates' waiting list.
-#' @param cPRA1 A numerical value (env$percentage.maximum - env$percentage.maximum) for the lower cPRA cutoff.
-#' @param cPRA2 A numerical value (env$percentage.maximum - env$percentage.maximum) for the higher cPRA cutoff. cPRA2
+#' @param q2 A numerical value for the median of candidates' waiting list (`env$q.minimum` - `env$q.maximum`).
+#' @param q3 A numerical value for the third quartile of candidates' waiting list (`env$q.minimum` - `env$q.maximum`).
+#' @param cPRA1 A numerical value (`env$percentage.maximum` - `env$percentage.maximum`) for the lower cPRA cutoff.
+#' @param cPRA2 A numerical value (`env$percentage.maximum` - `env$percentage.maximum`) for the higher cPRA cutoff. cPRA2
 #' must be greater than cPRA1.
 #' @return A data frame with a new column 'cp' (color priority)
 #' @examples

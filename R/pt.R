@@ -33,9 +33,9 @@ pts_age <- function(donor.age = 60
 #' Points for cPRA sensitization
 #'
 #' @description Punctuation given for sensitized patients according to cPRA value
-#' @param cPRA Percentual value of cPRA (Between 0 and 100)
-#' @param points.80 A numerical value for the points to a cPRA >= 80
-#' @param points.50 A numerical value for the points to a cPRA >= 50
+#' @param cPRA Percentual value of cPRA (0 - 100)
+#' @param points.80 A numerical value (`env$pt.points.minimum` - `env$pt.points.maximum`) for the points to a cPRA >= 80
+#' @param points.50 A numerical value (`env$pt.points.minimum` - `env$pt.points.maximum`) for the points to a cPRA >= 50
 #' @return A numerical value for pre-defined points
 #' @examples
 #' pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
@@ -110,7 +110,7 @@ pts_HLA <- function(itemA = 12
 #' @description Ordering of waitlisted candidates for a given donor and
 #' according to PT's algorithm.
 #' @param iso A logical value for isogroupal compatibility.
-#' @param dABO A character value with ABO blood group.
+#' @param dABO A character value with ABO blood group (`env$valid.blood.groups`).
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
@@ -118,8 +118,8 @@ pts_HLA <- function(itemA = 12
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates with color priority classification.
 #' @param df.abs A data frame with candidates' antibodies.
-#' @param points.80 A numerical value for the points to a cPRA >= 80
-#' @param points.50 A numerical value for the points to a cPRA >= 50
+#' @param points.80 A numerical value (`env$pt.points.minimum` - `env$pt.points.maximum`) for the points to a cPRA >= 80
+#' @param points.50 A numerical value (`env$pt.points.minimum` - `env$pt.points.maximum`) for the points to a cPRA >= 50
 #' @param points.dialysis punctuaction for each month on dialysis
 #' @param points.age A numerical value for the points to age difference
 #' @param n A positive integer to slice the first candidates.

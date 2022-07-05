@@ -7,11 +7,11 @@
 abo_uk(dABO = "A", cABO = "A", tier = "B")
 }
 \arguments{
-\item{dABO}{A character from 'A', 'B', 'AB', 'O', for donor ABO group}
+\item{dABO}{A character from (\code{env$valid.blood.groups}), for donor ABO group}
 
-\item{cABO}{A character from 'A', 'B', 'AB', 'O', for candidate ABO group}
+\item{cABO}{A character from (\code{env$valid.blood.groups}), for candidate ABO group}
 
-\item{tier}{A character value for UK transplant candidate's TIER classification
+\item{tier}{A character value for UK transplant candidate's TIER classification (\code{env$valid.tiers})
 (options A and B)}
 }
 \value{

@@ -18,7 +18,8 @@
 #' df.candidates = candidates,
 #' df.abs = cabs,
 #' algorithm = lima,
-#' n = 2)
+#' n = 2,
+#' check.validity = TRUE)
 #' @export
 donor_recipient_pairs <- function(df.donors = donors,
                             df.candidates = candidates,
@@ -26,6 +27,14 @@ donor_recipient_pairs <- function(df.donors = donors,
                             algorithm = lima,
                             n = 2, 
                             check.validity = TRUE, ...){
+  
+  if(!is.numeric(n)){
+    stop("'n' is not a valid numeric value!")
+  }
+
+  if(!identical(algorithm, uk) && !identical(algorithm, lima) && !identical(algorithm, pt) && !identical(algorithm, et)){
+    stop("The algorithm doesn't exist.")
+  }
 
   if(check.validity){
     if(identical(algorithm, uk)){
@@ -34,13 +43,6 @@ donor_recipient_pairs <- function(df.donors = donors,
     else{
       candidate_dataframe_check(df.candidates)
     }
-  }
-
-  if(!is.numeric(n)){
-    stop("'n' is not a valid numeric value!")
-  }
-  if(!substitute(algorithm) %in% env$list.of.algorithms){
-    stop("Algorithm doesn't exist.")
   }
 
   df.donors <- df.donors %>%
@@ -115,8 +117,8 @@ several <- function(iteration.number = 10,
       candidate_dataframe_check(df.candidates)
     }
 
-    if(!is.na(seed.number) && !is.integer(seed.number)){
-      stop("seed.number must either be na or an integer.")
+    if(!is.na(seed.number) && !is.numeric(seed.number)){
+      stop("seed.number must either be NA or an integer.")
     }
   }
 

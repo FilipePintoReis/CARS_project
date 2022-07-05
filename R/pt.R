@@ -42,8 +42,7 @@ pts_age <- function(donor.age = 60
 #' @export
 pts_PRA <- function(cPRA = 0
                     , points.80 = 8
-                    , points.50 = 4
-                    , check.validity = TRUE){
+                    , points.50 = 4){
   if(!is.numeric(cPRA) | cPRA < 0 | cPRA > 100){
     stop("PRA value is not valid!\n")}
   if(!is.numeric(points.80) | points.80 < 0 | points.80 > 20){

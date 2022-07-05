@@ -170,7 +170,6 @@ hiper <- function(cPRA = 99, cutoff = 85){
 #' for younger donors, and for last the remaining patients.
 #' @param donor.age A numeric value with donor's age
 #' @param candidate.age A numeric value with candidate's age
-#' @param check.validity Logical to decide whether to validate input.
 #' @return The value 1 for a candidates older than 65 with also a donor
 #' older than 65
 #' @examples

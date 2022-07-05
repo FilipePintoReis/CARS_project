@@ -122,7 +122,7 @@ candidate_dataframe_check <- function(candidate.dataframe){
     stop('There are unexpected columns in the file. Expected: ', candidate.fields, ' ', collapse = ", ")
   }
 
-  candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
+  candidate.datatable <- data.table::setDT(rlang::duplicate(candidate.dataframe), key = 'ID')
   duplication.location <- anyDuplicated(candidate.datatable)
 
   if(duplication.location != 0){
@@ -185,7 +185,7 @@ uk_candidate_dataframe_check <- function(candidate.dataframe){
     stop('There are unexpected columns in the file. Expected:\n', paste(candid_uk_columns, collapse = ", "))
   }
 
-  candidate.datatable <- data.table::setDT(candidate.dataframe, key = 'ID')
+  candidate.datatable <- data.table::setDT(rlang::duplicate(candidate.dataframe), key = 'ID')
   duplication.location <- anyDuplicated(candidate.datatable)
 
   if(duplication.location != 0){

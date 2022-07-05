@@ -4,7 +4,7 @@
 \alias{et_dialysis}
 \title{ET points for time on dialysis (in months)}
 \usage{
-et_dialysis(dialysis = 0, month = 2.78, check.validity = TRUE)
+et_dialysis(dialysis = 0, month = 2.78)
 }
 \arguments{
 \item{dialysis}{A numeric value with candidate's time on dialysis, in months
@@ -12,13 +12,11 @@ et_dialysis(dialysis = 0, month = 2.78, check.validity = TRUE)
 
 \item{month}{A numeric value with the punctuation for each month
 (between 0 and 10)}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \description{
 Punctuation given for each month on dialysis, within ET
 Kidney allocation system
 }
 \examples{
-et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
+et_dialysis(dialysis = 100, month = 2.78)
 }

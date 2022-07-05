@@ -12,8 +12,7 @@ pts_HLA(
   itemE = 1,
   mm.A = 0,
   mm.B = 0,
-  mm.DR = 0,
-  check.validity = TRUE
+  mm.DR = 0
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ pts_HLA(
 \item{mm.B}{Number of HLA-B mismatchs(0 to 2)}
 
 \item{mm.DR}{Number of HLA-DR mismatchs(0 to 2)}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A numerical value for pre-defined points

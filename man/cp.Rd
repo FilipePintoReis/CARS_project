@@ -4,14 +4,7 @@
 \alias{cp}
 \title{Candidates' Color Priority}
 \usage{
-cp(
-  data = candidates,
-  q2 = 60,
-  q3 = 100,
-  cPRA1 = 50,
-  cPRA2 = 85,
-  check.validity = TRUE
-)
+cp(data = candidates, q2 = 60, q3 = 100, cPRA1 = 50, cPRA2 = 85)
 }
 \arguments{
 \item{data}{A data frame with information for candidates' waiting list.}
@@ -24,8 +17,6 @@ cp(
 
 \item{cPRA2}{A numerical value (env$percentage.maximum - env$percentage.maximum) for the higher cPRA cutoff. cPRA2
 must be greater than cPRA1.}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A data frame with a new column 'cp' (color priority)

@@ -104,7 +104,6 @@ ric <- function(DRI = 'D1',
 #' @description computes punctuation according to donor-recipient age difference
 #' @param donor.age A numeric value with donor's age.
 #' @param candidate.age A numeric value with candidate's age.
-#' @param check.validity Logical to decide whether to validate input.
 #' @return A numeric value.
 #' @examples
 #' age_diff(donor.age = 60, candidate.age = 50)
@@ -137,8 +136,7 @@ age_diff <- function(donor.age = 60,
 b_blood_penalization <- function(dABO = "B",
                   cABO = "O",
                   tier = "B",
-                  pts = -1000,
-                  check.validity = TRUE){
+                  pts = -1000){
   blood_group_checker(cABO)
   blood_group_checker(dABO)
   tier_checker(tier)

@@ -51,5 +51,6 @@ df.candidates = candidates,
 df.abs = cabs,
 algorithm = lima,
 n = 0,
-seed.number = 123)
+seed.number = 123,
+check.validity = TRUE)
 }

@@ -64,5 +64,5 @@ according to to Lima's algorithm.
 lima(iso = TRUE, dABO = "O",
 dA = c("1","2"), dB = c("15","44"), dDR = c("1","4"),
 donor.age = 60, df.abs = cabs,
-data = candidates, n = 2)
+data = candidates, n = 2, check.validity = TRUE)
 }

@@ -4,14 +4,12 @@
 \alias{sp}
 \title{Senior Program classification}
 \usage{
-sp(donor.age, candidate.age, check.validity = TRUE)
+sp(donor.age, candidate.age)
 }
 \arguments{
 \item{donor.age}{A numeric value with donor's age}
 
 \item{candidate.age}{A numeric value with candidate's age}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 The value 1 for a candidates older than 65 with also a donor
@@ -23,5 +21,5 @@ Prioritization for older patients for older donors, followed for young patients
 for younger donors, and for last the remaining patients.
 }
 \examples{
-sp(donor.age = 66, candidate.age = 70, check.validity = TRUE)
+sp(donor.age = 66, candidate.age = 70)
 }

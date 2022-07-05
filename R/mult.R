@@ -28,7 +28,7 @@ donor_recipient_pairs <- function(df.donors = donors,
                             check.validity = TRUE, ...){
 
   if(check.validity){
-    if(algorithm == uk){
+    if(identical(algorithm, uk)){
       uk_candidate_dataframe_check(df.candidates)
     }
     else{
@@ -95,7 +95,8 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' df.abs = cabs,
 #' algorithm = lima,
 #' n = 0,
-#' seed.number = 123)
+#' seed.number = 123,
+#' check.validity = TRUE)
 #' @export
 several <- function(iteration.number = 10,
                        df.donors = donors,
@@ -107,7 +108,7 @@ several <- function(iteration.number = 10,
                        check.validity = TRUE, ...){
   
   if(check.validity){
-    if(algorithm == uk){
+    if(identical(algorithm, uk)){
       uk_candidate_dataframe_check(df.candidates)
     }
     else{

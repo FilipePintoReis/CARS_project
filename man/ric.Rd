@@ -76,5 +76,5 @@ ric(DRI = 'D1', data = candidates.uk,
 D1R1 = 1000, D1R2 = 700, D1R3 = 350, D1R4 = 0,
 D2R1 = 700, D2R2 = 1000, D2R3 = 500, D2R4 = 350,
 D3R1 = 350, D3R2 = 500, D3R3 = 1000, D3R4 = 700,
-D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000)
+D4R1 = 0, D4R2 = 350, D4R3 = 700, D4R4 = 1000, check.validity = TRUE)
 }

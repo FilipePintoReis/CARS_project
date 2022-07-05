@@ -9,7 +9,7 @@ Description: This package contains functions to use on organ transplantation. Hi
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Suggests:
     testthat (>= 3.0.0)
 Imports: 
@@ -20,7 +20,8 @@ Imports:
     data.table,
     purrr,
     mockr,
-    tibble
+    tibble,
+    rlang
 Depends: 
     R (>= 4.0.0)
 LazyData: true

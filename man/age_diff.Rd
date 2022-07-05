@@ -4,14 +4,12 @@
 \alias{age_diff}
 \title{Donor recipient age difference}
 \usage{
-age_diff(donor.age = 60, candidate.age = 50, check.validity = TRUE)
+age_diff(donor.age = 60, candidate.age = 50)
 }
 \arguments{
 \item{donor.age}{A numeric value with donor's age.}
 
 \item{candidate.age}{A numeric value with candidate's age.}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A numeric value.

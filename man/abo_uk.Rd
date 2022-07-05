@@ -4,7 +4,7 @@
 \alias{abo_uk}
 \title{test for ABO compatibility on UK transplant}
 \usage{
-abo_uk(dABO = "A", cABO = "A", tier = "B", check.validity = TRUE)
+abo_uk(dABO = "A", cABO = "A", tier = "B")
 }
 \arguments{
 \item{dABO}{A character from 'A', 'B', 'AB', 'O', for donor ABO group}
@@ -13,8 +13,6 @@ abo_uk(dABO = "A", cABO = "A", tier = "B", check.validity = TRUE)
 
 \item{tier}{A character value for UK transplant candidate's TIER classification
 (options A and B)}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A logical value T/F

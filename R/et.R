@@ -18,52 +18,50 @@
 #' hlaA = hlaApt, hlaB = hlaBpt, hlaDR = hlaDRpt,
 #' abo_freq = ABOpt, check.validity = TRUE)
 #' @export
-et_mmp<-function(data = candidates,
+et_mmp <- function(data = candidates,
                  hlaA = hlaApt, 
                  hlaB = hlaBpt, 
                  hlaDR = hlaDRpt,
                  abo_freq = ABOpt,
                  check.validity = TRUE){
 
-  if (check.validity){
+  if(check.validity){
     candidate_dataframe_check(data)
   }
 
   # compute the sum of squared frequencies for each loci with PT frequencies
-  SallA <-sum((hlaA %>% tidyr::drop_na() %>% .$freq) ^ 2)
-  SallB <-sum((hlaB %>% tidyr::drop_na() %>% .$freq) ^ 2)
-  SallDR <-sum((hlaDR %>% tidyr::drop_na() %>% .$freq) ^ 2)
+  SallA <- sum((hlaA %>% tidyr::drop_na() %>% .$freq) ^ 2)
+  SallB <- sum((hlaB %>% tidyr::drop_na() %>% .$freq) ^ 2)
+  SallDR <- sum((hlaDR %>% tidyr::drop_na() %>% .$freq) ^ 2)
 
-  # data1 <- data
-  # hlaA1 <- hlaA
   data.table::setDT(data, key = 'ID')
   data.table::setDT(hlaA)
   data.table::setDT(hlaB)
   data.table::setDT(hlaDR)
   data.table::setDT(abo_freq)
 
-  data = hlaA[, .(A, freq)][data, on = .(A = A1)]
+  data <- hlaA[, .(A, freq)][data, on = .(A = A1)]
   setnames(data, "freq", "A1_freq")
-  data = hlaA[, .(A, freq)][data, on = .(A = A2)]
+  data <- hlaA[, .(A, freq)][data, on = .(A = A2)]
   setnames(data, "freq", "A2_freq")
   setnames(data, "i.A", "A1")
   setnames(data, "A", "A2")
 
-  data = hlaB[, .(B, freq)][data, on = .(B = B1)]
+  data <- hlaB[, .(B, freq)][data, on = .(B = B1)]
   setnames(data, "freq", "B1_freq")
-  data = hlaB[, .(B, freq)][data, on = .(B = B2)]
+  data <- hlaB[, .(B, freq)][data, on = .(B = B2)]
   setnames(data, "freq", "B2_freq")
   setnames(data, "i.B", "B1")
   setnames(data, "B", "B2")
 
-  data = hlaDR[, .(DR, freq)][data, on = .(DR = DR1)]
+  data <- hlaDR[, .(DR, freq)][data, on = .(DR = DR1)]
   setnames(data, "freq", "DR1_freq")
-  data = hlaDR[, .(DR, freq)][data, on = .(DR = DR2)]
+  data <- hlaDR[, .(DR, freq)][data, on = .(DR = DR2)]
   setnames(data, "freq", "DR2_freq")
   setnames(data, "i.DR", "DR1")
   setnames(data, "DR", "DR2")
 
-  data = abo_freq[data, on = .(abo = bg)]
+  data <- abo_freq[data, on = .(abo = bg)]
   setnames(data, "abo", "bg")
   setnames(data, "freq", "abo")
 
@@ -104,14 +102,13 @@ et_mmp<-function(data = candidates,
 #' @param mm4 A numeric value with points for 4 HLA mm on ETKAS points table
 #' @param mm5 A numeric value with points for 5 HLA mm on ETKAS points table
 #' @param mm6 A numeric value with points for 6 HLA mm on ETKAS points table
-#' @param check.validity Logical to decide whether to validate input.
 #' @examples
 #' et_mmHLA(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
 #' mm0 = 400, mm1 = 333.33, mm2 = 266.67, mm3 = 200,
-#' mm4 = 133.33, mm5 = 66.67, mm6 = 0, check.validity = TRUE)
+#' mm4 = 133.33, mm5 = 66.67, mm6 = 0)
 #' @export
-et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
+et_mmHLA <- function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    cA = c("01","02"), cB = c("03","05"), cDR = c("04","06"),
                    mm0 = 400,
                    mm1 = 333.33,
@@ -119,33 +116,29 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
                    mm3 = 200,
                    mm4 = 133.33,
                    mm5 = 66.67,
-                   mm6 = 0,
-                   check.validity = TRUE){
-  
-  if (check.validity){
-    if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
-      stop("points for 0 mmHLA (full match) is not valid!\n")}
-    if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
-      stop("points for 1 mmHLA is not valid!\n")}
-    if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
-      stop("points for 2 mmHLA is not valid!\n")}
-    if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
-      stop("points for 3 mmHLA is not valid!\n")}
-    if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
-      stop("points for 4 mmHLA is not valid!\n")}
-    if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
-      stop("points for 5 mmHLA is not valid!\n")}
-    if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
-      stop("points for 6 mmHLA is not valid!\n")}
-  }
+                   mm6 = 0){
+  if(!is.numeric(mm0) | mm0 < 0 | mm0 > 501){
+    stop("points for 0 mmHLA (full match) is not valid!\n")}
+  if(!is.numeric(mm1) | mm1 < 0 | mm1 > 501){
+    stop("points for 1 mmHLA is not valid!\n")}
+  if(!is.numeric(mm2) | mm2 < 0 | mm2 > 501){
+    stop("points for 2 mmHLA is not valid!\n")}
+  if(!is.numeric(mm3) | mm3 < 0 | mm3 > 501){
+    stop("points for 3 mmHLA is not valid!\n")}
+  if(!is.numeric(mm4) | mm4 < 0 | mm4 > 501){
+    stop("points for 4 mmHLA is not valid!\n")}
+  if(!is.numeric(mm5) | mm5 < 0 | mm5 > 501){
+    stop("points for 5 mmHLA is not valid!\n")}
+  if(!is.numeric(mm6) | mm6 < 0 | mm6 > 501){
+    stop("points for 6 mmHLA is not valid!\n")}
 
   # apply mmHLA function
-  mm<-mmHLA(dA = dA, dB = dB, dDR = dDR,
+  mm <- mmHLA(dA = dA, dB = dB, dDR = dDR,
             cA = cA, cB = cB, cDR = cDR)
 
   pts <- switch(mm[[4]] +1,
                 mm0, mm1, mm2, mm3, mm4, mm5, mm6)
-  names(pts)<-'ptsHLA'
+  names(pts) <- 'ptsHLA'
 
   res <- c(mm,pts)
 
@@ -158,28 +151,22 @@ et_mmHLA<-function(dA = c("01","02"), dB = c("03","05"), dDR = c("04","06"),
 #' @description Punctuation given for each month on dialysis, within ET
 #' Kidney allocation system
 #' @param dialysis A numeric value with candidate's time on dialysis, in months
-#' (between 0 and 500)
+#' (between `env$dialysis.minimum` and `env$dialysis.maximum`)
 #' @param month A numeric value with the punctuation for each month
-#' (between 0 and 10)
-#' @param check.validity Logical to decide whether to validate input.
+#' (between env$month.points.minimum and env$month.points.maximum)
 #' @examples
-#' et_dialysis(dialysis = 100, month = 2.78, check.validity = TRUE)
+#' et_dialysis(dialysis = 100, month = 2.78)
 #' @export
-et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
-  if (check.validity){
-    if(!is.numeric(dialysis) | dialysis < 0 | dialysis > 499){
-      stop("value for time on dialysis is not valid!\n")
-    }
+et_dialysis <- function(dialysis = 0, month = 2.78){
+  dialysis_checker(dialysis)
 
-    if(!is.numeric(month) | month < 0 | month > 10){
-      stop("attributed points for each month on dialysis is not valid!\n")
-    }
+  if(!is.numeric(month) | month < env$month.points.minimum | month > env$month.points.maximum){
+    stop("Attributed points for each month on dialysis is not valid!\n")
   }
 
   pts <- dialysis * month
 
   return(pts)
-
 }
 
 
@@ -188,7 +175,7 @@ et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
 #' @description Ordering of waitlisted candidates for a given donor and
 #' according to ETKAS algorithm.
 #' @param iso A logical value for isogroupal compatibility.
-#' @param dABO A character value with ABO blood group.
+#' @param dABO A character value with ABO blood group (`env$valid.blood.groups`).
 #' @param dA donor's HLA-A typing.
 #' @param dB donor's HLA-B typing.
 #' @param dDR donor's HLA-DR typing.
@@ -196,7 +183,7 @@ et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
 #' @param data A data frame containing demographics and medical information for
 #' a group of waitlisted transplant candidates.
 #' @param month A numeric value with the punctuation for each month
-#' (between 0 and 10)
+#' (between env$month.points.minimum and env$month.points.maximum)
 #' @param mm0 A numeric value with points for 0 HLA mm on ETKAS points table
 #' @param mm1 A numeric value with points for 1 HLA mm on ETKAS points table
 #' @param mm2 A numeric value with points for 2 HLA mm on ETKAS points table
@@ -226,7 +213,7 @@ et_dialysis<-function(dialysis = 0, month = 2.78, check.validity = TRUE){
 #' n = 2,
 #' check.validity = TRUE)
 #' @export
-et<-function(iso = TRUE
+et <- function(iso = TRUE
              , dABO = "A"
              , dA = c("1","2")
              , dB = c("15","44")
@@ -250,28 +237,29 @@ et<-function(iso = TRUE
              , check.validity = TRUE){
 
   if(check.validity){
-    blood_group_checker(dABO) 
-    age_checker(donor.age) 
-    dialysis_checker(donor.age) 
     candidate_dataframe_check(data)
   }
 
+  blood_group_checker(dABO) 
+  age_checker(donor.age) 
+  dialysis_checker(donor.age) 
+
   n <- max(1, n)
 
-  xm <- xmatch_r(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
+  xm <- xmatch(dA = dA, dB = dB, dDR = dDR, df.abs = df.abs)
   data.table::setDT(xm, key = 'ID')
 
   data <- et_mmp(data = data, # Isto pode ser feito antes do for loop de candidato vs dador
                  hlaA = hlaA, hlaB = hlaB, hlaDR = hlaDR,
                  abo_freq = abo_freq)
 
-  data = data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
+  data <- data[, .(ID, bg, A1, A2, B1, B2, DR1, DR2,
                   age, dialysis, cPRA, urgent, MMP)]
 
   data[, ID := as.character(ID)] # ensure ID as a character
   xm[, ID := as.character(ID)] # ensure ID as a character
 
-  data <- merge(data, xm, by = 'ID', all.x=TRUE)
+  data <- merge(data, xm, by = 'ID', all.x = TRUE)
 
   data[, `:=`(
     donor_age = donor.age,

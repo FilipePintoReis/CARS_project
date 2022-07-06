@@ -42,11 +42,12 @@ uk(
   mm46 = -250,
   pts = -1000,
   df.abs = cabs,
-  n = 2
+  n = 2,
+  check.validity = TRUE
 )
 }
 \arguments{
-\item{DRI}{Donor RisK Index group from options: 'D1','D2','D3','D4'}
+\item{DRI}{Donor RisK Index group (env$valid.dris)}
 
 \item{dA}{donor's HLA-A typing.}
 
@@ -54,44 +55,44 @@ uk(
 
 \item{dDR}{donor's HLA-DR typing.}
 
-\item{dABO}{A character value with ABO blood group.}
+\item{dABO}{A character value with ABO blood group (\code{env$valid.blood.groups}).}
 
 \item{donor.age}{A numeric value with donor's age.}
 
 \item{data}{A data frame containing demographics and medical information for
 a group of waitlisted transplant for UK transplant.}
 
-\item{D1R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D1R1}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D1R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D1R2}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D1R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D1R3}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D1R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D1R4}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D2R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D2R1}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D2R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D2R2}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D2R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D2R3}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D2R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D2R4}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D3R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D3R1}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D3R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D3R2}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D3R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D3R3}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D3R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D3R4}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D4R1}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D4R1}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D4R2}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D4R2}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D4R3}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D4R3}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
-\item{D4R4}{A numeric value (0-1000) for the combination of indexes DiRj}
+\item{D4R4}{A numeric value (env$dirj.minimum - env$dirj.maximum) for the combination of indexes DiRj}
 
 \item{ptsDial}{A numeric value for the points corresponding to each month
 on dialysis}
@@ -111,11 +112,11 @@ b2*cos(age / env$adulthood.age)+a2}
 \item{b3}{A numeric value for HLA match and age combined formula:
 b3*sin(age / 50)}
 
-\item{m}{A numeric value for matchability formula: m * (1+(MS/nn)^o)}
+\item{m}{A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)}
 
-\item{nn}{A numeric value for matchability formula: m * (1+(MS/nn)^o)}
+\item{nn}{A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)}
 
-\item{o}{A numeric value for matchability formula: m * (1+(MS/nn)^o)}
+\item{o}{A numeric value for matchability formula: m * (1 + (MS / nn) ^ o)}
 
 \item{mm1}{A numeric value to penalize 1 mm}
 
@@ -128,6 +129,8 @@ b3*sin(age / 50)}
 \item{df.abs}{A data frame with candidates' antibodies.}
 
 \item{n}{A positive integer to slice the first candidates.}
+
+\item{check.validity}{Logical to decide whether to validate input.}
 }
 \description{
 Ordering of waitlisted candidates for a given donor and according
@@ -145,5 +148,5 @@ a1 = 2300,  a2 = 1500, b1 = 1200, b2 = 750, b3 = 400,
 m = 40, nn = 4.5, o = 4.7,
 mm1 = -100, mm23 = -150, mm46 = -250,
 pts = -1000,
-df.abs = cabs, n = 2)
+df.abs = cabs, n = 2, check.validity = TRUE)
 }

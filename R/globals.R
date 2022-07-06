@@ -10,8 +10,8 @@ utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
                          "pointsET", "donor_age", "HI", "mm000", "pointsETx"
                          ,"A", "freq", "B", "DR", "desc",
                          "ptsHLA", "ptsPRA", "ptsage", "ptsdial", "ptsPT", "",
-                         "candidates.uk", "Tier", "MS", "pts.hla.age", "matchability", "pts.age",
-                         "total.HLA", "pts.abo", "pts.abo", "pointsUK", ".", ":=",
+                         "candidates.uk", "Tier", "MS", "points.hla.age", "matchability", "points.age",
+                         "total.HLA", "points.abo", "pointsUK", ".", ":=",
                          "row_n",
                          "res","read.csv",
                          "A1_freq","A2_freq",
@@ -20,5 +20,5 @@ utils::globalVariables(c("valid_blood_groups", "valid_blood_groups",
                          "MMP0","MMP2",
                          "MMP1","level",
                          "donors","dABO","dA","dB","dDR","donor.age",
-                         "algorithm", "recipient.dialysis", "donors.uk"
+                         "algorithm", "recipient.dialysis", "donors.uk", "check.validity"
                          ))

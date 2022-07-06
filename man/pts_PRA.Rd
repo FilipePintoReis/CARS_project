@@ -4,14 +4,14 @@
 \alias{pts_PRA}
 \title{Points for cPRA sensitization}
 \usage{
-pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4)
+pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
 }
 \arguments{
-\item{cPRA}{Percentual value of cPRA (Between 0 and 100)}
+\item{cPRA}{Percentual value of cPRA (0 - 100)}
 
-\item{pts.80}{A numerical value for the points to a cPRA >= 80}
+\item{points.80}{A numerical value (\code{env$pt.points.minimum} - \code{env$pt.points.maximum}) for the points to a cPRA >= 80}
 
-\item{pts.50}{A numerical value for the points to a cPRA >= 50}
+\item{points.50}{A numerical value (\code{env$pt.points.minimum} - \code{env$pt.points.maximum}) for the points to a cPRA >= 50}
 }
 \value{
 A numerical value for pre-defined points
@@ -20,5 +20,5 @@ A numerical value for pre-defined points
 Punctuation given for sensitized patients according to cPRA value
 }
 \examples{
-pts_PRA(cPRA = 0, pts.80 = 8, pts.50 = 4)
+pts_PRA(cPRA = 0, points.80 = 8, points.50 = 4)
 }

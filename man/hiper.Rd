@@ -4,14 +4,12 @@
 \alias{hiper}
 \title{Hiperimunized classification}
 \usage{
-hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
+hiper(cPRA = 99, cutoff = 85)
 }
 \arguments{
 \item{cPRA}{candidate's cPRA value}
 
 \item{cutoff}{A value to compare candidate's cPRA}
-
-\item{check.validity}{Logical to decide whether to validate input.}
 }
 \value{
 A logical value T/F when cPRA >= cutoff
@@ -21,5 +19,5 @@ returns candidates' hiperimunized classification according to a
 cutoff value
 }
 \examples{
-hiper(cPRA = 99, cutoff = 85, check.validity = TRUE)
+hiper(cPRA = 99, cutoff = 85)
 }

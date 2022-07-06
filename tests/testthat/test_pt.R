@@ -33,8 +33,8 @@ test_that("Test pts_age function", {
 
 test_that("Test pts_PRA function", {
     valid.cPRA <- c(1, 50, 51, 80, 81)
-    valid.pts.50 <- c(2, 2, 2, 2, 2)
-    valid.pts.80 <- c(4, 4, 4, 4, 4)
+    valid.points.50 <- c(2, 2, 2, 2, 2)
+    valid.points.80 <- c(4, 4, 4, 4, 4)
     valid.results <- c(0, 2, 2, 4, 4)
 
 
@@ -42,23 +42,23 @@ test_that("Test pts_PRA function", {
         expect_equal(
             pts_PRA(
                 cPRA <- valid.cPRA[i],
-                pts.50 <- valid.pts.80[i], # ????????????
-                pts.80 <- valid.pts.50[i]  # ????????????
+                points.50 <- valid.points.80[i], # ????????????
+                points.80 <- valid.points.50[i]  # ????????????
             ),
             valid.results[i]
         )
     }  
     
     invalid.cPRA <- c('1', -1, 101, 4, 4, 4)
-    invalid.pts.50 <- c(4, 4, 4, 4, 4, 4, '1', -1, 101)
-    invalid.pts.80 <- c(4, 4, 4, '1', -1, 101, 4, 4, 4)
+    invalid.points.50 <- c(4, 4, 4, 4, 4, 4, '1', -1, 101)
+    invalid.points.80 <- c(4, 4, 4, '1', -1, 101, 4, 4, 4)
 
     for (i in 1:length(invalid.cPRA)){
         expect_error(
             pts_PRA(
                 cPRA <- invalid.cPRA[i],
-                pts.50 <- invalid.pts.50[i],
-                pts.80 <- invalid.pts.80[i]
+                points.50 <- invalid.points.50[i],
+                points.80 <- invalid.points.80[i]
             )
         )
     }  
@@ -73,10 +73,10 @@ test_that("Test pt algorithm", {
     dDR = c("1","4")
     donor.age = 65
     df.abs = cabs
-    pts.80 = 8
-    pts.50 = 4
-    pts.dialysis = 0.1
-    pts.age = 4
+    points.80 = 8
+    points.50 = 4
+    points.dialysis = 0.1
+    points.age = 4
     n = 2
 
     candidates_test <- data.frame(
@@ -135,10 +135,10 @@ test_that("Test pt algorithm", {
                 , donor.age = 65
                 , df.abs = cabs
                 , data = candidates_test
-                , pts.80 = 8
-                , pts.50 = 4
-                , pts.dialysis = 0.1
-                , pts.age = 4
+                , points.80 = 8
+                , points.50 = 4
+                , points.dialysis = 0.1
+                , points.age = 4
                 , n = 2
             )
         ),

@@ -9,6 +9,7 @@
 #' @param df.abs A data frame with candidates' antibodies.
 #' @param algorithm The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)
 #' @param n A positive integer to slice the first candidates.
+#' @param check.validity Logical to decide whether to validate input.
 #' @param ... all the parameters used on the function algorithm
 #' @return A list with the number of elements equal to the number of rows on donors data frame.
 #' Each element have a data frame with select candidates by donor.
@@ -17,14 +18,32 @@
 #' df.candidates = candidates,
 #' df.abs = cabs,
 #' algorithm = lima,
-#' n = 2)
+#' n = 2,
+#' check.validity = TRUE)
 #' @export
 donor_recipient_pairs <- function(df.donors = donors,
                             df.candidates = candidates,
                             df.abs = cabs,
                             algorithm = lima,
-                            n = 2, ...){
-  if(!is.numeric(n))stop("'n' is not a valid numeric value!")
+                            n = 2, 
+                            check.validity = TRUE, ...){
+  
+  if(!is.numeric(n)){
+    stop("'n' is not a valid numeric value!")
+  }
+
+  if(!identical(algorithm, uk) && !identical(algorithm, lima) && !identical(algorithm, pt) && !identical(algorithm, et)){
+    stop("The algorithm doesn't exist.")
+  }
+
+  if(check.validity){
+    if(identical(algorithm, uk)){
+      uk_candidate_dataframe_check(df.candidates)
+    }
+    else{
+      candidate_dataframe_check(df.candidates)
+    }
+  }
 
   df.donors <- df.donors %>%
     dplyr::mutate(dABO = bg,
@@ -47,7 +66,7 @@ donor_recipient_pairs <- function(df.donors = donors,
                      data = df.candidates,
                      df.abs = df.abs,
                      algorithm,
-                     n=n,
+                     n = n,
                      ...)
 
   names(lst) <- df.donors$ID
@@ -68,6 +87,7 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' @param algorithm The name of the function to use. Valid options are: lima, et, pt, uk (without quotation)
 #' @param n A positive integer to slice the first candidates.
 #' @param seed.number Seed for new random number. seed.number can be NA in which case no seed is applied.
+#' @param check.validity Logical to decide whether to validate input.
 #' @param ... all the parameters used on the function algorithm
 #' @return Statistics related to all the times the function ran.
 #' @examples
@@ -77,7 +97,8 @@ donor_recipient_pairs <- function(df.donors = donors,
 #' df.abs = cabs,
 #' algorithm = lima,
 #' n = 0,
-#' seed.number = 123)
+#' seed.number = 123,
+#' check.validity = TRUE)
 #' @export
 several <- function(iteration.number = 10,
                        df.donors = donors,
@@ -85,8 +106,22 @@ several <- function(iteration.number = 10,
                        df.abs = cabs,
                        algorithm = lima,
                        n = 0, 
-                       seed.number = 123, ...){
-                        
+                       seed.number = 123, 
+                       check.validity = TRUE, ...){
+  
+  if(check.validity){
+    if(identical(algorithm, uk)){
+      uk_candidate_dataframe_check(df.candidates)
+    }
+    else{
+      candidate_dataframe_check(df.candidates)
+    }
+
+    if(!is.na(seed.number) && !is.numeric(seed.number)){
+      stop("seed.number must either be NA or an integer.")
+    }
+  }
+
   if(!is.na(seed.number)){
     set.seed(seed.number)
   }
@@ -142,7 +177,8 @@ several <- function(iteration.number = 10,
               ABO = freq_ABO,
               HI = freq_HI,
               color = freq_color,
-              SP = freq_SP))
+              SP = freq_SP)
+        )
 }
 
 uk_several <- function(){
@@ -182,7 +218,7 @@ uk_several <- function(){
             mm23 = -150,
             mm46 = -250,
             pts = -1000
-            )
+          )
     )
 }
 
@@ -195,14 +231,14 @@ lima_several <- function(){
       df.candidates = candidates,
       df.abs = cabs,
       algorithm = lima,
-      n = 0
-      , function_name = "lima"
-      , q2 = 60
-      , q3 = 100
-      , cPRA1 = 50
-      , cPRA2 = 85)
+      n = 0, 
+      function_name = "lima", 
+      q2 = 60, 
+      q3 = 100, 
+      cPRA1 = 50, 
+      cPRA2 = 85)
   )
-  }
+}
 
 # No export, testing purposes
 et_several <- function(){
@@ -214,22 +250,22 @@ et_several <- function(){
       df.abs = cabs,
       algorithm = et,
       n = 0,
-      iso = TRUE
-      , month = 2
-      , mm0 = 400
-      , mm1 = 333.33
-      , mm2 = 266.67
-      , mm3 = 200
-      , mm4 = 133.33
-      , mm5 = 66.67
-      , mm6 = 0
-      , hlaA = hlaApt
-      , hlaB = hlaBpt
-      , hlaDR = hlaDRpt
-      , abo_freq = ABOpt
-      )
+      iso = TRUE, 
+      month = 2, 
+      mm0 = 400, 
+      mm1 = 333.33, 
+      mm2 = 266.67, 
+      mm3 = 200, 
+      mm4 = 133.33, 
+      mm5 = 66.67, 
+      mm6 = 0, 
+      hlaA = hlaApt, 
+      hlaB = hlaBpt, 
+      hlaDR = hlaDRpt, 
+      abo_freq = ABOpt
+    )
   )
-  }
+}
 
 # No export, testing purposes
 pt_several <- function(){
@@ -241,12 +277,11 @@ pt_several <- function(){
       df.abs = cabs,
       algorithm = pt,
       n = 0,
-      iso = TRUE
-      , pts.80 = 8
-      , pts.50 = 4
-      , pts.dialysis = 0.1
-      , pts.age = 4
-      )
+      iso = TRUE, 
+      points.80 = 8, 
+      points.50 = 4, 
+      points.dialysis = 0.1, 
+      points.age = 4)
   )
-  }
+}
 

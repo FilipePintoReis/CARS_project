@@ -32,7 +32,7 @@ et(
 \arguments{
 \item{iso}{A logical value for isogroupal compatibility.}
 
-\item{dABO}{A character value with ABO blood group.}
+\item{dABO}{A character value with ABO blood group (\code{env$valid.blood.groups}).}
 
 \item{dA}{donor's HLA-A typing.}
 
@@ -46,7 +46,7 @@ et(
 a group of waitlisted transplant candidates.}
 
 \item{month}{A numeric value with the punctuation for each month
-(between 0 and 10)}
+(between env$month.points.minimum and env$month.points.maximum)}
 
 \item{mm0}{A numeric value with points for 0 HLA mm on ETKAS points table}
 
